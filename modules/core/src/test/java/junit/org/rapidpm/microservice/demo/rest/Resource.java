@@ -1,9 +1,10 @@
-package org.rapidpm.microservice.demo.rest;
+package junit.org.rapidpm.microservice.demo.rest;
 
-
-import org.rapidpm.microservice.demo.service.Service;
 
 //import javax.inject.Inject;
+
+import junit.org.rapidpm.microservice.demo.service.Service;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;

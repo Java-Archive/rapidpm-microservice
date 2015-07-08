@@ -14,7 +14,7 @@
   <packaging>pom</packaging>
   <modules>
     <module>core</module>
-    <module>persistence</module>
+    <!--<module>persistence</module>-->
   </modules>
 
 

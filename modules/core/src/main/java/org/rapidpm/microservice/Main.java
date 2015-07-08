@@ -32,7 +32,7 @@ public class Main {
 
   public static final String MYAPP = "microservice";
   private static UndertowJaxrsServer server;
-  private static final Reflections reflections = new Reflections("org.rapidpm");
+  private static final Reflections reflections = new Reflections("");
 
   public static void main(String[] args) throws ServletException {
     deploy();

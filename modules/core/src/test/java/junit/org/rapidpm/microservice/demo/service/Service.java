@@ -1,4 +1,4 @@
-package org.rapidpm.microservice.demo.service;
+package junit.org.rapidpm.microservice.demo.service;
 
 /**
  * Created by sven on 27.05.15.

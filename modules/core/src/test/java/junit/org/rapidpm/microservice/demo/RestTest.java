@@ -1,4 +1,4 @@
-package org.rapidpm.microservice.demo;
+package junit.org.rapidpm.microservice.demo;
 
 import org.jboss.resteasy.test.TestPortProvider;
 import org.junit.After;

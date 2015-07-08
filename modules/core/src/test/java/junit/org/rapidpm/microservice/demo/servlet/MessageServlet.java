@@ -1,9 +1,8 @@
-package org.rapidpm.microservice.demo.servlet;
+package junit.org.rapidpm.microservice.demo.servlet;
 
 
-import org.rapidpm.microservice.demo.service.Service;
+import junit.org.rapidpm.microservice.demo.service.Service;
 
-import javax.jws.soap.InitParam;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;

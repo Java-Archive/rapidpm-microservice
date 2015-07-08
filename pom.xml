@@ -264,6 +264,45 @@
           <workingDirectory>${project.build.outputDirectory}</workingDirectory>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>2.7</version>
+        <configuration>
+          <aggregate>true</aggregate>
+          <instrumentation>
+            <excludes>
+              <!--<exclude>${cobertura.exclude.benchmark.generated}</exclude>-->
+              <exclude>org/openjdk/jmh/infra/generated/**/*.class</exclude>
+              <!--<exclude>${cobertura.exclude.benchmark.runner}</exclude>-->
+              <!--<exclude>${cobertura.exclude.android.test}</exclude>-->
+            </excludes>
+          </instrumentation>
+          <formats>
+            <format>html</format>
+            <format>xml</format>
+          </formats>
+          <check/>
+        </configuration>
+      </plugin>
+      <!-- Generate coveralls reports from Travis -->
+      <plugin>
+        <groupId>org.eluder.coveralls</groupId>
+        <artifactId>coveralls-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.pitest</groupId>
+        <artifactId>pitest-maven</artifactId>
+        <configuration>
+          <targetClasses>
+            <param>org.rapidpm.*</param>
+          </targetClasses>
+          <targetTests>
+            <param>org.rapidpm.*</param>
+            <param>junit.org.rapidpm.*</param>
+          </targetTests>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 

@@ -1,7 +1,7 @@
-package org.rapidpm.microservice.demo.rest;
+package junit.org.rapidpm.microservice.demo.rest;
 
 import com.google.gson.Gson;
-import org.rapidpm.microservice.demo.service.Service;
+import junit.org.rapidpm.microservice.demo.service.Service;
 import org.rapidpm.microservice.demo.model.DataHolder;
 
 import javax.ws.rs.GET;
