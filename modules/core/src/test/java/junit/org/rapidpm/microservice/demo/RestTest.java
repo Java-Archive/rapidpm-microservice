@@ -1,10 +1,7 @@
 package junit.org.rapidpm.microservice.demo;
 
 import org.jboss.resteasy.test.TestPortProvider;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.rapidpm.microservice.Main;
 
 import javax.ws.rs.client.Client;
@@ -18,7 +15,6 @@ public class RestTest {
   @Before
   public void setUp() throws Exception {
     Main.deploy();
-
   }
 
 
@@ -30,7 +26,6 @@ public class RestTest {
   @Test
   public void testApplicationPath() throws Exception {
 //    server.deploy(JaxRsActivator.class);
-
     Client client = ClientBuilder.newClient();
     //MicroRestApp Path = /base
     //Resource Path = /test

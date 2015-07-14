@@ -5,6 +5,7 @@ import org.reflections.Reflections;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Application;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Set;
 
@@ -17,8 +18,11 @@ public class JaxRsActivator extends Application {
 
   @Override
   public Set<Class<?>> getClasses() {
-    final Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(Path.class);
-    return annotated;
+    if (reflections != null) {
+      return reflections.getTypesAnnotatedWith(Path.class);
+    } else {
+      return Collections.emptySet();
+    }
   }
 
   /**
@@ -26,6 +30,7 @@ public class JaxRsActivator extends Application {
    * @return
    */
   public Set<Object> getSingletons() {
+    //TODO DDI aktivieren
     return Collections.emptySet();
   }
 
