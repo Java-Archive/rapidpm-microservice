@@ -24,15 +24,9 @@ public class ServletInstanceFactory<T extends Servlet> implements InstanceFactor
     return new InstanceHandle<Servlet>() {
       @Override
       public Servlet getInstance() {
-//        final CDI<Object> current = CDI.current();
-//        final Instance<T> select = current.select(servletClass);
-//        return select.get(); //wieviele Instanzen erzeugen...?
         try {
           final T t = servletClass.newInstance();
           //TODO activate DDI
-
-
-
           return t;
         } catch (InstantiationException | IllegalAccessException e) {
           e.printStackTrace();
