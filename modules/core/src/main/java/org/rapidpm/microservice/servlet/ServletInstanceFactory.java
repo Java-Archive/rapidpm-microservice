@@ -2,6 +2,7 @@ package org.rapidpm.microservice.servlet;
 
 import io.undertow.servlet.api.InstanceFactory;
 import io.undertow.servlet.api.InstanceHandle;
+import org.rapidpm.ddi.DI;
 
 //import javax.enterprise.inject.Instance;
 //import javax.enterprise.inject.spi.CDI;
@@ -27,6 +28,9 @@ public class ServletInstanceFactory<T extends Servlet> implements InstanceFactor
         try {
           final T t = servletClass.newInstance();
           //TODO activate DDI
+
+          DI.getInstance().activateDI(t);
+
           return t;
         } catch (InstantiationException | IllegalAccessException e) {
           e.printStackTrace();

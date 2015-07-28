@@ -1,6 +1,7 @@
 package org.rapidpm.microservice.rest.ddi;
 
 import org.jboss.resteasy.spi.*;
+import org.rapidpm.ddi.DI;
 
 import javax.ws.rs.WebApplicationException;
 import java.lang.reflect.Type;
@@ -26,6 +27,9 @@ public class DdiConstructorInjector implements ConstructorInjector {
     try {
       final Object t = ((Class) type).newInstance();
       //TODO activate DDI
+
+      DI.getInstance().activateDI(t);
+
       return t;
     } catch (InstantiationException | IllegalAccessException e) {
       e.printStackTrace();

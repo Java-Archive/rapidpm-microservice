@@ -64,8 +64,6 @@ public class DdiInjectorFactory implements InjectorFactory {
   }
 
 
-//  ############# Done ##############
-
   @Override
   public ValueInjector createParameterExtractor(Parameter parameter, ResteasyProviderFactory providerFactory) {
     return delegate.createParameterExtractor(parameter, providerFactory);
