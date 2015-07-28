@@ -32,8 +32,13 @@ public class Main {
 
 
   public static final String MYAPP = "microservice";
+  public static final String CONTEXT_PATH_REST = "/rest";
+
   public static final String RESTEASY_PORT = "org.jboss.resteasy.port";
   public static final String RESTEASY_HOST = "org.jboss.resteasy.host";
+
+  public static final int PORT_REST = 7081;
+  public static final int PORT_SERVLET = 7080;
 
 
   private static UndertowJaxrsServer server;
@@ -65,11 +70,11 @@ public class Main {
 //        .setIoThreads(10)
         .setServerOption(UndertowOptions.ENABLE_HTTP2, true)
         .setServerOption(UndertowOptions.ENABLE_SPDY, true)
-        .addHttpListener(7081, "0.0.0.0") //REST ohne handler
-        .addHttpListener(7080, "0.0.0.0", pathServlet); //f Servlet
+        .addHttpListener(PORT_REST, "0.0.0.0") //REST ohne handler
+        .addHttpListener(PORT_SERVLET, "0.0.0.0", pathServlet); //f Servlet
 //          .setHandler(pathServlet);
 
-    System.setProperty(RESTEASY_PORT, "7081"); //TODO
+    System.setProperty(RESTEASY_PORT, PORT_REST + ""); //TODO
     server = new UndertowJaxrsServer().start(builder);
 
     final ResteasyDeployment deployment = new ResteasyDeployment();
@@ -78,7 +83,7 @@ public class Main {
     deployment.setInjectorFactoryClass(DdiInjectorFactory.class.getCanonicalName());
     server.deploy(server.undertowDeployment(deployment)
         .setDeploymentName("Rest")
-        .setContextPath("/rest")
+        .setContextPath(CONTEXT_PATH_REST)
         .setClassLoader(Main.class.getClassLoader()));
   }
 

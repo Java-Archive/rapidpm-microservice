@@ -27,9 +27,7 @@ public class DdiConstructorInjector implements ConstructorInjector {
     try {
       final Object t = ((Class) type).newInstance();
       //TODO activate DDI
-
       DI.getInstance().activateDI(t);
-
       return t;
     } catch (InstantiationException | IllegalAccessException e) {
       e.printStackTrace();

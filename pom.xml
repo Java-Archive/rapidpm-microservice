@@ -81,35 +81,17 @@
               <promoteTransitiveDependencies>true</promoteTransitiveDependencies>
               <createSourcesJar>true</createSourcesJar>
               <shadeSourcesContent>true</shadeSourcesContent>
+              <filters>
+                <filter>
+                  <artifact>org.bouncycastle:*</artifact>
+                  <excludes>
+                    <exclude>META-INF/*.SF</exclude>
+                    <exclude>META-INF/*.DSA</exclude>
+                    <exclude>META-INF/*.RSA</exclude>
+                  </excludes>
+                </filter>
+              </filters>
               <artifactSet>
-                <!--<includes>-->
-                  <!--<include>org.reflections:*</include>-->
-                  <!--<include>io.undertow:*</include>-->
-                  <!--<include>org.jboss.resteasy:jaxrs-api:*</include>-->
-                  <!--<include>org.jboss.resteasy:resteasy-jaxrs:*</include>-->
-                  <!--<include>org.jboss.resteasy:resteasy-client:*</include>-->
-                  <!--<include>org.jboss.resteasy:resteasy-undertow:*</include>-->
-                  <!--&lt;!&ndash;<include>org.jboss.resteasy:resteasy-links:*</include>&ndash;&gt;-->
-                  <!--<include>org.jboss.resteasy:resteasy-multipart-provider:*</include>-->
-                  <!--<include>org.jboss.resteasy:async-http-servlet-3.0:*</include>-->
-                  <!--<include>org.jboss.xnio:*</include>-->
-                  <!--<include>org.jboss.logging:*</include>-->
-                  <!--<include>org.jboss.spec.javax.servlet:*</include>-->
-                  <!--<include>org.jboss.spec.javax.annotation:*</include>-->
-                  <!--<include>javax.activation:*</include>-->
-                  <!--<include>com.google.guava:guava:*</include>-->
-                  <!--<include>com.google.code.findbugs:*</include>-->
-                  <!--<include>org.jetbrains.kotlin:*</include>-->
-                  <!--<include>org.rapidpm.dynamic-cdi:*</include>-->
-                  <!--<include>org.apache.commons:*</include>-->
-                  <!--<include>org.apache.logging.log4j:*</include>-->
-                  <!--<include>org.javassist:*</include>-->
-                  <!--<include>commons-logging:*</include>-->
-                  <!--<include>commons-codec:*</include>-->
-                  <!--<include>commons-io:*</include>-->
-                  <!--<include>net.jcip:*</include>-->
-                  <!--<include>net.sf:*</include>-->
-                <!--</includes>-->
                 <excludes>
                   <exclude>junit:junit</exclude>
                   <exclude>jmock:*</exclude>
