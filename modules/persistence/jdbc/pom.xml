@@ -9,7 +9,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>rapidpm-microservice-jdbc</artifactId>
+  <artifactId>rapidpm-microservice-modules-persistence-jdbc</artifactId>
   <version>1.0.1-SNAPSHOT</version>
 
 

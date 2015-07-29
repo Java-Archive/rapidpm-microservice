@@ -11,7 +11,7 @@
 
 
   <groupId>org.rapidpm.microservice</groupId>
-  <artifactId>rapidpm-microservice-parent</artifactId>
+  <artifactId>rapidpm-microservice</artifactId>
   <packaging>pom</packaging>
   <version>1.0.1-SNAPSHOT</version>
 

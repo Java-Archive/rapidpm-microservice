@@ -56,7 +56,7 @@ public class Main {
   }
 
   public static void deploy() throws ServletException {
-    DeploymentInfo servletBuilder = deployMessageServlet();
+    DeploymentInfo servletBuilder = deployServlets();
     DeploymentManager manager = defaultContainer().addDeployment(servletBuilder);
     manager.deploy();
 
@@ -87,7 +87,7 @@ public class Main {
         .setClassLoader(Main.class.getClassLoader()));
   }
 
-  private static DeploymentInfo deployMessageServlet() {
+  private static DeploymentInfo deployServlets() {
 
     final Set<Class<? extends HttpServlet>> subTypesOf = ReflectionsSingleton.REFLECTIONS.getSubTypesOf(HttpServlet.class);
     final List<ServletInfo> servletInfos = subTypesOf.stream()

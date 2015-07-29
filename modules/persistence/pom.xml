@@ -14,7 +14,7 @@
     <module>jdbc</module>
   </modules>
 
-  <artifactId>rapidpm-microservice-persistence</artifactId>
+  <artifactId>rapidpm-microservice-modules-persistence</artifactId>
   <version>1.0.1-SNAPSHOT</version>
 
 </project>

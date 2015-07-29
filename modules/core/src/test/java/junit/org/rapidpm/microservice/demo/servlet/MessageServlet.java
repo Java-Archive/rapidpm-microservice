@@ -3,6 +3,7 @@ package junit.org.rapidpm.microservice.demo.servlet;
 
 import junit.org.rapidpm.microservice.demo.service.Service;
 
+import javax.inject.Inject;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
@@ -31,6 +32,8 @@ public class MessageServlet extends HttpServlet {
     super.init(config);
     message = config.getInitParameter(MESSAGE);
   }
+
+//  @Inject Service service;
 
   @Override
   protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
