@@ -1,6 +1,7 @@
 package org.rapidpm.microservice.persistence.jdbc;
 
 import com.zaxxer.hikari.HikariDataSource;
+import org.rapidpm.proxybuilder.basepattern.builder.NestedBuilder;
 
 import javax.annotation.Nonnull;
 
@@ -21,25 +22,28 @@ public class JDBCConnectionPool {
 
   private HikariDataSource dataSource;
 
-  public void connect(){
+  public void connect() {
     dataSource = new HikariDataSource();
-//    dataSource.setJdbcUrl("jdbc:hsqldb:hsql://localhost/iva");
-//    dataSource.setUsername("sa");
-
     dataSource.setJdbcUrl(jdbcURL);
     dataSource.setUsername(username);
     dataSource.setPoolName(poolname);
     dataSource.setAutoCommit(autoCommit);
-
-    if(passwd != null)  dataSource.setPassword(passwd);
-    if(sqlInit != null) dataSource.setConnectionInitSql(sqlInit);
-    if(sqlTest!= null)  dataSource.setConnectionTestQuery(sqlTest);
+    if (passwd != null) dataSource.setPassword(passwd);
+    if (sqlInit != null) dataSource.setConnectionInitSql(sqlInit);
+    if (sqlTest != null) dataSource.setConnectionTestQuery(sqlTest);
   }
 
-  public void close(){
+  public void close() {
     dataSource.shutdown();
   }
 
+  public String getPoolname() {
+    return poolname;
+  }
+
+  public HikariDataSource getDataSource() {
+    return dataSource;
+  }
 
   private JDBCConnectionPool(final Builder builder) {
     poolname = builder.poolname;
@@ -56,7 +60,7 @@ public class JDBCConnectionPool {
   }
 
 
-  public static final class Builder extends NestedBui{
+  public static final class Builder extends NestedBuilder<JDBCConnectionPools, JDBCConnectionPool> {
     private String poolname;
     private String jdbcURL;
     private String username;
@@ -64,7 +68,6 @@ public class JDBCConnectionPool {
     private boolean autoCommit;
     private String sqlInit;
     private String sqlTest;
-    private HikariDataSource dataSource;
 
     private Builder() {
     }
@@ -113,7 +116,8 @@ public class JDBCConnectionPool {
 
     @Nonnull
     public JDBCConnectionPool build() {
-      return new JDBCConnectionPool(this);
+      final JDBCConnectionPool jdbcConnectionPool = new JDBCConnectionPool(this);
+      return jdbcConnectionPool;
     }
   }
 }

@@ -59,6 +59,17 @@
   </licenses>
 
 
+
+  <dependencies>
+    <dependency>
+      <groupId>org.rapidpm.dynamic-cdi</groupId>
+      <artifactId>rapidpm-dynamic-cdi</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+
+
+
   <build>
     <plugins>
       <plugin>

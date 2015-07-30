@@ -1,66 +1,48 @@
 package org.rapidpm.microservice.persistence.jdbc;
 
 import com.zaxxer.hikari.HikariDataSource;
-import net.jcip.annotations.GuardedBy;
-import net.jcip.annotations.ThreadSafe;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
  * Created by svenruppert on 10.07.15.
  */
-@ThreadSafe
 public class JDBCConnectionPools {
 
-  private static final Map<String,JDBCConnectionPool> poolMap = new ConcurrentHashMap<>();
-
+  private static final Map<String, JDBCConnectionPool> POOL_MAP = new ConcurrentHashMap<>();
   private static JDBCConnectionPools ourInstance = new JDBCConnectionPools();
 
-  public static Optional<HikariDataSource> getPool(String poolname) {
-    return Optional.ofNullable(poolMap.get(poolname));
+  public static JDBCConnectionPools instance() {
+    return ourInstance;
   }
-
-  @GuardedBy(poolMap)
-  public static
-
 
   private JDBCConnectionPools() {
   }
 
 
+  private JDBCConnectionPools withJDBCConnectionPool(JDBCConnectionPool pool) {
+    JDBCConnectionPools.POOL_MAP.put(pool.getPoolname(), pool);
+    return this;
+  }
 
-  public JDBCConnectionPool.Builder createNewPool(String poolname){
-    return JDBCConnectionPool.newBuilder().withPoolname(poolname);
+  public JDBCConnectionPool.Builder addJDBCConnectionPool(String poolname) {
+    final JDBCConnectionPool.Builder builder = JDBCConnectionPool.newBuilder().withParentBuilder(this);
+    return builder.withPoolname(poolname);
   }
 
   public void shutdownPools() {
-    poolMap.forEach((k,v)-> v.close());
+    POOL_MAP.forEach((k, v) -> v.close());
+  }
+
+  public void connectPools() {
+    POOL_MAP.forEach((k, v) -> v.connect());
   }
 
 
-  private HikariDataSource getDataSource() {
-    return dataSource;
+  public HikariDataSource getDataSource(String poolname) {
+    return POOL_MAP.get(poolname).getDataSource();
   }
-
-  public Optional<Connection> getConnection() {
-    try {
-      final Connection connection = dataSource.getConnection();
-      return Optional.of(connection);
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-    return Optional.empty();
-  }
-
-
-
-
-
-
 
 }
