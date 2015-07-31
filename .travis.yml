@@ -13,7 +13,7 @@ jdk:
 #  - openjdk6
 
 after_success:
-  - mvn clean cobertura:cobertura coveralls:report
+    - mvn clean cobertura:cobertura coveralls:report
 
   notifications:
       slack: rapidpm:giph6gm6CAPsatCNt5jHhnzN
