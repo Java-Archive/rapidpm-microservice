@@ -137,6 +137,14 @@
           <workingDirectory>${project.build.outputDirectory}</workingDirectory>
         </configuration>
       </plugin>
+          <!-- Generate coveralls reports from Travis -->
+          <plugin>
+            <groupId>org.eluder.coveralls</groupId>
+            <artifactId>coveralls-maven-plugin</artifactId>
+            <configuration>
+              <repoToken>zZ8bx5IbHSZDSaPIo5htlUHf4Wxfopqrd</repoToken>
+            </configuration>
+          </plugin>
     </plugins>
   </build>
 
