@@ -21,6 +21,7 @@ import java.io.PrintWriter;
 @WebServlet(urlPatterns="/test")
 public class MessageServlet extends HttpServlet {
 
+
 //  @Inject Service service;
 
   public static final String MESSAGE = "message";
