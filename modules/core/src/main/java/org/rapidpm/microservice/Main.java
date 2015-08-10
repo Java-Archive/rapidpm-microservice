@@ -7,6 +7,7 @@ import io.undertow.server.HttpHandler;
 import io.undertow.server.handlers.PathHandler;
 import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.DeploymentManager;
+import io.undertow.servlet.api.ServletContainer;
 import io.undertow.servlet.api.ServletInfo;
 import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
 import org.jboss.resteasy.spi.ResteasyDeployment;
@@ -56,35 +57,51 @@ public class Main {
   }
 
   public static void deploy() throws ServletException {
-    DeploymentInfo servletBuilder = deployServlets();
-    DeploymentManager manager = defaultContainer().addDeployment(servletBuilder);
-    manager.deploy();
 
-    HttpHandler servletHandler = manager.start();
-    PathHandler pathServlet = Handlers
-        .path(Handlers.redirect(MYAPP))
-        .addPrefixPath(MYAPP, servletHandler);
 
     final Undertow.Builder builder = Undertow.builder()
         .setDirectBuffers(true)
 //        .setIoThreads(10)
         .setServerOption(UndertowOptions.ENABLE_HTTP2, true)
-        .setServerOption(UndertowOptions.ENABLE_SPDY, true)
-        .addHttpListener(PORT_REST, "0.0.0.0") //REST ohne handler
-        .addHttpListener(PORT_SERVLET, "0.0.0.0", pathServlet); //f Servlet
-//          .setHandler(pathServlet);
+        .setServerOption(UndertowOptions.ENABLE_SPDY, true);
 
-    System.setProperty(RESTEASY_PORT, PORT_REST + ""); //TODO
-    server = new UndertowJaxrsServer().start(builder);
 
-    final ResteasyDeployment deployment = new ResteasyDeployment();
-    deployment.setApplication(new JaxRsActivator());
-    deployment.setAsyncJobServiceEnabled(false);
-    deployment.setInjectorFactoryClass(DdiInjectorFactory.class.getCanonicalName());
-    server.deploy(server.undertowDeployment(deployment)
-        .setDeploymentName("Rest")
-        .setContextPath(CONTEXT_PATH_REST)
-        .setClassLoader(Main.class.getClassLoader()));
+    // deploy servlets
+    DeploymentInfo deploymentInfo = deployServlets();
+    final boolean anyServlets = !deploymentInfo.getServlets().isEmpty();
+    if (anyServlets) {
+      final ServletContainer servletContainer = defaultContainer();
+      DeploymentManager manager = servletContainer.addDeployment(deploymentInfo);
+      manager.deploy();
+      HttpHandler servletHandler = manager.start();
+      PathHandler pathServlet = Handlers
+          .path(Handlers.redirect(MYAPP))
+          .addPrefixPath(MYAPP, servletHandler);
+
+      builder.addHttpListener(PORT_SERVLET, "0.0.0.0", pathServlet); //f Servlet
+    }
+
+    final JaxRsActivator jaxRsActivator = new JaxRsActivator();
+
+    final Set<Class<?>> jaxRsActivatorClasses = jaxRsActivator.getClasses();
+    final Set<Object> jaxRsActivatorSingletons = jaxRsActivator.getSingletons();
+    if (jaxRsActivatorClasses.isEmpty() && jaxRsActivatorSingletons.isEmpty()) {
+      //TODO kein REST gestartet
+    } else {
+
+      builder.addHttpListener(PORT_REST, "0.0.0.0"); //REST ohne handler
+      System.setProperty(RESTEASY_PORT, PORT_REST + ""); //TODO
+      server = new UndertowJaxrsServer().start(builder);
+      final ResteasyDeployment deployment = new ResteasyDeployment();
+      deployment.setApplication(jaxRsActivator);
+      deployment.setAsyncJobServiceEnabled(false);
+      deployment.setInjectorFactoryClass(DdiInjectorFactory.class.getCanonicalName());
+      server.deploy(server.undertowDeployment(deployment)
+          .setDeploymentName("Rest")
+          .setContextPath(CONTEXT_PATH_REST)
+          .setClassLoader(Main.class.getClassLoader()));
+    }
+
   }
 
   private static DeploymentInfo deployServlets() {
