@@ -5,6 +5,8 @@ import io.undertow.Undertow;
 import io.undertow.UndertowOptions;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.handlers.PathHandler;
+import io.undertow.server.handlers.resource.ClassPathResourceManager;
+import io.undertow.server.handlers.resource.FileResourceManager;
 import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.DeploymentManager;
 import io.undertow.servlet.api.ServletContainer;
@@ -22,7 +24,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
-import java.util.HashSet;
+import java.io.File;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -45,8 +47,8 @@ public class Main {
   public static final int PORT_SERVLET = 7080;
 
 
-  private static UndertowJaxrsServer server;
-
+    private static UndertowJaxrsServer jaxrsServer;
+  private static Undertow undertowServer;
 
   private Main() {
   }
@@ -56,7 +58,12 @@ public class Main {
   }
 
   public static void stop() {
-    server.stop();
+    if (jaxrsServer != null) {
+      jaxrsServer.stop();
+    } else if(undertowServer != null) {
+      undertowServer.stop();
+
+    }
   }
 
   public static void deploy() throws ServletException {
@@ -90,16 +97,17 @@ public class Main {
     final Set<Object> jaxRsActivatorSingletons = jaxRsActivator.getSingletons();
     if (jaxRsActivatorClasses.isEmpty() && jaxRsActivatorSingletons.isEmpty()) {
       //TODO kein REST gestartet
+      undertowServer = builder.build();
+      undertowServer.start();
     } else {
-
       builder.addHttpListener(PORT_REST, "0.0.0.0"); //REST ohne handler
       System.setProperty(RESTEASY_PORT, PORT_REST + ""); //TODO
-      server = new UndertowJaxrsServer().start(builder);
+      jaxrsServer = new UndertowJaxrsServer().start(builder);
       final ResteasyDeployment deployment = new ResteasyDeployment();
       deployment.setApplication(jaxRsActivator);
       deployment.setAsyncJobServiceEnabled(false);
       deployment.setInjectorFactoryClass(DdiInjectorFactory.class.getCanonicalName());
-      server.deploy(server.undertowDeployment(deployment)
+      jaxrsServer.deploy(jaxrsServer.undertowDeployment(deployment)
           .setDeploymentName("Rest")
           .setContextPath(CONTEXT_PATH_REST)
           .setClassLoader(Main.class.getClassLoader()));
@@ -137,6 +145,8 @@ public class Main {
         .setContextPath(MYAPP)
         .setDeploymentName("ROOT.war")
         .setDefaultEncoding("UTF-8")
+        .setResourceManager(new ClassPathResourceManager(Main.class.getClassLoader()))
+        .setResourceManager(new FileResourceManager(new File("src/main/webapp"), 1024))
         .addServlets(servletInfos);
   }
 }
