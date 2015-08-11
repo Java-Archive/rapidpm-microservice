@@ -47,7 +47,7 @@ public class Main {
   public static final int PORT_SERVLET = 7080;
 
 
-    private static UndertowJaxrsServer jaxrsServer;
+  private static UndertowJaxrsServer jaxrsServer;
   private static Undertow undertowServer;
 
   private Main() {
@@ -60,9 +60,8 @@ public class Main {
   public static void stop() {
     if (jaxrsServer != null) {
       jaxrsServer.stop();
-    } else if(undertowServer != null) {
+    } else if (undertowServer != null) {
       undertowServer.stop();
-
     }
   }
 
