@@ -11,15 +11,18 @@ import io.undertow.servlet.api.ServletContainer;
 import io.undertow.servlet.api.ServletInfo;
 import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
 import org.jboss.resteasy.spi.ResteasyDeployment;
-import org.rapidpm.ddi.ReflectionsSingleton;
+import org.rapidpm.ddi.reflections.ReflectionUtils;
+import org.rapidpm.ddi.reflections.ReflectionsSingleton;
 import org.rapidpm.microservice.rest.JaxRsActivator;
 import org.rapidpm.microservice.rest.ddi.DdiInjectorFactory;
 import org.rapidpm.microservice.servlet.ServletInstanceFactory;
 
+import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -106,10 +109,13 @@ public class Main {
 
   private static DeploymentInfo deployServlets() {
 
-    final Set<Class<? extends HttpServlet>> subTypesOf = ReflectionsSingleton.REFLECTIONS.getSubTypesOf(HttpServlet.class);
-    final List<ServletInfo> servletInfos = subTypesOf.stream()
+    final Set<Class<?>> typesAnnotatedWith = ReflectionsSingleton.REFLECTIONS.getTypesAnnotatedWith(WebServlet.class);
+
+    final List<ServletInfo> servletInfos = typesAnnotatedWith.stream()
+        .filter(s -> new ReflectionUtils().checkInterface(s, HttpServlet.class))
         .map(c -> {
-          final ServletInfo servletInfo = servlet(c.getSimpleName(), c, new ServletInstanceFactory<>(c));
+          Class<Servlet> servletClass = (Class<Servlet>) c;
+          final ServletInfo servletInfo = servlet(c.getSimpleName(), servletClass, new ServletInstanceFactory<>(servletClass));
           if (c.isAnnotationPresent(WebInitParam.class)) {
             final WebInitParam[] annotationsByType = c.getAnnotationsByType(WebInitParam.class);
             for (WebInitParam webInitParam : annotationsByType) {
@@ -118,18 +124,14 @@ public class Main {
               servletInfo.addInitParam(name, value);
             }
           }
-
-          if (c.isAnnotationPresent(WebServlet.class)) {
-            final WebServlet annotation = c.getAnnotation(WebServlet.class);
-            final String[] urlPatterns = annotation.urlPatterns();
-            for (String urlPattern : urlPatterns) {
-              servletInfo.addMapping(urlPattern);
-            }
+          final WebServlet annotation = c.getAnnotation(WebServlet.class);
+          final String[] urlPatterns = annotation.urlPatterns();
+          for (String urlPattern : urlPatterns) {
+            servletInfo.addMapping(urlPattern);
           }
           return servletInfo;
         })
         .collect(Collectors.toList());
-
     return deployment()
         .setClassLoader(Main.class.getClassLoader())
         .setContextPath(MYAPP)

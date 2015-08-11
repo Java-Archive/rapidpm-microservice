@@ -1,7 +1,7 @@
 package org.rapidpm.microservice.rest;
 
 
-import org.rapidpm.ddi.ReflectionsSingleton;
+import org.rapidpm.ddi.reflections.ReflectionsSingleton;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Path;

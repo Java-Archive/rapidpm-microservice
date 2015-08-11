@@ -27,17 +27,13 @@ public class ServletInstanceFactory<T extends Servlet> implements InstanceFactor
       public Servlet getInstance() {
         try {
           final T t = servletClass.newInstance();
-          //TODO activate DDI
-
           DI.getInstance().activateDI(t);
-
           return t;
         } catch (InstantiationException | IllegalAccessException e) {
           e.printStackTrace();
         }
         return null;
       }
-
       @Override
       public void release() {
         //release ???
