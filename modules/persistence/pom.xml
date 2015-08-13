@@ -5,7 +5,8 @@
   <parent>
     <groupId>org.rapidpm.microservice</groupId>
     <artifactId>rapidpm-microservice-modules</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
+
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -15,16 +16,12 @@
   </modules>
 
   <artifactId>rapidpm-microservice-modules-persistence</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
 
   <dependencies>
     <dependency>
       <groupId>org.rapidpm.microservice</groupId>
       <artifactId>rapidpm-microservice-modules-core</artifactId>
-      <version>1.0.1-SNAPSHOT</version>
     </dependency>
   </dependencies>
-
-
 
 </project>
