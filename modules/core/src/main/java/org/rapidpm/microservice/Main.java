@@ -6,7 +6,6 @@ import io.undertow.UndertowOptions;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.handlers.PathHandler;
 import io.undertow.server.handlers.resource.ClassPathResourceManager;
-import io.undertow.server.handlers.resource.FileResourceManager;
 import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.DeploymentManager;
 import io.undertow.servlet.api.ServletContainer;
@@ -24,7 +23,6 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
-import java.io.File;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -145,7 +143,7 @@ public class Main {
         .setDeploymentName("ROOT.war")
         .setDefaultEncoding("UTF-8")
         .setResourceManager(new ClassPathResourceManager(Main.class.getClassLoader()))
-        .setResourceManager(new FileResourceManager(new File("src/main/webapp"), 1024))
+            //.setResourceManager(new FileResourceManager(new File("src/main/webapp"), 1024))
         .addServlets(servletInfos);
   }
 }
