@@ -24,5 +24,33 @@ develop:
 [![Dependency Status](https://www.versioneye.com/user/projects/55a3a44f32393900180005b2/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55a3a44f32393900180005b2)
 [![Coverage Status](https://coveralls.io/repos/RapidPM/rapidpm-microservice/badge.svg?branch=develop&service=github)](https://coveralls.io/github/RapidPM/rapidpm-microservice?branch=develop)
 
+## SNAPSHOTS
+If you are using maven you could add the following to your settings.xml to get the snapshots.
+
+```
+   <profile>
+      <id>allow-snapshots</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <repositories>
+        <repository>
+          <id>snapshots-repo</id>
+          <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+          <releases>
+            <enabled>false</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>always</updatePolicy>
+          </snapshots>
+        </repository>
+      </repositories>
+    </profile>
+```
+
+## Examples
 
 See [rapidpm-microservice-examples](https://github.com/RapidPM/rapidpm-microservice-examples) for more demos
+
+
