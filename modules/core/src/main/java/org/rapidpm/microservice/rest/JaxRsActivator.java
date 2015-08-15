@@ -1,7 +1,7 @@
 package org.rapidpm.microservice.rest;
 
 
-import org.rapidpm.ddi.reflections.ReflectionsSingleton;
+import org.rapidpm.ddi.reflections.ReflectionsModel;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Path;
@@ -18,7 +18,7 @@ public class JaxRsActivator extends Application {
 
   @Override
   public Set<Class<?>> getClasses() {
-    final Set<Class<?>> typesAnnotatedWith = ReflectionsSingleton.REFLECTIONS.getTypesAnnotatedWith(Path.class);
+    final Set<Class<?>> typesAnnotatedWith = ReflectionsModel.REFLECTIONS.getTypesAnnotatedWith(Path.class);
     Set<Class<?>> result = new HashSet<>();
     for (Class<?> aClass : typesAnnotatedWith) {
       if (! aClass.getCanonicalName().contains("org.jboss")) {

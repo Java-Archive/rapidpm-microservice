@@ -13,7 +13,7 @@ import io.undertow.servlet.api.ServletInfo;
 import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
 import org.jboss.resteasy.spi.ResteasyDeployment;
 import org.rapidpm.ddi.reflections.ReflectionUtils;
-import org.rapidpm.ddi.reflections.ReflectionsSingleton;
+import org.rapidpm.ddi.reflections.ReflectionsModel;
 import org.rapidpm.microservice.rest.JaxRsActivator;
 import org.rapidpm.microservice.rest.ddi.DdiInjectorFactory;
 import org.rapidpm.microservice.servlet.ServletInstanceFactory;
@@ -114,7 +114,7 @@ public class Main {
 
   private static DeploymentInfo deployServlets() {
 
-    final Set<Class<?>> typesAnnotatedWith = ReflectionsSingleton.REFLECTIONS.getTypesAnnotatedWith(WebServlet.class);
+    final Set<Class<?>> typesAnnotatedWith = ReflectionsModel.REFLECTIONS.getTypesAnnotatedWith(WebServlet.class);
 
     final List<ServletInfo> servletInfos = typesAnnotatedWith.stream()
         .filter(s -> new ReflectionUtils().checkInterface(s, HttpServlet.class))
