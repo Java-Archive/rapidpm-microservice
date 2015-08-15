@@ -3,7 +3,6 @@ package junit.org.rapidpm.microservice.demo.servlet;
 
 import junit.org.rapidpm.microservice.demo.service.Service;
 
-import javax.inject.Inject;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;

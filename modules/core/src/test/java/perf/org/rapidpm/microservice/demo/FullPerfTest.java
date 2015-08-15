@@ -2,7 +2,6 @@ package perf.org.rapidpm.microservice.demo;
 
 import junit.org.rapidpm.microservice.demo.rest.Resource;
 import org.jboss.resteasy.test.TestPortProvider;
-import org.junit.Assert;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 import org.rapidpm.microservice.Main;

@@ -2,7 +2,10 @@ package junit.org.rapidpm.microservice.demo;
 
 import junit.org.rapidpm.microservice.demo.rest.Resource;
 import org.jboss.resteasy.test.TestPortProvider;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.rapidpm.microservice.Main;
 
 import javax.ws.rs.Path;

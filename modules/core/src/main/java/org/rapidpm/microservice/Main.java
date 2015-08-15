@@ -5,15 +5,14 @@ import io.undertow.Undertow;
 import io.undertow.UndertowOptions;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.handlers.PathHandler;
-import io.undertow.server.handlers.resource.ClassPathResourceManager;
 import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.DeploymentManager;
 import io.undertow.servlet.api.ServletContainer;
 import io.undertow.servlet.api.ServletInfo;
 import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
 import org.jboss.resteasy.spi.ResteasyDeployment;
+import org.rapidpm.ddi.DI;
 import org.rapidpm.ddi.reflections.ReflectionUtils;
-import org.rapidpm.ddi.reflections.ReflectionsModel;
 import org.rapidpm.microservice.rest.JaxRsActivator;
 import org.rapidpm.microservice.rest.ddi.DdiInjectorFactory;
 import org.rapidpm.microservice.servlet.ServletInstanceFactory;
@@ -65,13 +64,12 @@ public class Main {
 
   public static void deploy() throws ServletException {
 
+    DI.bootstrap(); // per config steuern
 
     final Undertow.Builder builder = Undertow.builder()
         .setDirectBuffers(true)
-//        .setIoThreads(10)
         .setServerOption(UndertowOptions.ENABLE_HTTP2, true)
         .setServerOption(UndertowOptions.ENABLE_SPDY, true);
-
 
     // deploy servlets
     DeploymentInfo deploymentInfo = deployServlets();
@@ -85,7 +83,7 @@ public class Main {
           .path(Handlers.redirect(MYAPP))
           .addPrefixPath(MYAPP, servletHandler);
 
-      builder.addHttpListener(PORT_SERVLET, "0.0.0.0", pathServlet); //f Servlet
+      builder.addHttpListener(PORT_SERVLET, "0.0.0.0", pathServlet);
     }
 
     final JaxRsActivator jaxRsActivator = new JaxRsActivator();
@@ -93,7 +91,6 @@ public class Main {
     final Set<Class<?>> jaxRsActivatorClasses = jaxRsActivator.getClasses();
     final Set<Object> jaxRsActivatorSingletons = jaxRsActivator.getSingletons();
     if (jaxRsActivatorClasses.isEmpty() && jaxRsActivatorSingletons.isEmpty()) {
-      //TODO kein REST gestartet
       undertowServer = builder.build();
       undertowServer.start();
     } else {
@@ -114,7 +111,7 @@ public class Main {
 
   private static DeploymentInfo deployServlets() {
 
-    final Set<Class<?>> typesAnnotatedWith = ReflectionsModel.REFLECTIONS.getTypesAnnotatedWith(WebServlet.class);
+    final Set<Class<?>> typesAnnotatedWith = DI.getTypesAnnotatedWith(WebServlet.class);
 
     final List<ServletInfo> servletInfos = typesAnnotatedWith.stream()
         .filter(s -> new ReflectionUtils().checkInterface(s, HttpServlet.class))
@@ -140,10 +137,10 @@ public class Main {
     return deployment()
         .setClassLoader(Main.class.getClassLoader())
         .setContextPath(MYAPP)
-        .setDeploymentName("ROOT.war")
+        .setDeploymentName(MYAPP + ".war")
         .setDefaultEncoding("UTF-8")
-        .setResourceManager(new ClassPathResourceManager(Main.class.getClassLoader()))
-            //.setResourceManager(new FileResourceManager(new File("src/main/webapp"), 1024))
+//        .setResourceManager(new ClassPathResourceManager(Undertow.class.getClassLoader(),""))
+//            .setResourceManager(new FileResourceManager(new File("src/main/webapp"), 1024))
         .addServlets(servletInfos);
   }
 }

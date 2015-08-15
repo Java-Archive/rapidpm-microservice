@@ -9,7 +9,6 @@ import org.rapidpm.microservice.persistence.jdbc.JDBCConnectionPools;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Optional;
 
 /**
  * JDBCConnectionPool Tester.
