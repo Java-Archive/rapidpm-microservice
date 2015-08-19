@@ -34,7 +34,7 @@ import static io.undertow.servlet.Servlets.*;
 public class Main {
 
 
-  public static final String MYAPP = "microservice";
+  public static final String MYAPP = "/microservice";
   public static final String CONTEXT_PATH_REST = "/rest";
 
   public static final String RESTEASY_PORT = "org.jboss.resteasy.port";
@@ -68,8 +68,7 @@ public class Main {
 
     final Undertow.Builder builder = Undertow.builder()
         .setDirectBuffers(true)
-        .setServerOption(UndertowOptions.ENABLE_HTTP2, true)
-        .setServerOption(UndertowOptions.ENABLE_SPDY, true);
+        .setServerOption(UndertowOptions.ENABLE_HTTP2, true);
 
     // deploy servlets
     DeploymentInfo deploymentInfo = deployServlets();
@@ -137,7 +136,7 @@ public class Main {
     return deployment()
         .setClassLoader(Main.class.getClassLoader())
         .setContextPath(MYAPP)
-        .setDeploymentName(MYAPP + ".war")
+        .setDeploymentName("ROOT" + ".war")
         .setDefaultEncoding("UTF-8")
 //        .setResourceManager(new ClassPathResourceManager(Undertow.class.getClassLoader(),""))
 //            .setResourceManager(new FileResourceManager(new File("src/main/webapp"), 1024))

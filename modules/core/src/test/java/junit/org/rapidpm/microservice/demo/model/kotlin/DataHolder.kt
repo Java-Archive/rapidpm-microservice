@@ -1,4 +1,4 @@
-package org.rapidpm.microservice.demo.model
+package junit.org.rapidpm.microservice.demo.model.kotlin
 
 /**
  * Created by svenruppert on 07.06.15.
