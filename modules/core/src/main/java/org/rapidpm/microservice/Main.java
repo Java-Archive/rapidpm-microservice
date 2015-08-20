@@ -5,10 +5,7 @@ import io.undertow.Undertow;
 import io.undertow.UndertowOptions;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.handlers.PathHandler;
-import io.undertow.servlet.api.DeploymentInfo;
-import io.undertow.servlet.api.DeploymentManager;
-import io.undertow.servlet.api.ServletContainer;
-import io.undertow.servlet.api.ServletInfo;
+import io.undertow.servlet.api.*;
 import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
 import org.jboss.resteasy.spi.ResteasyDeployment;
 import org.rapidpm.ddi.DI;
@@ -20,8 +17,10 @@ import org.rapidpm.microservice.servlet.ServletInstanceFactory;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
+import javax.servlet.annotation.WebListener;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+import java.util.EventListener;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -133,11 +132,22 @@ public class Main {
           return servletInfo;
         })
         .collect(Collectors.toList());
+
+    final Set<Class<?>> weblisteners = DI.getTypesAnnotatedWith(WebListener.class);
+    final List<ListenerInfo> listenerInfos = weblisteners.stream()
+        .map(c -> {
+          final ListenerInfo listenerInfo = new ListenerInfo((Class<? extends EventListener>) c);
+          return listenerInfo;
+        })
+        .collect(Collectors.toList());
+
+
     return deployment()
         .setClassLoader(Main.class.getClassLoader())
         .setContextPath(MYAPP)
         .setDeploymentName("ROOT" + ".war")
         .setDefaultEncoding("UTF-8")
+        .addListeners(listenerInfos)
 //        .setResourceManager(new ClassPathResourceManager(Undertow.class.getClassLoader(),""))
 //            .setResourceManager(new FileResourceManager(new File("src/main/webapp"), 1024))
         .addServlets(servletInfos);
