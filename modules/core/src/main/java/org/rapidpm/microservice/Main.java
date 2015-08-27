@@ -22,6 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import java.util.EventListener;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -54,6 +55,8 @@ public class Main {
   }
 
   public static void stop() {
+    executeShutdownActions();
+
     if (jaxrsServer != null) {
       jaxrsServer.stop();
     } else if (undertowServer != null) {
@@ -62,8 +65,8 @@ public class Main {
   }
 
   public static void deploy() throws ServletException {
-
     DI.bootstrap(); // per config steuern
+    executeStartupActions();
 
     final Undertow.Builder builder = Undertow.builder()
         .setDirectBuffers(true)
@@ -105,6 +108,33 @@ public class Main {
           .setClassLoader(Main.class.getClassLoader()));
     }
 
+  }
+
+
+  private static <T> List<T> createInstances(final Set<Class<? extends T>> classes) {
+    return classes
+        .stream()
+        .map(c -> {
+          try {
+            return Optional.of(c.newInstance());
+          } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+          }
+          return Optional.<T>empty();
+        })
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .collect(Collectors.<T>toList());
+  }
+
+  private static void executeStartupActions() {
+    final Set<Class<? extends MainStartupAction>> classes = DI.getSubTypesOf(MainStartupAction.class);
+    createInstances(classes).forEach(MainStartupAction::execute);
+  }
+
+  private static void executeShutdownActions() {
+    final Set<Class<? extends MainShutdownAction>> classes = DI.getSubTypesOf(MainShutdownAction.class);
+    createInstances(classes).forEach(MainShutdownAction::execute);
   }
 
   private static DeploymentInfo deployServlets() {
@@ -152,4 +182,14 @@ public class Main {
 //            .setResourceManager(new FileResourceManager(new File("src/main/webapp"), 1024))
         .addServlets(servletInfos);
   }
+
+  public interface MainStartupAction {
+    void execute();
+  }
+
+  public interface MainShutdownAction {
+    void execute();
+  }
+
+
 }
