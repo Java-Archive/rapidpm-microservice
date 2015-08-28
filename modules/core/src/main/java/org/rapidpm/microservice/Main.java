@@ -20,10 +20,7 @@ import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
-import java.util.EventListener;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static io.undertow.servlet.Servlets.*;
@@ -53,6 +50,19 @@ public class Main {
   public static void main(String[] args) throws ServletException {
     deploy();
   }
+
+  private static final Timer timer = new Timer(true);
+
+  public static void stop(long delayMS) {
+    timer.schedule(new TimerTask() {
+      @Override
+      public void run() {
+        System.out.println("delayMS = " + delayMS);
+        Main.stop();
+      }
+    }, delayMS);
+  }
+
 
   public static void stop() {
     executeShutdownActions();
