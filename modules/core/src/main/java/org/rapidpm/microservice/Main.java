@@ -6,10 +6,15 @@ import io.undertow.UndertowOptions;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.handlers.PathHandler;
 import io.undertow.servlet.api.*;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
 import org.jboss.resteasy.spi.ResteasyDeployment;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.ddi.reflections.ReflectionUtils;
+import org.rapidpm.microservice.optionals.cli.CmdLineSingleton;
 import org.rapidpm.microservice.rest.JaxRsActivator;
 import org.rapidpm.microservice.rest.ddi.DdiInjectorFactory;
 import org.rapidpm.microservice.servlet.ServletInstanceFactory;
@@ -48,6 +53,17 @@ public class Main {
   }
 
   public static void main(String[] args) throws ServletException {
+
+    //hole alle Options aus den customer pkgs
+    Options options = new Options();
+    options.addOption("i", true, "full qualified path to the config folder");//TODO raus damit
+    try {
+      final CommandLine cmd = new DefaultParser().parse(options, args);
+      CmdLineSingleton.getInstance().setCmd(cmd);
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+
     deploy();
   }
 
@@ -57,7 +73,7 @@ public class Main {
     timer.schedule(new TimerTask() {
       @Override
       public void run() {
-        System.out.println("delayMS = " + delayMS);
+        System.out.println("shutdown delay [ms] = " + delayMS);
         Main.stop();
       }
     }, delayMS);

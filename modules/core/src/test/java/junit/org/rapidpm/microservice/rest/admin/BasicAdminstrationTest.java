@@ -8,6 +8,7 @@ import org.rapidpm.microservice.rest.admin.BasicAdministration;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.Response;
 
 /**
@@ -25,11 +26,12 @@ public class BasicAdminstrationTest extends BasicRestTest {
   public void test001() throws Exception {
     Client client = ClientBuilder.newClient();
     final String generateBasicReqURL = generateBasicReqURL(BasicAdministration.class);
-    final Response response = client
+    System.out.println("generateBasicReqURL = " + generateBasicReqURL);
+    final Invocation.Builder authcode = client
         .target(generateBasicReqURL)
         .path("authcode")
-        .request()
-        .get();
+        .request();
+    final Response response = authcode.get();
 
     Assert.assertEquals(200, response.getStatus());
     String val = response.getStatusInfo().toString();
