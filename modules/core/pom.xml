@@ -10,10 +10,6 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>rapidpm-microservice-modules-core</artifactId>
-  <build>
-    <plugins>
-    </plugins>
-  </build>
 
 
   <dependencies>
@@ -56,5 +52,14 @@
       <groupId>commons-cli</groupId>
       <artifactId>commons-cli</artifactId>
     </dependency>
+
+    <!--TDD-->
+    <dependency>
+      <groupId>org.rapidpm.microservice</groupId>
+      <artifactId>rapidpm-microservice-modules-core-testutils</artifactId>
+    </dependency>
+    <!--TDD-->
+
+
   </dependencies>
 </project>

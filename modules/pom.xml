@@ -13,6 +13,7 @@
 
   <packaging>pom</packaging>
   <modules>
+    <module>core-testutils</module>
     <module>core</module>
     <module>persistence</module>
   </modules>

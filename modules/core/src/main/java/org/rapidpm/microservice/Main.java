@@ -6,10 +6,6 @@ import io.undertow.UndertowOptions;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.handlers.PathHandler;
 import io.undertow.servlet.api.*;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
 import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
 import org.jboss.resteasy.spi.ResteasyDeployment;
 import org.rapidpm.ddi.DI;
@@ -39,12 +35,16 @@ public class Main {
   public static final String MYAPP = "/microservice";
   public static final String CONTEXT_PATH_REST = "/rest";
 
-  public static final String RESTEASY_PORT = "org.jboss.resteasy.port";
-  public static final String RESTEASY_HOST = "org.jboss.resteasy.host";
+  public static final int DEFAULT_REST_PORT = 7081;
+  public static final int DEFAULT_SERVLET_PORT = 7080;
 
-  public static final int PORT_REST = 7081;
-  public static final int PORT_SERVLET = 7080;
+  private static final String RESTEASY_PORT_PROPERTY = "org.jboss.resteasy.port";
+  private static final String RESTEASY_HOST_PROPERTY = "org.jboss.resteasy.host";
 
+  public static final String REST_PORT_PROPERTY = "org.rapidpm.microservice.rest.port";
+  public static final String REST_HOST_PROPERTY = "org.rapidpm.microservice.rest.host";
+  public static final String SERVLET_PORT_PROPERTY = "org.rapidpm.microservice.servlet.port";
+  public static final String SERVLET_HOST_PROPERTY = "org.rapidpm.microservice.servlet.host";
 
   private static UndertowJaxrsServer jaxrsServer;
   private static Undertow undertowServer;
@@ -54,31 +54,22 @@ public class Main {
 
   public static void main(String[] args) throws ServletException {
 
-    //hole alle Options aus den customer pkgs
-    Options options = new Options();
-    options.addOption("i", true, "full qualified path to the config folder");//TODO raus damit
-    try {
-      final CommandLine cmd = new DefaultParser().parse(options, args);
-      CmdLineSingleton.getInstance().setCmd(cmd);
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
+    CmdLineSingleton.getInstance().args(args);
 
     deploy();
   }
 
-  private static final Timer timer = new Timer(true);
+  private static final Timer TIMER = new Timer(true);
 
   public static void stop(long delayMS) {
-    timer.schedule(new TimerTask() {
+    System.out.println("shutdown delay [ms] = " + delayMS);
+    TIMER.schedule(new TimerTask() {
       @Override
       public void run() {
-        System.out.println("shutdown delay [ms] = " + delayMS);
         Main.stop();
       }
     }, delayMS);
   }
-
 
   public static void stop() {
     executeShutdownActions();
@@ -109,24 +100,26 @@ public class Main {
       PathHandler pathServlet = Handlers
           .path(Handlers.redirect(MYAPP))
           .addPrefixPath(MYAPP, servletHandler);
-
-      builder.addHttpListener(PORT_SERVLET, "0.0.0.0", pathServlet);
+      final String realServletPort = System.getProperty(SERVLET_PORT_PROPERTY, DEFAULT_SERVLET_PORT + "");
+      builder.addHttpListener(Integer.parseInt(realServletPort), "0.0.0.0", pathServlet);
     }
 
     final JaxRsActivator jaxRsActivator = new JaxRsActivator();
-
     final Set<Class<?>> jaxRsActivatorClasses = jaxRsActivator.getClasses();
     final Set<Object> jaxRsActivatorSingletons = jaxRsActivator.getSingletons();
     if (jaxRsActivatorClasses.isEmpty() && jaxRsActivatorSingletons.isEmpty()) {
       undertowServer = builder.build();
       undertowServer.start();
     } else {
-      builder.addHttpListener(PORT_REST, "0.0.0.0"); //REST ohne handler
-      System.setProperty(RESTEASY_PORT, PORT_REST + ""); //TODO
+
+      final String realRestPort = System.getProperty(REST_PORT_PROPERTY, DEFAULT_REST_PORT + "");
+      System.setProperty(RESTEASY_PORT_PROPERTY, realRestPort);
+
+      builder.addHttpListener(Integer.parseInt(realRestPort), "0.0.0.0");
       jaxrsServer = new UndertowJaxrsServer().start(builder);
       final ResteasyDeployment deployment = new ResteasyDeployment();
       deployment.setApplication(jaxRsActivator);
-      deployment.setAsyncJobServiceEnabled(false);
+//      deployment.setAsyncJobServiceEnabled(false);
       deployment.setInjectorFactoryClass(DdiInjectorFactory.class.getCanonicalName());
       jaxrsServer.deploy(jaxrsServer.undertowDeployment(deployment)
           .setDeploymentName("Rest")

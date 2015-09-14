@@ -25,10 +25,6 @@ import java.util.concurrent.TimeUnit;
 public class FullPerfTest {
 
 
-  public FullPerfTest() {
-    System.setProperty(Main.RESTEASY_PORT, Main.PORT_REST + "");
-  }
-
   @Benchmark
   public void testApplicationPath(Blackhole blackhole, BenchmarkState benchmarkState, BenchmarkStateThread benchmarkStateThread) {
 

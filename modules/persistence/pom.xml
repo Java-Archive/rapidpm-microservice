@@ -13,6 +13,7 @@
   <packaging>pom</packaging>
   <modules>
     <module>jdbc</module>
+    <module>local-hashmap</module>
   </modules>
 
   <artifactId>rapidpm-microservice-modules-persistence</artifactId>

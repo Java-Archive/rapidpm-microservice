@@ -24,8 +24,8 @@ public class BasicAdminstrationTest extends BasicRestTest {
 
   @Test
   public void test001() throws Exception {
-    Client client = ClientBuilder.newClient();
     final String generateBasicReqURL = generateBasicReqURL(BasicAdministration.class);
+    Client client = ClientBuilder.newClient();
     System.out.println("generateBasicReqURL = " + generateBasicReqURL);
     final Invocation.Builder authcode = client
         .target(generateBasicReqURL)
