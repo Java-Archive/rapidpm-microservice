@@ -6,11 +6,13 @@ import io.undertow.UndertowOptions;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.handlers.PathHandler;
 import io.undertow.servlet.api.*;
+import org.apache.commons.cli.CommandLine;
 import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
 import org.jboss.resteasy.spi.ResteasyDeployment;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.ddi.reflections.ReflectionUtils;
 import org.rapidpm.microservice.optionals.cli.CmdLineSingleton;
+import org.rapidpm.microservice.optionals.cli.DefaultCmdLineOptions;
 import org.rapidpm.microservice.rest.JaxRsActivator;
 import org.rapidpm.microservice.rest.ddi.DdiInjectorFactory;
 import org.rapidpm.microservice.servlet.ServletInstanceFactory;
@@ -45,6 +47,7 @@ public class Main {
   public static final String REST_HOST_PROPERTY = "org.rapidpm.microservice.rest.host";
   public static final String SERVLET_PORT_PROPERTY = "org.rapidpm.microservice.servlet.port";
   public static final String SERVLET_HOST_PROPERTY = "org.rapidpm.microservice.servlet.host";
+  public static final String DEFAULT_HOST = "0.0.0.0";
 
   private static UndertowJaxrsServer jaxrsServer;
   private static Undertow undertowServer;
@@ -54,7 +57,8 @@ public class Main {
 
   public static void main(String[] args) throws ServletException {
 
-    CmdLineSingleton.getInstance().args(args);
+    final CmdLineSingleton cmdLineSingleton = CmdLineSingleton.getInstance();
+    cmdLineSingleton.args(args);
 
     deploy();
   }
@@ -85,6 +89,8 @@ public class Main {
     DI.bootstrap(); // per config steuern
     executeStartupActions();
 
+    initHostAndPorts();
+
     final Undertow.Builder builder = Undertow.builder()
         .setDirectBuffers(true)
         .setServerOption(UndertowOptions.ENABLE_HTTP2, true);
@@ -101,7 +107,9 @@ public class Main {
           .path(Handlers.redirect(MYAPP))
           .addPrefixPath(MYAPP, servletHandler);
       final String realServletPort = System.getProperty(SERVLET_PORT_PROPERTY, DEFAULT_SERVLET_PORT + "");
-      builder.addHttpListener(Integer.parseInt(realServletPort), "0.0.0.0", pathServlet);
+      final String realServletHost = System.getProperty(SERVLET_HOST_PROPERTY, DEFAULT_HOST);
+
+      builder.addHttpListener(Integer.parseInt(realServletPort), realServletHost, pathServlet);
     }
 
     final JaxRsActivator jaxRsActivator = new JaxRsActivator();
@@ -113,9 +121,12 @@ public class Main {
     } else {
 
       final String realRestPort = System.getProperty(REST_PORT_PROPERTY, DEFAULT_REST_PORT + "");
-      System.setProperty(RESTEASY_PORT_PROPERTY, realRestPort);
+      final String realRestHost = System.getProperty(REST_HOST_PROPERTY, DEFAULT_HOST);
 
-      builder.addHttpListener(Integer.parseInt(realRestPort), "0.0.0.0");
+      System.setProperty(RESTEASY_PORT_PROPERTY, realRestPort);
+      System.setProperty(RESTEASY_HOST_PROPERTY, realRestHost);
+
+      builder.addHttpListener(Integer.parseInt(realRestPort), realRestHost);
       jaxrsServer = new UndertowJaxrsServer().start(builder);
       final ResteasyDeployment deployment = new ResteasyDeployment();
       deployment.setApplication(jaxRsActivator);
@@ -127,6 +138,30 @@ public class Main {
           .setClassLoader(Main.class.getClassLoader()));
     }
 
+  }
+
+  private static void initHostAndPorts() {
+    final CmdLineSingleton cmdLineSingleton = CmdLineSingleton.getInstance();
+    final Optional<CommandLine> commandLine = cmdLineSingleton.getCommandLine();
+    if (commandLine.isPresent()) {
+      final CommandLine cli = commandLine.get();
+      if (cli.hasOption(DefaultCmdLineOptions.CMD_SERVLET_PORT)) {
+        final String optionValue = cli.getOptionValue(DefaultCmdLineOptions.CMD_SERVLET_PORT).trim();
+        System.setProperty(SERVLET_PORT_PROPERTY, optionValue);
+      }
+      if (cli.hasOption(DefaultCmdLineOptions.CMD_SERVLET_HOST)) {
+        final String optionValue = cli.getOptionValue(DefaultCmdLineOptions.CMD_SERVLET_HOST).trim();
+        System.setProperty(SERVLET_HOST_PROPERTY, optionValue);
+      }
+      if (cli.hasOption(DefaultCmdLineOptions.CMD_REST_PORT)) {
+        final String optionValue = cli.getOptionValue(DefaultCmdLineOptions.CMD_REST_PORT).trim();
+        System.setProperty(REST_PORT_PROPERTY, optionValue);
+      }
+      if (cli.hasOption(DefaultCmdLineOptions.CMD_REST_HOST)) {
+        final String optionValue = cli.getOptionValue(DefaultCmdLineOptions.CMD_REST_HOST).trim();
+        System.setProperty(REST_HOST_PROPERTY, optionValue);
+      }
+    }
   }
 
 
