@@ -1,4 +1,4 @@
-package junit.org.rapidpm.microservice;
+package junit.org.rapidpm.microservice.optionals.cli;
 
 import org.apache.commons.cli.CommandLine;
 import org.junit.After;

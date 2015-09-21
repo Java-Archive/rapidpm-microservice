@@ -1,4 +1,4 @@
-package junit.org.rapidpm.microservice;
+package junit.org.rapidpm.microservice.optionals.cli;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -12,8 +12,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.core.Response;
 
 import static org.rapidpm.microservice.optionals.cli.DefaultCmdLineOptions.CMD_REST_PORT;
 

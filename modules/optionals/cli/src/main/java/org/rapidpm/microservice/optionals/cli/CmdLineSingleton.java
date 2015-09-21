@@ -19,35 +19,31 @@ public class CmdLineSingleton {
   private CmdLineSingleton() {
   }
 
-  private CommandLine cmd = null;
+  private List<Option> cmdLineOptions = new ArrayList<>();
   private String[] args = new String[]{};
 
   public Optional<CommandLine> getCommandLine() {
-    if (cmd == null) {
-      //hole alle Options aus den customer pkgs
+    try {
       final Options options = new Options();
       cmdLineOptions.forEach(options::addOption);
-      try {
-        this.cmd = new DefaultParser().parse(options, args);
-      } catch (ParseException e) {
-        e.printStackTrace();
-      }
+      CommandLine cmd = new DefaultParser().parse(options, args, true);
+      return Optional.ofNullable(cmd);
+    } catch (ParseException e) {
+      e.printStackTrace();
+      return Optional.empty();
     }
-    return Optional.ofNullable(cmd);
   }
 
-//  public void setCmd(final CommandLine cmd) {
+  //  public void setCmd(final CommandLine cmd) {
 //    this.cmd = cmd;
 //  }
-
-  private List<Option> cmdLineOptions = new ArrayList<>();
-
   public CmdLineSingleton addCmdLineOption(final Option option) {
     cmdLineOptions.add(option);
     return this;
   }
 
   public CmdLineSingleton args(final String[] args) {
+    if (args == null) throw new NullPointerException("args == null is not allowed. ");
     this.args = args;
     return this;
   }

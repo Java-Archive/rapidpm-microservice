@@ -6,13 +6,10 @@ import io.undertow.UndertowOptions;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.handlers.PathHandler;
 import io.undertow.servlet.api.*;
-import org.apache.commons.cli.CommandLine;
 import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
 import org.jboss.resteasy.spi.ResteasyDeployment;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.ddi.reflections.ReflectionUtils;
-import org.rapidpm.microservice.optionals.cli.CmdLineSingleton;
-import org.rapidpm.microservice.optionals.cli.DefaultCmdLineOptions;
 import org.rapidpm.microservice.rest.JaxRsActivator;
 import org.rapidpm.microservice.rest.ddi.DdiInjectorFactory;
 import org.rapidpm.microservice.servlet.ServletInstanceFactory;
@@ -55,12 +52,11 @@ public class Main {
   private Main() {
   }
 
-  public static void main(String[] args) throws ServletException {
+  private static Optional<String[]> cliArguments;
 
-    final CmdLineSingleton cmdLineSingleton = CmdLineSingleton.getInstance();
-    cmdLineSingleton.args(args);
-
-    deploy();
+  public static void main(String[] args) {
+    cliArguments = Optional.ofNullable(args);
+    deploy(cliArguments);
   }
 
   private static final Timer TIMER = new Timer(true);
@@ -76,7 +72,7 @@ public class Main {
   }
 
   public static void stop() {
-    executeShutdownActions();
+    executeShutdownActions(cliArguments);
 
     if (jaxrsServer != null) {
       jaxrsServer.stop();
@@ -85,85 +81,72 @@ public class Main {
     }
   }
 
-  public static void deploy() throws ServletException {
-    DI.bootstrap(); // per config steuern
-    executeStartupActions();
+  public static void deploy() {
+    deploy(Optional.<String[]>empty());
+  }
 
-    initHostAndPorts();
+  public static void deploy(Optional<String[]> args) {
+    DI.bootstrap(); // per config steuern
+    executeStartupActions(args);
 
     final Undertow.Builder builder = Undertow.builder()
         .setDirectBuffers(true)
         .setServerOption(UndertowOptions.ENABLE_HTTP2, true);
 
     // deploy servlets
-    DeploymentInfo deploymentInfo = deployServlets();
+    DeploymentInfo deploymentInfo = createServletDeploymentInfos();
     final boolean anyServlets = !deploymentInfo.getServlets().isEmpty();
     if (anyServlets) {
-      final ServletContainer servletContainer = defaultContainer();
-      DeploymentManager manager = servletContainer.addDeployment(deploymentInfo);
-      manager.deploy();
-      HttpHandler servletHandler = manager.start();
-      PathHandler pathServlet = Handlers
-          .path(Handlers.redirect(MYAPP))
-          .addPrefixPath(MYAPP, servletHandler);
-      final String realServletPort = System.getProperty(SERVLET_PORT_PROPERTY, DEFAULT_SERVLET_PORT + "");
-      final String realServletHost = System.getProperty(SERVLET_HOST_PROPERTY, DEFAULT_HOST);
-
-      builder.addHttpListener(Integer.parseInt(realServletPort), realServletHost, pathServlet);
+      try {
+        deployServlets(builder, deploymentInfo);
+      } catch (ServletException e) {
+        e.printStackTrace();
+        //TODO logging message
+      }
     }
 
     final JaxRsActivator jaxRsActivator = new JaxRsActivator();
-    final Set<Class<?>> jaxRsActivatorClasses = jaxRsActivator.getClasses();
-    final Set<Object> jaxRsActivatorSingletons = jaxRsActivator.getSingletons();
-    if (jaxRsActivatorClasses.isEmpty() && jaxRsActivatorSingletons.isEmpty()) {
+    if (jaxRsActivator.somethingToDeploy()) {
+      deployRestRessources(builder, jaxRsActivator);
+    } else {
       undertowServer = builder.build();
       undertowServer.start();
-    } else {
+    }
 
-      final String realRestPort = System.getProperty(REST_PORT_PROPERTY, DEFAULT_REST_PORT + "");
-      final String realRestHost = System.getProperty(REST_HOST_PROPERTY, DEFAULT_HOST);
+  }
 
-      System.setProperty(RESTEASY_PORT_PROPERTY, realRestPort);
-      System.setProperty(RESTEASY_HOST_PROPERTY, realRestHost);
+  private static void deployRestRessources(final Undertow.Builder builder, final JaxRsActivator jaxRsActivator) {
+    final String realRestPort = System.getProperty(REST_PORT_PROPERTY, DEFAULT_REST_PORT + "");
+    final String realRestHost = System.getProperty(REST_HOST_PROPERTY, DEFAULT_HOST);
 
-      builder.addHttpListener(Integer.parseInt(realRestPort), realRestHost);
-      jaxrsServer = new UndertowJaxrsServer().start(builder);
-      final ResteasyDeployment deployment = new ResteasyDeployment();
-      deployment.setApplication(jaxRsActivator);
+    System.setProperty(RESTEASY_PORT_PROPERTY, realRestPort);
+    System.setProperty(RESTEASY_HOST_PROPERTY, realRestHost);
+
+    builder.addHttpListener(Integer.parseInt(realRestPort), realRestHost);
+    jaxrsServer = new UndertowJaxrsServer().start(builder);
+    final ResteasyDeployment deployment = new ResteasyDeployment();
+    deployment.setApplication(jaxRsActivator);
 //      deployment.setAsyncJobServiceEnabled(false);
-      deployment.setInjectorFactoryClass(DdiInjectorFactory.class.getCanonicalName());
-      jaxrsServer.deploy(jaxrsServer.undertowDeployment(deployment)
-          .setDeploymentName("Rest")
-          .setContextPath(CONTEXT_PATH_REST)
-          .setClassLoader(Main.class.getClassLoader()));
-    }
-
+    deployment.setInjectorFactoryClass(DdiInjectorFactory.class.getCanonicalName());
+    jaxrsServer.deploy(jaxrsServer.undertowDeployment(deployment)
+        .setDeploymentName("Rest")
+        .setContextPath(CONTEXT_PATH_REST)
+        .setClassLoader(Main.class.getClassLoader()));
   }
 
-  private static void initHostAndPorts() {
-    final CmdLineSingleton cmdLineSingleton = CmdLineSingleton.getInstance();
-    final Optional<CommandLine> commandLine = cmdLineSingleton.getCommandLine();
-    if (commandLine.isPresent()) {
-      final CommandLine cli = commandLine.get();
-      if (cli.hasOption(DefaultCmdLineOptions.CMD_SERVLET_PORT)) {
-        final String optionValue = cli.getOptionValue(DefaultCmdLineOptions.CMD_SERVLET_PORT).trim();
-        System.setProperty(SERVLET_PORT_PROPERTY, optionValue);
-      }
-      if (cli.hasOption(DefaultCmdLineOptions.CMD_SERVLET_HOST)) {
-        final String optionValue = cli.getOptionValue(DefaultCmdLineOptions.CMD_SERVLET_HOST).trim();
-        System.setProperty(SERVLET_HOST_PROPERTY, optionValue);
-      }
-      if (cli.hasOption(DefaultCmdLineOptions.CMD_REST_PORT)) {
-        final String optionValue = cli.getOptionValue(DefaultCmdLineOptions.CMD_REST_PORT).trim();
-        System.setProperty(REST_PORT_PROPERTY, optionValue);
-      }
-      if (cli.hasOption(DefaultCmdLineOptions.CMD_REST_HOST)) {
-        final String optionValue = cli.getOptionValue(DefaultCmdLineOptions.CMD_REST_HOST).trim();
-        System.setProperty(REST_HOST_PROPERTY, optionValue);
-      }
-    }
-  }
+  private static void deployServlets(final Undertow.Builder builder, final DeploymentInfo deploymentInfo) throws ServletException {
+    final ServletContainer servletContainer = defaultContainer();
+    DeploymentManager manager = servletContainer.addDeployment(deploymentInfo);
+    manager.deploy();
+    HttpHandler servletHandler = manager.start();
+    PathHandler pathServlet = Handlers
+        .path(Handlers.redirect(MYAPP))
+        .addPrefixPath(MYAPP, servletHandler);
+    final String realServletPort = System.getProperty(SERVLET_PORT_PROPERTY, DEFAULT_SERVLET_PORT + "");
+    final String realServletHost = System.getProperty(SERVLET_HOST_PROPERTY, DEFAULT_HOST);
 
+    builder.addHttpListener(Integer.parseInt(realServletPort), realServletHost, pathServlet);
+  }
 
   private static <T> List<T> createInstances(final Set<Class<? extends T>> classes) {
     return classes
@@ -181,17 +164,17 @@ public class Main {
         .collect(Collectors.<T>toList());
   }
 
-  private static void executeStartupActions() {
+  private static void executeStartupActions(final Optional<String[]> args) {
     final Set<Class<? extends MainStartupAction>> classes = DI.getSubTypesOf(MainStartupAction.class);
-    createInstances(classes).forEach(MainStartupAction::execute);
+    createInstances(classes).forEach((mainStartupAction) -> mainStartupAction.execute(args));
   }
 
-  private static void executeShutdownActions() {
+  private static void executeShutdownActions(Optional<String[]> args) {
     final Set<Class<? extends MainShutdownAction>> classes = DI.getSubTypesOf(MainShutdownAction.class);
-    createInstances(classes).forEach(MainShutdownAction::execute);
+    createInstances(classes).forEach((mainShutdownAction) -> mainShutdownAction.execute(args));
   }
 
-  private static DeploymentInfo deployServlets() {
+  private static DeploymentInfo createServletDeploymentInfos() {
 
     final Set<Class<?>> typesAnnotatedWith = DI.getTypesAnnotatedWith(WebServlet.class);
 
@@ -238,11 +221,11 @@ public class Main {
   }
 
   public interface MainStartupAction {
-    void execute();
+    void execute(Optional<String[]> args);
   }
 
   public interface MainShutdownAction {
-    void execute();
+    void execute(Optional<String[]> args);
   }
 
 

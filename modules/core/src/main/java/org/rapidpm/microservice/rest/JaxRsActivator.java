@@ -21,7 +21,7 @@ public class JaxRsActivator extends Application {
     final Set<Class<?>> typesAnnotatedWith = DI.getTypesAnnotatedWith(Path.class);
     Set<Class<?>> result = new HashSet<>();
     for (Class<?> aClass : typesAnnotatedWith) {
-      if (! aClass.getCanonicalName().contains("org.jboss")) {
+      if (!aClass.getCanonicalName().contains("org.jboss")) {
         result.add(aClass);
       }
     }
@@ -38,4 +38,10 @@ public class JaxRsActivator extends Application {
     return Collections.emptySet();
   }
 
+
+  public boolean somethingToDeploy() {
+    final Set<Class<?>> jaxRsActivatorClasses = getClasses();
+    final Set<Object> jaxRsActivatorSingletons = getSingletons();
+    return !(jaxRsActivatorClasses.isEmpty() && jaxRsActivatorSingletons.isEmpty());
+  }
 }

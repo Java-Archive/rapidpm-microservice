@@ -18,7 +18,7 @@ public class BasicAdministration {
   @GET()
   @Path("{a}")
   @Produces("text/plain")
-  public String shutdownNow(@PathParam("a") String authcode) {
+  public String shutdownNow(@PathParam("a") String timeout) {
     stop(5_000);
     return "code OK";
   }

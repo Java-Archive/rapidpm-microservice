@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.rapidpm.microservice.Main;
 
+import java.util.Optional;
+
 /**
  * Created by svenruppert on 27.08.15.
  */
@@ -24,13 +26,13 @@ public class MainTest001 {
 
   public static class PreAction implements Main.MainStartupAction{
     @Override
-    public void execute() {
+    public void execute(Optional<String[]> args) {
       MainTest001.status = false;
     }
   }
   public static class PostAction implements Main.MainShutdownAction{
     @Override
-    public void execute() {
+    public void execute(Optional<String[]> args) {
       MainTest001.status = true;
     }
   }
