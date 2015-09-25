@@ -22,6 +22,20 @@ public class JDBCConnectionPool {
 
   private HikariDataSource dataSource;
 
+  private JDBCConnectionPool(final Builder builder) {
+    poolname = builder.poolname;
+    jdbcURL = builder.jdbcURL;
+    username = builder.username;
+    passwd = builder.passwd;
+    autoCommit = builder.autoCommit;
+    sqlInit = builder.sqlInit;
+    sqlTest = builder.sqlTest;
+  }
+
+  public static Builder newBuilder() {
+    return new Builder();
+  }
+
   public void connect() {
     dataSource = new HikariDataSource();
     dataSource.setJdbcUrl(jdbcURL);
@@ -44,21 +58,6 @@ public class JDBCConnectionPool {
   public HikariDataSource getDataSource() {
     return dataSource;
   }
-
-  private JDBCConnectionPool(final Builder builder) {
-    poolname = builder.poolname;
-    jdbcURL = builder.jdbcURL;
-    username = builder.username;
-    passwd = builder.passwd;
-    autoCommit = builder.autoCommit;
-    sqlInit = builder.sqlInit;
-    sqlTest = builder.sqlTest;
-  }
-
-  public static Builder newBuilder() {
-    return new Builder();
-  }
-
 
   public static final class Builder extends NestedBuilder<JDBCConnectionPools, JDBCConnectionPool> {
     private String poolname;

@@ -17,7 +17,7 @@ import java.io.PrintWriter;
  * Created by sven on 27.05.15.
  */
 @WebInitParam(value = "Hello World", name = "message")
-@WebServlet(urlPatterns="/test")
+@WebServlet(urlPatterns = "/test")
 public class MessageServlet extends HttpServlet {
 
 

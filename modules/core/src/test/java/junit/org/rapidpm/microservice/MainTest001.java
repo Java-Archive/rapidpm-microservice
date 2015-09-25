@@ -12,6 +12,8 @@ import java.util.Optional;
 public class MainTest001 {
 
 
+  public static boolean status = true;
+
   @Test
   public void test001() throws Exception {
     Assert.assertTrue(MainTest001.status);
@@ -22,15 +24,14 @@ public class MainTest001 {
 
   }
 
-  public static boolean status = true;
-
-  public static class PreAction implements Main.MainStartupAction{
+  public static class PreAction implements Main.MainStartupAction {
     @Override
     public void execute(Optional<String[]> args) {
       MainTest001.status = false;
     }
   }
-  public static class PostAction implements Main.MainShutdownAction{
+
+  public static class PostAction implements Main.MainShutdownAction {
     @Override
     public void execute(Optional<String[]> args) {
       MainTest001.status = true;

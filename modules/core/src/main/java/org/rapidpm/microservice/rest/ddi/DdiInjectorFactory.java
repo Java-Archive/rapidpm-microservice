@@ -24,6 +24,43 @@ public class DdiInjectorFactory implements InjectorFactory {
   private InjectorFactory delegate = new InjectorFactoryImpl();
 
   @Override
+  public ConstructorInjector createConstructor(Constructor constructor, ResteasyProviderFactory factory) {
+    Class<?> clazz = constructor.getDeclaringClass();
+
+    ConstructorInjector injector = ddiConstructor(clazz);
+    if (injector != null) return injector;
+
+    return delegate.createConstructor(constructor, factory);
+  }
+
+  public PropertyInjector createPropertyInjector(Class resourceClass, ResteasyProviderFactory factory) {
+    return new DdiPropertyInjector(
+        delegate.createPropertyInjector(resourceClass, factory),
+        resourceClass);
+  }
+
+  public ValueInjector createParameterExtractor(Class injectTargetClass, AccessibleObject injectTarget, Class type, Type genericType, Annotation[] annotations, ResteasyProviderFactory factory) {
+    return delegate.createParameterExtractor(
+        injectTargetClass,
+        injectTarget, type, genericType, annotations, factory);
+  }
+
+  public ValueInjector createParameterExtractor(Class injectTargetClass, AccessibleObject injectTarget, Class type,
+                                                Type genericType, Annotation[] annotations, boolean useDefault, ResteasyProviderFactory factory) {
+    return delegate.createParameterExtractor(injectTargetClass, injectTarget, type, genericType, annotations, useDefault, factory);
+  }
+
+  @Override
+  public ValueInjector createParameterExtractor(Parameter parameter, ResteasyProviderFactory providerFactory) {
+    return delegate.createParameterExtractor(parameter, providerFactory);
+  }
+
+  @Override
+  public MethodInjector createMethodInjector(ResourceLocator method, ResteasyProviderFactory factory) {
+    return delegate.createMethodInjector(method, factory);
+  }
+
+  @Override
   public PropertyInjector createPropertyInjector(ResourceClass resourceClass, ResteasyProviderFactory providerFactory) {
     final PropertyInjector propertyInjector = delegate.createPropertyInjector(resourceClass, providerFactory);
     return new DdiPropertyInjector(propertyInjector, resourceClass.getClazz());
@@ -39,50 +76,11 @@ public class DdiInjectorFactory implements InjectorFactory {
     return delegate.createConstructor(constructor, providerFactory);
   }
 
-  @Override
-  public ConstructorInjector createConstructor(Constructor constructor, ResteasyProviderFactory factory) {
-    Class<?> clazz = constructor.getDeclaringClass();
-
-    ConstructorInjector injector = ddiConstructor(clazz);
-    if (injector != null) return injector;
-
-    return delegate.createConstructor(constructor, factory);
-  }
-
-
   protected ConstructorInjector ddiConstructor(Class<?> clazz) {
 
     if (new JaxRsActivator().getClasses().contains(clazz)) {
       return new DdiConstructorInjector(clazz);
     } else return null;
-  }
-
-  public PropertyInjector createPropertyInjector(Class resourceClass, ResteasyProviderFactory factory) {
-    return new DdiPropertyInjector(
-        delegate.createPropertyInjector(resourceClass, factory),
-        resourceClass);
-  }
-
-
-  @Override
-  public ValueInjector createParameterExtractor(Parameter parameter, ResteasyProviderFactory providerFactory) {
-    return delegate.createParameterExtractor(parameter, providerFactory);
-  }
-
-  @Override
-  public MethodInjector createMethodInjector(ResourceLocator method, ResteasyProviderFactory factory) {
-    return delegate.createMethodInjector(method, factory);
-  }
-
-  public ValueInjector createParameterExtractor(Class injectTargetClass, AccessibleObject injectTarget, Class type, Type genericType, Annotation[] annotations, ResteasyProviderFactory factory) {
-    return delegate.createParameterExtractor(
-        injectTargetClass,
-        injectTarget, type, genericType, annotations, factory);
-  }
-
-  public ValueInjector createParameterExtractor(Class injectTargetClass, AccessibleObject injectTarget, Class type,
-                                                Type genericType, Annotation[] annotations, boolean useDefault, ResteasyProviderFactory factory) {
-    return delegate.createParameterExtractor(injectTargetClass, injectTarget, type, genericType, annotations, useDefault, factory);
   }
 
 
