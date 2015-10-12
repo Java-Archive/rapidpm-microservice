@@ -6,9 +6,4 @@ package org.rapidpm.microservice.persistence.local.hashmap;
 public class PersistentHashMap {
 
 
-
-
-
-
-
 }

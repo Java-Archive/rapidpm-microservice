@@ -16,6 +16,12 @@ import java.util.Set;
 @ApplicationPath("/rest")
 public class JaxRsActivator extends Application {
 
+  public boolean somethingToDeploy() {
+    final Set<Class<?>> jaxRsActivatorClasses = getClasses();
+    final Set<Object> jaxRsActivatorSingletons = getSingletons();
+    return !(jaxRsActivatorClasses.isEmpty() && jaxRsActivatorSingletons.isEmpty());
+  }
+
   @Override
   public Set<Class<?>> getClasses() {
     final Set<Class<?>> typesAnnotatedWith = DI.getTypesAnnotatedWith(Path.class);
@@ -36,12 +42,5 @@ public class JaxRsActivator extends Application {
   public Set<Object> getSingletons() {
     //TODO DDI aktivieren
     return Collections.emptySet();
-  }
-
-
-  public boolean somethingToDeploy() {
-    final Set<Class<?>> jaxRsActivatorClasses = getClasses();
-    final Set<Object> jaxRsActivatorSingletons = getSingletons();
-    return !(jaxRsActivatorClasses.isEmpty() && jaxRsActivatorSingletons.isEmpty());
   }
 }

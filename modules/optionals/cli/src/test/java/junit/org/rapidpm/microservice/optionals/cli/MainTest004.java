@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.rapidpm.microservice.Main;
-import org.rapidpm.microservice.rest.admin.BasicAdministration;
 import org.rapidpm.microservice.test.RestUtils;
 
 import javax.ws.rs.GET;
@@ -25,7 +24,7 @@ public class MainTest004 {
 
   @Test
   public void test001() throws Exception {
-    Main.main(new String[]{"-"+ CMD_REST_PORT + " 1234"});
+    Main.main(new String[]{"-" + CMD_REST_PORT + " 1234"});
 
     final String restAppPath = Main.CONTEXT_PATH_REST;
     final String generateBasicReqURL = new RestUtils().generateBasicReqURL(PortDemoRest.class, restAppPath);
@@ -48,7 +47,7 @@ public class MainTest004 {
   }
 
   @Path("/portdemo")
-  public static class PortDemoRest{
+  public static class PortDemoRest {
     @GET()
     @Produces("text/plain")
     public String get() {
@@ -56,7 +55,6 @@ public class MainTest004 {
     }
 
   }
-
 
 
 }

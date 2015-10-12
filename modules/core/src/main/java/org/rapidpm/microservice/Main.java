@@ -36,53 +36,24 @@ public class Main {
 
   public static final int DEFAULT_REST_PORT = 7081;
   public static final int DEFAULT_SERVLET_PORT = 7080;
-
-  private static final String RESTEASY_PORT_PROPERTY = "org.jboss.resteasy.port";
-  private static final String RESTEASY_HOST_PROPERTY = "org.jboss.resteasy.host";
-
   public static final String REST_PORT_PROPERTY = "org.rapidpm.microservice.rest.port";
   public static final String REST_HOST_PROPERTY = "org.rapidpm.microservice.rest.host";
   public static final String SERVLET_PORT_PROPERTY = "org.rapidpm.microservice.servlet.port";
   public static final String SERVLET_HOST_PROPERTY = "org.rapidpm.microservice.servlet.host";
   public static final String DEFAULT_HOST = "0.0.0.0";
-
+  private static final String RESTEASY_PORT_PROPERTY = "org.jboss.resteasy.port";
+  private static final String RESTEASY_HOST_PROPERTY = "org.jboss.resteasy.host";
+  private static final Timer TIMER = new Timer(true);
   private static UndertowJaxrsServer jaxrsServer;
   private static Undertow undertowServer;
+  private static Optional<String[]> cliArguments;
 
   private Main() {
   }
 
-  private static Optional<String[]> cliArguments;
-
   public static void main(String[] args) {
     cliArguments = Optional.ofNullable(args);
     deploy(cliArguments);
-  }
-
-  private static final Timer TIMER = new Timer(true);
-
-  public static void stop(long delayMS) {
-    System.out.println("shutdown delay [ms] = " + delayMS);
-    TIMER.schedule(new TimerTask() {
-      @Override
-      public void run() {
-        Main.stop();
-      }
-    }, delayMS);
-  }
-
-  public static void stop() {
-    executeShutdownActions(cliArguments);
-
-    if (jaxrsServer != null) {
-      jaxrsServer.stop();
-    } else if (undertowServer != null) {
-      undertowServer.stop();
-    }
-  }
-
-  public static void deploy() {
-    deploy(Optional.<String[]>empty());
   }
 
   public static void deploy(Optional<String[]> args) {
@@ -115,63 +86,9 @@ public class Main {
 
   }
 
-  private static void deployRestRessources(final Undertow.Builder builder, final JaxRsActivator jaxRsActivator) {
-    final String realRestPort = System.getProperty(REST_PORT_PROPERTY, DEFAULT_REST_PORT + "");
-    final String realRestHost = System.getProperty(REST_HOST_PROPERTY, DEFAULT_HOST);
-
-    System.setProperty(RESTEASY_PORT_PROPERTY, realRestPort);
-    System.setProperty(RESTEASY_HOST_PROPERTY, realRestHost);
-
-    builder.addHttpListener(Integer.parseInt(realRestPort), realRestHost);
-    jaxrsServer = new UndertowJaxrsServer().start(builder);
-    final ResteasyDeployment deployment = new ResteasyDeployment();
-    deployment.setApplication(jaxRsActivator);
-//      deployment.setAsyncJobServiceEnabled(false);
-    deployment.setInjectorFactoryClass(DdiInjectorFactory.class.getCanonicalName());
-    jaxrsServer.deploy(jaxrsServer.undertowDeployment(deployment)
-        .setDeploymentName("Rest")
-        .setContextPath(CONTEXT_PATH_REST)
-        .setClassLoader(Main.class.getClassLoader()));
-  }
-
-  private static void deployServlets(final Undertow.Builder builder, final DeploymentInfo deploymentInfo) throws ServletException {
-    final ServletContainer servletContainer = defaultContainer();
-    DeploymentManager manager = servletContainer.addDeployment(deploymentInfo);
-    manager.deploy();
-    HttpHandler servletHandler = manager.start();
-    PathHandler pathServlet = Handlers
-        .path(Handlers.redirect(MYAPP))
-        .addPrefixPath(MYAPP, servletHandler);
-    final String realServletPort = System.getProperty(SERVLET_PORT_PROPERTY, DEFAULT_SERVLET_PORT + "");
-    final String realServletHost = System.getProperty(SERVLET_HOST_PROPERTY, DEFAULT_HOST);
-
-    builder.addHttpListener(Integer.parseInt(realServletPort), realServletHost, pathServlet);
-  }
-
-  private static <T> List<T> createInstances(final Set<Class<? extends T>> classes) {
-    return classes
-        .stream()
-        .map(c -> {
-          try {
-            return Optional.of(c.newInstance());
-          } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-          }
-          return Optional.<T>empty();
-        })
-        .filter(Optional::isPresent)
-        .map(Optional::get)
-        .collect(Collectors.<T>toList());
-  }
-
   private static void executeStartupActions(final Optional<String[]> args) {
     final Set<Class<? extends MainStartupAction>> classes = DI.getSubTypesOf(MainStartupAction.class);
     createInstances(classes).forEach((mainStartupAction) -> mainStartupAction.execute(args));
-  }
-
-  private static void executeShutdownActions(Optional<String[]> args) {
-    final Set<Class<? extends MainShutdownAction>> classes = DI.getSubTypesOf(MainShutdownAction.class);
-    createInstances(classes).forEach((mainShutdownAction) -> mainShutdownAction.execute(args));
   }
 
   private static DeploymentInfo createServletDeploymentInfos() {
@@ -218,6 +135,84 @@ public class Main {
 //        .setResourceManager(new ClassPathResourceManager(Undertow.class.getClassLoader(),""))
 //            .setResourceManager(new FileResourceManager(new File("src/main/webapp"), 1024))
         .addServlets(servletInfos);
+  }
+
+  private static void deployServlets(final Undertow.Builder builder, final DeploymentInfo deploymentInfo) throws ServletException {
+    final ServletContainer servletContainer = defaultContainer();
+    DeploymentManager manager = servletContainer.addDeployment(deploymentInfo);
+    manager.deploy();
+    HttpHandler servletHandler = manager.start();
+    PathHandler pathServlet = Handlers
+        .path(Handlers.redirect(MYAPP))
+        .addPrefixPath(MYAPP, servletHandler);
+    final String realServletPort = System.getProperty(SERVLET_PORT_PROPERTY, DEFAULT_SERVLET_PORT + "");
+    final String realServletHost = System.getProperty(SERVLET_HOST_PROPERTY, DEFAULT_HOST);
+
+    builder.addHttpListener(Integer.parseInt(realServletPort), realServletHost, pathServlet);
+  }
+
+  private static void deployRestRessources(final Undertow.Builder builder, final JaxRsActivator jaxRsActivator) {
+    final String realRestPort = System.getProperty(REST_PORT_PROPERTY, DEFAULT_REST_PORT + "");
+    final String realRestHost = System.getProperty(REST_HOST_PROPERTY, DEFAULT_HOST);
+
+    System.setProperty(RESTEASY_PORT_PROPERTY, realRestPort);
+    System.setProperty(RESTEASY_HOST_PROPERTY, realRestHost);
+
+    builder.addHttpListener(Integer.parseInt(realRestPort), realRestHost);
+    jaxrsServer = new UndertowJaxrsServer().start(builder);
+    final ResteasyDeployment deployment = new ResteasyDeployment();
+    deployment.setApplication(jaxRsActivator);
+//      deployment.setAsyncJobServiceEnabled(false);
+    deployment.setInjectorFactoryClass(DdiInjectorFactory.class.getCanonicalName());
+    jaxrsServer.deploy(jaxrsServer.undertowDeployment(deployment)
+        .setDeploymentName("Rest")
+        .setContextPath(CONTEXT_PATH_REST)
+        .setClassLoader(Main.class.getClassLoader()));
+  }
+
+  private static <T> List<T> createInstances(final Set<Class<? extends T>> classes) {
+    return classes
+        .stream()
+        .map(c -> {
+          try {
+            return Optional.of(c.newInstance());
+          } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+          }
+          return Optional.<T>empty();
+        })
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .collect(Collectors.<T>toList());
+  }
+
+  public static void stop(long delayMS) {
+    System.out.println("shutdown delay [ms] = " + delayMS);
+    TIMER.schedule(new TimerTask() {
+      @Override
+      public void run() {
+        Main.stop();
+      }
+    }, delayMS);
+  }
+
+  public static void stop() {
+    executeShutdownActions(cliArguments);
+
+    if (jaxrsServer != null) {
+      jaxrsServer.stop();
+    } else if (undertowServer != null) {
+      undertowServer.stop();
+    }
+  }
+
+  private static void executeShutdownActions(Optional<String[]> args) {
+    final Set<Class<? extends MainShutdownAction>> classes = DI.getSubTypesOf(MainShutdownAction.class);
+    createInstances(classes).forEach((mainShutdownAction) -> mainShutdownAction.execute(args));
+  }
+
+  public static void deploy() {
+    deploy(Optional.<String[]>empty());
   }
 
   public interface MainStartupAction {

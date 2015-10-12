@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.optionals.cli.CmdLineSingleton;
-import org.rapidpm.microservice.optionals.cli.DefaultCmdLineOptions;
 
 import java.time.LocalDateTime;
 import java.util.Optional;

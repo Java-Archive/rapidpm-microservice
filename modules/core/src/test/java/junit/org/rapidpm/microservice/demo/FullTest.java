@@ -18,21 +18,18 @@ import java.net.URL;
  */
 public class FullTest {
 
+  private final String url = "http://127.0.0.1:" + Main.DEFAULT_SERVLET_PORT + Main.MYAPP + "/test"; //from Annotation Servlet
+  private final String USER_AGENT = "Mozilla/5.0";
+
   @Before
   public void setUp() throws Exception {
     Main.deploy();
   }
 
-
   @After
   public void tearDown() throws Exception {
     Main.stop();
   }
-
-
-
-  private final String url = "http://127.0.0.1:"+Main.DEFAULT_SERVLET_PORT + Main.MYAPP +"/test"; //from Annotation Servlet
-  private final String USER_AGENT = "Mozilla/5.0";
 
   @Test
   public void testServletGetRequest() throws Exception {

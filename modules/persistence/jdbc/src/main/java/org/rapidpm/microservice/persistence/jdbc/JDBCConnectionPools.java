@@ -14,13 +14,12 @@ public class JDBCConnectionPools {
   private static final Map<String, JDBCConnectionPool> POOL_MAP = new ConcurrentHashMap<>();
   private static JDBCConnectionPools ourInstance = new JDBCConnectionPools();
 
-  public static JDBCConnectionPools instance() {
-    return ourInstance;
-  }
-
   private JDBCConnectionPools() {
   }
 
+  public static JDBCConnectionPools instance() {
+    return ourInstance;
+  }
 
   private JDBCConnectionPools withJDBCConnectionPool(JDBCConnectionPool pool) {
     JDBCConnectionPools.POOL_MAP.put(pool.getPoolname(), pool);

@@ -11,7 +11,7 @@ import javax.ws.rs.client.ClientBuilder;
 /**
  * Created by svenruppert on 07.07.15.
  */
-public class RestTest extends BasicRestTest{
+public class RestTest extends BasicRestTest {
 
 
   @Test
@@ -35,7 +35,6 @@ public class RestTest extends BasicRestTest{
     Assert.assertEquals("Hello Rest World CDI Service", val);
     client.close();
   }
-
 
 
 }

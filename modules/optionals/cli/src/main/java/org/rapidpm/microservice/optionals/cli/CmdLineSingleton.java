@@ -11,16 +11,15 @@ import java.util.Optional;
  */
 public class CmdLineSingleton {
   private static CmdLineSingleton ourInstance = new CmdLineSingleton();
-
-  public static CmdLineSingleton getInstance() {
-    return ourInstance;
-  }
+  private List<Option> cmdLineOptions = new ArrayList<>();
+  private String[] args = new String[]{};
 
   private CmdLineSingleton() {
   }
 
-  private List<Option> cmdLineOptions = new ArrayList<>();
-  private String[] args = new String[]{};
+  public static CmdLineSingleton getInstance() {
+    return ourInstance;
+  }
 
   public Optional<CommandLine> getCommandLine() {
     try {

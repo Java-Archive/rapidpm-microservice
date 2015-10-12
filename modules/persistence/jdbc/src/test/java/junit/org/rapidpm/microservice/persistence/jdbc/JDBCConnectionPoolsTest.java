@@ -56,19 +56,19 @@ public class JDBCConnectionPoolsTest {
     connectionPools.connectPools();
 
     final Connection connection = connectionPools.getDataSource(POOLNAME).getConnection();
-      try {
-        connection.prepareStatement("drop table barcodes if exists;").execute();
-        connection.prepareStatement("create table barcodes (id integer, barcode varchar(20) not null);").execute();
-        connection.prepareStatement("insert into barcodes (id, barcode) values (1, '12345566');").execute();
+    try {
+      connection.prepareStatement("drop table barcodes if exists;").execute();
+      connection.prepareStatement("create table barcodes (id integer, barcode varchar(20) not null);").execute();
+      connection.prepareStatement("insert into barcodes (id, barcode) values (1, '12345566');").execute();
 
-        // query from the db
-        ResultSet rs = connection.prepareStatement("select id, barcode  from barcodes;").executeQuery();
-        rs.next();
-        System.out.println(String.format("ID: %1d, Name: %1s", rs.getInt(1), rs.getString(2)));
+      // query from the db
+      ResultSet rs = connection.prepareStatement("select id, barcode  from barcodes;").executeQuery();
+      rs.next();
+      System.out.println(String.format("ID: %1d, Name: %1s", rs.getInt(1), rs.getString(2)));
 
-      } catch (SQLException e2) {
-        e2.printStackTrace();
-      }
+    } catch (SQLException e2) {
+      e2.printStackTrace();
+    }
 
 
     connectionPools.shutdownPools();

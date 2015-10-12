@@ -1,13 +1,12 @@
 package junit.org.rapidpm.microservice.demo.rest;
 
 import com.google.gson.Gson;
-import junit.org.rapidpm.microservice.demo.service.Service;
 import junit.org.rapidpm.microservice.demo.model.DataHolder;
+import junit.org.rapidpm.microservice.demo.service.Service;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 
 /**
  * Created by svenruppert on 07.06.15.
@@ -28,6 +27,6 @@ public class PojoResource {
     final DataHolder dataHolder = new DataHolder();
     dataHolder.setTxtA("A");
     dataHolder.setTxtb("B");
-    return  new Gson().toJson(dataHolder);
+    return new Gson().toJson(dataHolder);
   }
 }

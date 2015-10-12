@@ -21,7 +21,7 @@ public class MainTest003 {
 
   @Test
   public void test001() throws Exception {
-    Main.main(new String[]{"-"+ CMD_REST_PORT + " 1234"});
+    Main.main(new String[]{"-" + CMD_REST_PORT + " 1234"});
 
     final CommandLine cmd = CmdLineSingleton.getInstance().getCommandLine().get();
     Assert.assertNotNull(cmd);
@@ -31,10 +31,6 @@ public class MainTest003 {
     Assert.assertEquals(optionValue, " 1234");
 
   }
-
-
-
-
 
 
 }

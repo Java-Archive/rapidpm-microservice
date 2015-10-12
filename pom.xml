@@ -6,14 +6,14 @@
   <parent>
     <groupId>org.rapidpm</groupId>
     <artifactId>rapidpm-dependencies</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.0.1-SNAPSHOT</version>
   </parent>
 
 
   <groupId>org.rapidpm.microservice</groupId>
   <artifactId>rapidpm-microservice</artifactId>
   <packaging>pom</packaging>
-  <version>0.0.2-SNAPSHOT</version>
+  <version>0.0.3-SNAPSHOT</version>
 
   <modules>
     <module>modules</module>
@@ -25,6 +25,10 @@
     <name>RapidPM</name>
     <url>http://www.rapidpm.org</url>
   </organization>
+  <url>https://github.com/RapidPM/rapidpm-microservice</url>
+  <name>RapidPM MicroService Framework / Implementation</name>
+  <description>MicroService Implementation for easy usage and fine grained options for production</description>
+
   <scm>
     <url>https://github.com/RapidPM/rapidpm-microservice</url>
     <connection>scm:git:https://github.com/RapidPM/rapidpm-microservice.git</connection>
