@@ -6,9 +6,6 @@ import org.rapidpm.ddi.DI;
 
 import javax.servlet.Servlet;
 
-//import javax.enterprise.inject.Instance;
-//import javax.enterprise.inject.spi.CDI;
-
 /**
  * Created by svenruppert on 31.05.15.
  */
