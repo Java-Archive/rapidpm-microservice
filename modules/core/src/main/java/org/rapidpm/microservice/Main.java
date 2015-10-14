@@ -20,6 +20,9 @@ import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+import javax.ws.rs.Path;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -56,7 +59,9 @@ public class Main {
     deploy(cliArguments);
   }
 
+  private static LocalDateTime deployStart;
   public static void deploy(Optional<String[]> args) {
+    deployStart = LocalDateTime.now();
     DI.bootstrap(); // per config steuern
     executeStartupActions(args);
 
@@ -83,6 +88,62 @@ public class Main {
       undertowServer = builder.build();
       undertowServer.start();
     }
+
+    //print all URLs
+    final Set<Class<?>> typesAnnotatedWith = DI.getTypesAnnotatedWith(WebServlet.class);
+    final Set<Class<?>> restClasses = jaxRsActivator.getClasses();
+    final Set<Object> singletonClasses = jaxRsActivator.getSingletons();
+
+    System.out.println("================= Deployment Summary ================= ");
+    System.out.println("Sum Servlets                   = " + typesAnnotatedWith.size());
+    System.out.println("Sum RestEndpoints              = " + restClasses.size());
+    System.out.println("Sum RestEndpoints (Singletons) = " + singletonClasses.size());
+    System.out.println("================= Deployment Summary ================= ");
+
+
+    System.out.println("");
+    System.out.println("List Servlet - URLs ");
+
+    final String realServletPort = System.getProperty(SERVLET_PORT_PROPERTY, DEFAULT_SERVLET_PORT + "");
+    final String realServletHost = System.getProperty(SERVLET_HOST_PROPERTY, DEFAULT_HOST);
+    for (Class<?> aClass : typesAnnotatedWith) {
+      final WebServlet annotation = aClass.getAnnotation(WebServlet.class);
+      final String[] urlPatterns = annotation.urlPatterns();
+      for (String urlPattern : urlPatterns) {
+//        System.out.println("Class = " + aClass.getName());
+        String url = "http://" + realServletHost + ":" + realServletPort + MYAPP + "/" + urlPattern;
+        System.out.println("url = " + url);
+      }
+    }
+    System.out.println("");
+    System.out.println("List RestEndpoint - URLs");
+    final String realRestPort = System.getProperty(REST_PORT_PROPERTY, DEFAULT_REST_PORT + "");
+    final String realRestHost = System.getProperty(REST_HOST_PROPERTY, DEFAULT_HOST);
+    for (Class<?> aClass : restClasses) {
+      final Path annotation = aClass.getAnnotation(Path.class);
+      final String urlPattern = annotation.value();
+//      System.out.println("Class = " + aClass.getName());
+      String url = "http://" + realRestHost + ":" + realRestPort + CONTEXT_PATH_REST + "/" + urlPattern;
+      System.out.println("url = " + url);
+
+    }
+    System.out.println("");
+    System.out.println("List RestEndpoints (Singletons) URLs");
+    for (Object aClass : singletonClasses) {
+      final Path annotation = aClass.getClass().getAnnotation(Path.class);
+      final String urlPattern = annotation.value();
+//      System.out.println("Class = " + aClass.getName());
+      String url = "http://" + realRestHost + ":" + realRestPort + CONTEXT_PATH_REST + "/" + urlPattern;
+      System.out.println("url = " + url);
+
+    }
+
+
+    System.out.println("");
+    System.out.println("");
+    final LocalDateTime stopTime = LocalDateTime.now();
+    System.out.println(" ############  Startup finished  = " + stopTime + " ############  ");
+    System.out.println(" ############  Startup time [ms] = " + Duration.between(deployStart, stopTime).toMillis() + " ############  ");
 
   }
 
