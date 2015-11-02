@@ -272,7 +272,10 @@ public class Main {
 
   private static void executeShutdownActions(Optional<String[]> args) {
     final Set<Class<? extends MainShutdownAction>> classes = DI.getSubTypesOf(MainShutdownAction.class);
-    createInstances(classes).forEach((mainShutdownAction) -> mainShutdownAction.execute(args));
+    createInstances(classes)
+        .stream()
+        .map(DI::activateDI)
+        .forEach((mainShutdownAction) -> mainShutdownAction.execute(args));
   }
 
   public static void deploy() {
