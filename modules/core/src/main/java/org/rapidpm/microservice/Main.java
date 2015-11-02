@@ -150,7 +150,9 @@ public class Main {
 
   private static void executeStartupActions(final Optional<String[]> args) {
     final Set<Class<? extends MainStartupAction>> classes = DI.getSubTypesOf(MainStartupAction.class);
-    createInstances(classes).forEach((mainStartupAction) -> mainStartupAction.execute(args));
+    createInstances(classes).stream()
+        .map(DI::activateDI)
+        .forEach((mainStartupAction) -> mainStartupAction.execute(args));
   }
 
   private static DeploymentInfo createServletDeploymentInfos() {
