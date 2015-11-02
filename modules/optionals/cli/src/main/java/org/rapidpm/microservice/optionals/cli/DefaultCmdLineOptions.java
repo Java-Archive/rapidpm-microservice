@@ -26,7 +26,7 @@ public class DefaultCmdLineOptions implements Main.MainStartupAction {
     CmdLineSingleton.getInstance().addCmdLineOption(new Option(null, CMD_SERVLET_HOST, true, "Host IP for Servlets"));
 
     final CmdLineSingleton cmdLineSingleton = CmdLineSingleton.getInstance();
-    if (args.isPresent()) cmdLineSingleton.args(args.get());
+//    if (args.isPresent()) cmdLineSingleton.args(args.get());
 
     final Optional<CommandLine> commandLine = cmdLineSingleton.getCommandLine();
     if (commandLine.isPresent()) {

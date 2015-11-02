@@ -61,6 +61,7 @@ public class Main {
 
   private static LocalDateTime deployStart;
   public static void deploy(Optional<String[]> args) {
+    cliArguments = args;
     deployStart = LocalDateTime.now();
     DI.bootstrap(); // per config steuern
     executeStartupActions(args);
