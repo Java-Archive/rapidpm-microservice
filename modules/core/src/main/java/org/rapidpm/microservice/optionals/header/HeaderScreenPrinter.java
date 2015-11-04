@@ -46,7 +46,7 @@ public class HeaderScreenPrinter {
           })
           .map((Function<Class<? extends HeaderInfo>, Optional<HeaderInfo>>) aClass -> {
             try {
-              return Optional.of(aClass.newInstance());
+              return Optional.of(DI.activateDI(aClass.newInstance()));
             } catch (InstantiationException | IllegalAccessException e) {
               e.printStackTrace();
             }
