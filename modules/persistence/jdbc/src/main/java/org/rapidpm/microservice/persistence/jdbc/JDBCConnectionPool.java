@@ -10,16 +10,16 @@ import javax.annotation.Nonnull;
  */
 public class JDBCConnectionPool {
 
-  private String poolname;
+  private final String poolname;
 
-  private String jdbcURL;
-  private String username;
-  private String passwd;
+  private final String jdbcURL;
+  private final String username;
+  private final String passwd;
 
   private final Integer timeout;
-  private boolean autoCommit;
-  private String sqlInit;
-  private String sqlTest;
+  private final boolean autoCommit;
+  private final String sqlInit;
+  private final String sqlTest;
 
   private HikariDataSource dataSource;
 
