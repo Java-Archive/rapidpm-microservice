@@ -51,6 +51,7 @@ public class JDBCConnectionPoolsTest {
         .withJdbcURL("jdbc:hsqldb:file:target/ivadb")
         .withUsername("sa")
         .withPasswd("")
+        .withTimeout(2000)
         .done();
 
     connectionPools.connectPools();

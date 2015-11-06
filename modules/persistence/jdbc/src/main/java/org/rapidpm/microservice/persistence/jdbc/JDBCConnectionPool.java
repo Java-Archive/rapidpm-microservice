@@ -10,15 +10,16 @@ import javax.annotation.Nonnull;
  */
 public class JDBCConnectionPool {
 
-  private String poolname;
+  private final String poolname;
 
-  private String jdbcURL;
-  private String username;
-  private String passwd;
+  private final String jdbcURL;
+  private final String username;
+  private final String passwd;
 
-  private boolean autoCommit;
-  private String sqlInit;
-  private String sqlTest;
+  private final Integer timeout;
+  private final boolean autoCommit;
+  private final String sqlInit;
+  private final String sqlTest;
 
   private HikariDataSource dataSource;
 
@@ -30,6 +31,7 @@ public class JDBCConnectionPool {
     autoCommit = builder.autoCommit;
     sqlInit = builder.sqlInit;
     sqlTest = builder.sqlTest;
+    timeout = builder.timeout;
   }
 
   public static Builder newBuilder() {
@@ -45,6 +47,7 @@ public class JDBCConnectionPool {
     if (passwd != null) dataSource.setPassword(passwd);
     if (sqlInit != null) dataSource.setConnectionInitSql(sqlInit);
     if (sqlTest != null) dataSource.setConnectionTestQuery(sqlTest);
+    if (timeout != null) dataSource.setConnectionTimeout(timeout);
   }
 
   public void close() {
@@ -67,6 +70,7 @@ public class JDBCConnectionPool {
     private boolean autoCommit;
     private String sqlInit;
     private String sqlTest;
+    private Integer timeout;
 
     private Builder() {
     }
@@ -110,6 +114,12 @@ public class JDBCConnectionPool {
     @Nonnull
     public Builder withSqlTest(@Nonnull final String sqlTest) {
       this.sqlTest = sqlTest;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withTimeout(@Nonnull final Integer timeout) {
+      this.timeout = timeout;
       return this;
     }
 
