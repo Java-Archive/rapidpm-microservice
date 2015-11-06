@@ -15,7 +15,7 @@ public class HeaderScreenPrinter {
   public void printOnScreen() {
 
     final Set<Class<? extends HeaderInfo>> typesAnnotatedWith = DI.getSubTypesOf(HeaderInfo.class);
-    if (typesAnnotatedWith.isEmpty()){
+    if (typesAnnotatedWith.isEmpty()) {
       String txt =
           "   ___            _    _____  __  ___        __  ____                              _        \n" +
               "  / _ \\___ ____  (_)__/ / _ \\/  |/  / ____  /  |/  (_)__________  ______ _____  __(_)______ \n" +
