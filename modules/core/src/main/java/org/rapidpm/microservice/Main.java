@@ -16,12 +16,14 @@ import org.rapidpm.microservice.rest.JaxRsActivator;
 import org.rapidpm.microservice.rest.ddi.DdiInjectorFactory;
 import org.rapidpm.microservice.servlet.ServletInstanceFactory;
 
+import javax.net.ssl.SSLContext;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+import java.security.KeyStoreException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -40,6 +42,8 @@ public class Main {
 
   public static final int DEFAULT_REST_PORT = 7081;
   public static final int DEFAULT_SERVLET_PORT = 7080;
+  public static final int DEFAULT_SERVLET_HTTPS_PORT = 7082;
+  public static final int DEFAULT_REST_SSL_PORT = 7083;
   public static final String REST_PORT_PROPERTY = "org.rapidpm.microservice.rest.port";
   public static final String REST_HOST_PROPERTY = "org.rapidpm.microservice.rest.host";
   public static final String SERVLET_PORT_PROPERTY = "org.rapidpm.microservice.servlet.port";
@@ -51,6 +55,9 @@ public class Main {
   private static UndertowJaxrsServer jaxrsServer;
   private static Undertow undertowServer;
   private static Optional<String[]> cliArguments;
+  private static SSLContext sslContext;
+
+
 
   private Main() {
   }
@@ -70,7 +77,8 @@ public class Main {
 
     final Undertow.Builder builder = Undertow.builder()
         .setDirectBuffers(true)
-        .setServerOption(UndertowOptions.ENABLE_HTTP2, true);
+        .setServerOption(UndertowOptions.ENABLE_HTTP2, false);
+
 
     // deploy servlets
     DeploymentInfo deploymentInfo = createServletDeploymentInfos();
@@ -170,6 +178,9 @@ public class Main {
     final String realServletHost = System.getProperty(SERVLET_HOST_PROPERTY, DEFAULT_HOST);
 
     builder.addHttpListener(Integer.parseInt(realServletPort), realServletHost, pathServlet);
+    if(sslContext != null) {
+      builder.addHttpsListener(DEFAULT_SERVLET_HTTPS_PORT, realServletHost, sslContext, pathServlet);
+    }
   }
 
   private static void deployRestRessources(final Undertow.Builder builder, final JaxRsActivator jaxRsActivator) {
@@ -180,6 +191,9 @@ public class Main {
     System.setProperty(RESTEASY_HOST_PROPERTY, realRestHost);
 
     builder.addHttpListener(Integer.parseInt(realRestPort), realRestHost);
+    if(sslContext != null) {
+      builder.addHttpsListener(DEFAULT_REST_SSL_PORT, realRestHost, sslContext);
+    }
     jaxrsServer = new UndertowJaxrsServer().start(builder);
     final ResteasyDeployment deployment = new ResteasyDeployment();
     deployment.setApplication(jaxRsActivator);
@@ -237,6 +251,10 @@ public class Main {
 
   public static void deploy() {
     deploy(Optional.<String[]>empty());
+  }
+
+  public static void setSSLContext(SSLContext psslContext) {
+    sslContext = psslContext;
   }
 
   public interface MainStartupAction {

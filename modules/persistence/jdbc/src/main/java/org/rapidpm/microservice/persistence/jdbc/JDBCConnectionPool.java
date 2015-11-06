@@ -4,6 +4,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.rapidpm.proxybuilder.basepattern.builder.NestedBuilder;
 
 import javax.annotation.Nonnull;
+import java.sql.SQLException;
 
 /**
  * Created by svenruppert on 13.07.15.
@@ -22,6 +23,7 @@ public class JDBCConnectionPool {
   private final String sqlTest;
 
   private HikariDataSource dataSource;
+  private int timeout;
 
   private JDBCConnectionPool(final Builder builder) {
     poolname = builder.poolname;
@@ -44,6 +46,13 @@ public class JDBCConnectionPool {
     dataSource.setUsername(username);
     dataSource.setPoolName(poolname);
     dataSource.setAutoCommit(autoCommit);
+
+    try {
+      dataSource.setLoginTimeout(timeout);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
     if (passwd != null) dataSource.setPassword(passwd);
     if (sqlInit != null) dataSource.setConnectionInitSql(sqlInit);
     if (sqlTest != null) dataSource.setConnectionTestQuery(sqlTest);
