@@ -36,14 +36,15 @@ public class SslStartup implements Main.MainStartupAction {
                 String optionValue = commandLine.getOptionValue("key", "macrosreply");
                 String keystore = commandLine.getOptionValue("keystore");
                 FileInputStream fileInputStream = new FileInputStream(keystore);
-                KeyStore jks = KeyStore.getInstance("JKS");
+                KeyStore jks = KeyStore.getInstance(KeyStore.getDefaultType());
                 jks.load(fileInputStream, optionValue.toCharArray());
                 Enumeration<String> aliases = jks.aliases();
                 String alias = aliases.nextElement();
-                PrivateKey key = (PrivateKey) jks.getKey(alias, "macrosreply".toCharArray());
+                PrivateKey key = (PrivateKey) jks.getKey(alias, optionValue.toCharArray());
                 X509Certificate certificate = (X509Certificate) jks.getCertificate(alias);
 
-                SSLContext sslContext = SSLCertificateHelper.createSSLContext(certificate, key);
+               SSLContext sslContext = SSLCertificateHelper.createSSLContext(certificate, key);
+                //SSLContext sslContext = SSLCertificateHelper.createSSLContext();
                 setSSLContextInMain(sslContext);
 
             }
@@ -52,11 +53,6 @@ public class SslStartup implements Main.MainStartupAction {
             }
 
         }
-
-
-
-
-
 
     }
 

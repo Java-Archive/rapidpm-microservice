@@ -30,7 +30,7 @@ public class SSLTest {
         String path = this.getClass().getResource("/keystore.jks").getPath();
         List<String> argList = new ArrayList<>();
         argList.add("-key");
-        argList.add("macrosreply");
+        argList.add("test");
         argList.add("-keystore");
         argList.add(path);
         Main.deploy(Optional.of(argList.toArray(new String[0])));
@@ -71,7 +71,7 @@ public class SSLTest {
         }
         in.close();
         System.out.println("response = " + response);
-        Assert.assertEquals("Hello World CDI Service", response.toString());
+        Assert.assertEquals("Hello World", response.toString());
         //print result
 
     }
@@ -123,7 +123,7 @@ public class SSLTest {
         in.close();
 
         //print result
-        Assert.assertEquals("Hello World CDI Service", response.toString());
+        Assert.assertEquals("Hello World", response.toString());
 
 
     }

@@ -15,6 +15,7 @@ public class SSLCertificateHelper {
 
 
     private static final String password = "macrosreply";
+    private static String DEFAULT_ALGRYTHM = "SHA256withRSA";;
 
     private static X509Certificate createSignedCertificate(X509Certificate cetrificate, X509Certificate issuerCertificate, PrivateKey issuerPrivateKey) {
         try {
@@ -23,7 +24,7 @@ public class SSLCertificateHelper {
 
             byte[] inCertBytes = cetrificate.getTBSCertificate();
             X509CertInfo info = new X509CertInfo(inCertBytes);
-            info.set(X509CertInfo.ISSUER, (X500Name) issuer);
+            info.set(X509CertInfo.ISSUER, issuer);
 
             //No need to add the BasicContraint for leaf cert
             if (!cetrificate.getSubjectDN().getName().equals("CN=TOP")) {
@@ -44,7 +45,7 @@ public class SSLCertificateHelper {
     }
 
     private static KeyStore createKeyStoreFromChain(String alias, char[] password, Key key, X509Certificate[] chain) throws Exception {
-        KeyStore keyStore = KeyStore.getInstance("jks");
+        KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
         keyStore.load(null, null);
 
         keyStore.setKeyEntry(alias, key, password, chain);
@@ -58,17 +59,17 @@ public class SSLCertificateHelper {
             KeyStore keyStore = createKeyStoreFromChain("Test", password.toCharArray(), keyChain.topPrivateKey, keyChain.chain);
 
             // Create key manager
-            KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance("SunX509");
+            KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
             keyManagerFactory.init(keyStore, password.toCharArray());
             KeyManager[] km = keyManagerFactory.getKeyManagers();
 
             // Create trust manager
-            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance("SunX509");
+            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
             trustManagerFactory.init(keyStore);
             TrustManager[] tm = trustManagerFactory.getTrustManagers();
 
             // Initialize SSLContext
-            SSLContext sslContext = SSLContext.getInstance("TLSv1");
+            SSLContext sslContext = SSLContext.getInstance("SSL");
             sslContext.init(km, tm, null);
 
             return sslContext;
@@ -83,22 +84,23 @@ public class SSLCertificateHelper {
     public static KeyChain createKeyChain() {
         try {
             //Generate ROOT certificate
-            CertAndKeyGen keyGen = new CertAndKeyGen("RSA", "SHA1WithRSA", null);
-            keyGen.generate(1024);
+            CertAndKeyGen keyGen = new CertAndKeyGen("RSA", DEFAULT_ALGRYTHM, null);
+            keyGen.generate(2048);
             PrivateKey rootPrivateKey = keyGen.getPrivateKey();
 
             X509Certificate rootCertificate = keyGen.getSelfCertificate(new X500Name("CN=ROOT"), (long) 365 * 24 * 60 * 60);
 
             //Generate intermediate certificate
-            CertAndKeyGen keyGen1 = new CertAndKeyGen("RSA", "SHA1WithRSA", null);
-            keyGen1.generate(1024);
+            CertAndKeyGen keyGen1 = new CertAndKeyGen("RSA", DEFAULT_ALGRYTHM, null);
+            keyGen1.generate(2048);
             PrivateKey middlePrivateKey = keyGen1.getPrivateKey();
 
             X509Certificate middleCertificate = keyGen1.getSelfCertificate(new X500Name("CN=MIDDLE"), (long) 365 * 24 * 60 * 60);
 
             //Generate leaf certificate
-            CertAndKeyGen keyGen2 = new CertAndKeyGen("RSA", "SHA1WithRSA", null);
-            keyGen2.generate(1024);
+
+            CertAndKeyGen keyGen2 = new CertAndKeyGen("RSA", DEFAULT_ALGRYTHM, null);
+            keyGen2.generate(2048);
             PrivateKey topPrivateKey = keyGen2.getPrivateKey();
 
             X509Certificate topCertificate = keyGen2.getSelfCertificate(new X500Name("CN=TOP"), (long) 365 * 24 * 60 * 60);
@@ -127,7 +129,7 @@ public class SSLCertificateHelper {
     public static SSLContext createSSLContext(X509Certificate rootCertificate, PrivateKey key) {
         try {
             //Generate leaf certificate
-            CertAndKeyGen keyGen2 = new CertAndKeyGen("RSA", "SHA1WithRSA", null);
+            CertAndKeyGen keyGen2 = new CertAndKeyGen("RSA", DEFAULT_ALGRYTHM, null);
             keyGen2.generate(1024);
             PrivateKey topPrivateKey = keyGen2.getPrivateKey();
             X509Certificate topCertificate = keyGen2.getSelfCertificate(new X500Name("CN=TOP"), (long) 365 * 24 * 60 * 60);
@@ -142,18 +144,19 @@ public class SSLCertificateHelper {
             KeyStore keyStore = createKeyStoreFromChain("Test", password.toCharArray(), topPrivateKey, chain);
 
             // Create key manager
-            KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance("SunX509");
+            KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
             keyManagerFactory.init(keyStore, password.toCharArray());
             KeyManager[] km = keyManagerFactory.getKeyManagers();
 
             // Create trust manager
-            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance("SunX509");
+            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
             trustManagerFactory.init(keyStore);
             TrustManager[] tm = trustManagerFactory.getTrustManagers();
 
             // Initialize SSLContext
-            SSLContext sslContext = SSLContext.getInstance("TLSv1");
-            sslContext.init(km, tm, null);
+            SSLContext sslContext = SSLContext.getInstance("SSL");
+            sslContext.init(km, tm, SecureRandom.getInstanceStrong());
+
 
             return sslContext;
         } catch (Exception ex) {
