@@ -11,5 +11,17 @@
 
   <artifactId>rapidpm-microservice-modules-optionals-metrics-health</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.rapidpm.microservice</groupId>
+            <artifactId>rapidpm-microservice-modules-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+
+    </dependencies>
+
 
 </project>
