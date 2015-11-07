@@ -101,8 +101,12 @@ public class SessionHealthTest  {
         }
         in.close();
         System.out.println("response = " + response);
-        Assert.assertEquals("Hello World CDI Service", response.toString());
-        //print result
+        Gson gson = new Gson();
+
+        SessionHealthInfo[] sessionHealthInfo = gson.fromJson(response.toString(),SessionHealthInfo[].class );
+
+        Assert.assertEquals(3L,sessionHealthInfo[0].activeSessionCount);
+//print result
 
 
     }
