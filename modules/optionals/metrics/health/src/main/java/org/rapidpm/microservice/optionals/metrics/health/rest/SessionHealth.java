@@ -2,6 +2,7 @@ package org.rapidpm.microservice.optionals.metrics.health.rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.undertow.server.session.SessionManager;
 import io.undertow.server.session.SessionManagerStatistics;
 import io.undertow.servlet.Servlets;
 import io.undertow.servlet.api.Deployment;
@@ -29,7 +30,7 @@ public class SessionHealth {
         .map(servletContainer::getDeployment)
         .map(DeploymentManager::getDeployment)
         .map(Deployment::getSessionManager)
-        .map(sm -> (SessionManagerStatistics) sm)
+        .map(sm -> (SessionManager & SessionManagerStatistics) sm)
         .map(SessionHealthInfo::fromStatistics)
         .collect(Collectors.toList());
 
