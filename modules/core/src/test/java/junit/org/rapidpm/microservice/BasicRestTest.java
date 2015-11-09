@@ -2,6 +2,7 @@ package junit.org.rapidpm.microservice;
 
 import org.junit.After;
 import org.junit.Before;
+import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.test.RestUtils;
 
@@ -12,12 +13,17 @@ public class BasicRestTest {
 
   @Before
   public void setUp() throws Exception {
+
+    DI.clearReflectionModel();
+    DI.activatePackages("org.rapidpm");
+    DI.activatePackages(this.getClass().getPackage().getName());
     Main.deploy();
   }
 
   @After
   public void tearDown() throws Exception {
     Main.stop();
+    DI.clearReflectionModel();
   }
 
   public String generateBasicReqURL(Class restClass) {
