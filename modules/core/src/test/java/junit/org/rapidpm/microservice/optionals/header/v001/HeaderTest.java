@@ -13,13 +13,16 @@ public class HeaderTest {
 
   @Before
   public void setUp() throws Exception {
-    DI.activateDI(this.getClass().getPackage().getName());
+    DI.clearReflectionModel();
+    DI.activatePackages("org.rapidpm");
+    DI.activatePackages(this.getClass().getPackage().getName());
     Main.deploy();
   }
 
   @After
   public void tearDown() throws Exception {
     Main.stop();
+    DI.clearReflectionModel();
   }
 
 
