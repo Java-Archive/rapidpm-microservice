@@ -128,7 +128,7 @@ public class JDBCConnectionPool {
     }
 
     @Nonnull
-    public Builder withJdbcDriverClassName(String jdbcDriverClassName){
+    public Builder withJdbcDriverClassName(String jdbcDriverClassName) {
       this.jdbcDriverClassName = jdbcDriverClassName;
       return this;
     }

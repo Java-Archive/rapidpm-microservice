@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.undertow.server.session.SessionManagerStatistics;
 import io.undertow.servlet.Servlets;
+import io.undertow.servlet.api.Deployment;
+import io.undertow.servlet.api.DeploymentManager;
 import io.undertow.servlet.api.ServletContainer;
 import org.rapidpm.microservice.optionals.metrics.health.rest.api.SessionHealthInfo;
 
@@ -19,19 +21,19 @@ import java.util.stream.Collectors;
 @Path("/metrics/health")
 public class SessionHealth {
 
-    @GET()
-    @Produces("application/json")
-    public String getServletHealth(){
-        ServletContainer servletContainer = Servlets.defaultContainer();
-        List<SessionHealthInfo> sessionHealthInfos = servletContainer.listDeployments().stream()
-                .map(dn -> servletContainer.getDeployment(dn))
-                .map(dm -> dm.getDeployment())
-                .map(d -> d.getSessionManager())
-                .map(sm -> (SessionManagerStatistics) sm)
-                .map(SessionHealthInfo::fromStatistics)
-                .collect(Collectors.toList());
+  @GET()
+  @Produces("application/json")
+  public String getServletHealth() {
+    ServletContainer servletContainer = Servlets.defaultContainer();
+    List<SessionHealthInfo> sessionHealthInfos = servletContainer.listDeployments().stream()
+        .map(servletContainer::getDeployment)
+        .map(DeploymentManager::getDeployment)
+        .map(Deployment::getSessionManager)
+        .map(sm -> (SessionManagerStatistics) sm)
+        .map(SessionHealthInfo::fromStatistics)
+        .collect(Collectors.toList());
 
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        return gson.toJson(sessionHealthInfos);
-    }
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    return gson.toJson(sessionHealthInfos);
+  }
 }
