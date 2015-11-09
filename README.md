@@ -8,9 +8,9 @@ The base configuration will start Servlets at port 7080 and REST-Endpoints at 70
 
 build:
 + master:
-[![Build Status](https://travis-ci.org/RapidPM/dynamic-cdi.svg?branch=master)](https://travis-ci.org/RapidPM/dynamic-cdi)
+[![Build Status](https://travis-ci.org/RapidPM/rapidpm-microservice.svg?branch=master)](https://travis-ci.org/RapidPM/rapidpm-microservice)
 + develop:
-[![Build Status](https://travis-ci.org/RapidPM/dynamic-cdi.svg?branch=develop)](https://travis-ci.org/RapidPM/dynamic-cdi)
+[![Build Status](https://travis-ci.org/RapidPM/rapidpm-microservice.svg?branch=develop)](https://travis-ci.org/RapidPM/rapidpm-microservice)
 
 
 
