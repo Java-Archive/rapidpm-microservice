@@ -15,6 +15,6 @@ jdk:
 #  - openjdk6
 
 install: true
-travis
+
 after_success:
   - mvn clean cobertura:cobertura coveralls:report
