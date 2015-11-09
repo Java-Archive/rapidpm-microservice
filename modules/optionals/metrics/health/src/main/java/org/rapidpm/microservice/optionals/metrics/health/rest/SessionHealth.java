@@ -31,7 +31,8 @@ public class SessionHealth {
         .map(DeploymentManager::getDeployment)
         .map(Deployment::getSessionManager)
         .map(sm -> (SessionManager & SessionManagerStatistics) sm)
-        .map(SessionHealthInfo::fromStatistics)
+//        .map(SessionHealthInfo::fromStatistics)
+        .map(SessionHealthInfo::new)
         .collect(Collectors.toList());
 
     Gson gson = new GsonBuilder().setPrettyPrinting().create();

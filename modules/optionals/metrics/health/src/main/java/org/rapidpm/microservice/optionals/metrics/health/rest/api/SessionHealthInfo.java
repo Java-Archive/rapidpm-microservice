@@ -40,9 +40,9 @@ public class SessionHealthInfo {
     transientSessions = sessionManager.getTransientSessions();
   }
 
-  public static <T extends SessionManager & SessionManagerStatistics> SessionHealthInfo fromStatistics(T statistics) {
-    return new SessionHealthInfo(statistics);
-  }
+//  public static <T extends SessionManager & SessionManagerStatistics> SessionHealthInfo fromStatistics(T statistics) {
+//    return new SessionHealthInfo(statistics);
+//  }
 
 
   @Override
