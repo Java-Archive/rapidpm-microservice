@@ -20,6 +20,7 @@ public class JDBCConnectionPool {
   private final boolean autoCommit;
   private final String sqlInit;
   private final String sqlTest;
+  private final String jdbcDriverClassName;
 
   private HikariDataSource dataSource;
 
@@ -32,6 +33,7 @@ public class JDBCConnectionPool {
     sqlInit = builder.sqlInit;
     sqlTest = builder.sqlTest;
     timeout = builder.timeout;
+    jdbcDriverClassName = builder.jdbcDriverClassName;
   }
 
   public static Builder newBuilder() {
@@ -48,6 +50,7 @@ public class JDBCConnectionPool {
     if (sqlInit != null) dataSource.setConnectionInitSql(sqlInit);
     if (sqlTest != null) dataSource.setConnectionTestQuery(sqlTest);
     if (timeout != null) dataSource.setConnectionTimeout(timeout);
+    if (jdbcDriverClassName != null) dataSource.setDriverClassName(jdbcDriverClassName);
   }
 
   public void close() {
@@ -71,6 +74,7 @@ public class JDBCConnectionPool {
     private String sqlInit;
     private String sqlTest;
     private Integer timeout;
+    public String jdbcDriverClassName;
 
     private Builder() {
     }
@@ -120,6 +124,12 @@ public class JDBCConnectionPool {
     @Nonnull
     public Builder withTimeout(@Nonnull final Integer timeout) {
       this.timeout = timeout;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withJdbcDriverClassName(String jdbcDriverClassName){
+      this.jdbcDriverClassName = jdbcDriverClassName;
       return this;
     }
 
