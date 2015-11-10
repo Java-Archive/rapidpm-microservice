@@ -1,10 +1,12 @@
 package org.rapidpm.microservice.optionals.metrics.health.rest;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.optionals.metrics.health.rest.api.SessionHealthInfo;
 import org.rapidpm.microservice.test.RestUtils;
@@ -16,9 +18,11 @@ import javax.ws.rs.core.Response;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 /**
  * Created by b.bosch on 04.11.2015.
@@ -30,12 +34,16 @@ public class SessionHealthTest  {
 
     @Before
     public void startUp(){
+        DI.clearReflectionModel();
+        DI.activatePackages("org.rapidpm");
+        DI.activatePackages("junit.org.rapidpm");
         Main.deploy();
     }
     
     @After
     public void tearDown(){
         Main.stop();
+        DI.clearReflectionModel();
     }
     
     @Test
@@ -103,12 +111,9 @@ public class SessionHealthTest  {
         System.out.println("response = " + response);
         Gson gson = new Gson();
 
-        SessionHealthInfo[] sessionHealthInfo = gson.fromJson(response.toString(),SessionHealthInfo[].class );
-
-        Assert.assertEquals(3L,sessionHealthInfo[0].activeSessionCount);
-//print result
-
-
+        final Type listType = new TypeToken<List<SessionHealthInfo>>() {}.getType();
+        final List<SessionHealthInfo> sessionHealthInfos = gson.fromJson(response.toString(), listType);
+        Assert.assertEquals(3L,sessionHealthInfos.get(0).activeSessionCount);
     }
 
     public void generateSession() throws IOException {
