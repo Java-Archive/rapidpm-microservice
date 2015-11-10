@@ -1,8 +1,5 @@
 package org.rapidpm.microservice.optionals.metrics.health.rest;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import io.undertow.server.session.SessionManager;
 import io.undertow.server.session.SessionManagerStatistics;
 import io.undertow.servlet.Servlets;
@@ -15,8 +12,6 @@ import org.rapidpm.microservice.optionals.metrics.health.rest.api.SessionHealthI
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

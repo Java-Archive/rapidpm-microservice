@@ -12,24 +12,26 @@ import java.util.List;
  */
 public class SessionHealthInfoJsonConverter {
 
-  private static final Type listType = new TypeToken<List<SessionHealthInfo>>() {}.getType();
+    private static final Type LIST_TYPE = new TypeToken<List<SessionHealthInfo>>() {
+    }.getType();
 
-  public List<SessionHealthInfo> fromJsonList(String json){
-    return new Gson().fromJson(json, listType);
-  }
-  public SessionHealthInfo fromJsonElement(String json){
-    return new Gson().fromJson(json, SessionHealthInfo.class);
-  }
+    public List<SessionHealthInfo> fromJsonList(String json) {
+        return new Gson().fromJson(json, LIST_TYPE);
+    }
+
+    public SessionHealthInfo fromJsonElement(String json) {
+        return new Gson().fromJson(json, SessionHealthInfo.class);
+    }
 
 
-  public String toJson(List<SessionHealthInfo> sessionHealthInfos){
-    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    return gson.toJson(sessionHealthInfos, listType);
-  }
+    public String toJson(List<SessionHealthInfo> sessionHealthInfos) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(sessionHealthInfos, LIST_TYPE);
+    }
 
-  public String toJson(SessionHealthInfo sessionHealthInfos){
-    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    return gson.toJson(sessionHealthInfos, SessionHealthInfo.class);
-  }
+    public String toJson(SessionHealthInfo sessionHealthInfos) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(sessionHealthInfos, SessionHealthInfo.class);
+    }
 
 }
