@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.optionals.metrics.health.rest.api.SessionHealthInfo;
+import org.rapidpm.microservice.optionals.metrics.health.rest.api.SessionHealthInfoJsonConverter;
 import org.rapidpm.microservice.test.RestUtils;
 
 import javax.ws.rs.client.Client;
@@ -108,12 +109,12 @@ public class SessionHealthTest  {
             response.append(inputLine);
         }
         in.close();
-        System.out.println("response = " + response);
-        Gson gson = new Gson();
 
-        final Type listType = new TypeToken<List<SessionHealthInfo>>() {}.getType();
-        final List<SessionHealthInfo> sessionHealthInfos = gson.fromJson(response.toString(), listType);
-        Assert.assertEquals(3L,sessionHealthInfos.get(0).activeSessionCount);
+        final String jsonResponse = response.toString();
+        Assert.assertFalse(jsonResponse.isEmpty());
+
+        final List<SessionHealthInfo> healthInfos = new SessionHealthInfoJsonConverter().fromJsonList(jsonResponse);
+        Assert.assertEquals(3L,healthInfos.get(0).activeSessionCount);
     }
 
     public void generateSession() throws IOException {

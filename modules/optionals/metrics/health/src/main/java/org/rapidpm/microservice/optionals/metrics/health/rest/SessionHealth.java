@@ -26,8 +26,6 @@ import java.util.stream.Collectors;
 @Path("/metrics/health")
 public class SessionHealth {
 
-  private final Type listType = new TypeToken<List<SessionHealthInfo>>() {}.getType();
-
   @GET()
   @Produces("application/json")
   public String getServletHealth() {
