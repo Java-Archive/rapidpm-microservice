@@ -18,6 +18,7 @@
     <module>core</module>
     <module>optionals</module>
     <module>persistence</module>
+    <module>tools</module>
   </modules>
 
 

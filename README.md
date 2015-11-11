@@ -45,6 +45,7 @@ If you are using maven you could add the following to your settings.xml to get t
     </profile>
 ```
 
+
 ## Examples
 
 See [rapidpm-microservice-examples](https://github.com/RapidPM/rapidpm-microservice-examples) for more demos
