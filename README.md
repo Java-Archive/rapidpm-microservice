@@ -9,6 +9,7 @@ The base configuration will start Servlets at port 7080 and REST-Endpoints at 70
 [![Build Status - drone.io](https://drone.io/github.com/RapidPM/rapidpm-microservice/status.png)](https://drone.io/github.com/RapidPM/rapidpm-microservice/latest)
 
 branch
+
 master:
 [![Build Status](https://travis-ci.org/RapidPM/rapidpm-microservice.svg?branch=master)](https://travis-ci.org/RapidPM/rapidpm-microservice)
 [![Dependency Status](https://www.versioneye.com/user/projects/55a3a45e3239390021000540/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55a3a45e3239390021000540)
