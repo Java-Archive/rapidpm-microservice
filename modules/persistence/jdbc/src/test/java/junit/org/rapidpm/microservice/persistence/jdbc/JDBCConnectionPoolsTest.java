@@ -1,7 +1,9 @@
 package junit.org.rapidpm.microservice.persistence.jdbc;
 
+import com.zaxxer.hikari.HikariDataSource;
 import org.hsqldb.server.Server;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.rapidpm.microservice.persistence.jdbc.JDBCConnectionPools;
@@ -76,5 +78,10 @@ public class JDBCConnectionPoolsTest {
 
   }
 
+  @Test
+  public void testGetNoneExistent(){
+    HikariDataSource nope = JDBCConnectionPools.instance().getDataSource("Nope");
+    Assert.assertEquals(null, nope);
+  }
 
 } 
