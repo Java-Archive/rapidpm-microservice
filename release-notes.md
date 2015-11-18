@@ -7,6 +7,7 @@
 
 # 0.0.4
 * added Header Infos
+* fixed bug which used the port for servlets even if there where none
 
 
 

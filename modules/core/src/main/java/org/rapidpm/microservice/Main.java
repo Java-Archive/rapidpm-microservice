@@ -136,6 +136,7 @@ public class Main {
           }
           return servletInfo;
         })
+        .filter(servletInfo -> !servletInfo.getMappings().isEmpty())
         .collect(Collectors.toList());
 
     final Set<Class<?>> weblisteners = DI.getTypesAnnotatedWith(WebListener.class);
