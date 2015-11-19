@@ -16,11 +16,15 @@ public class ActiveUrlPrinter {
   public void printActiveURLs(final JaxRsActivator jaxRsActivator) {
     //print all URLs
     final Set<Class<?>> typesAnnotatedWith = DI.getTypesAnnotatedWith(WebServlet.class);
+    long servletCount = typesAnnotatedWith.stream()
+            .map(aClass1 -> aClass1.getAnnotation(WebServlet.class))
+            .filter(ws -> ws.urlPatterns().length > 0)
+            .count();
     final Set<Class<?>> restClasses = jaxRsActivator.getClasses();
     final Set<Object> singletonClasses = jaxRsActivator.getSingletons();
 
     System.out.println("================= Deployment Summary ================= ");
-    System.out.println("Sum Servlets                   = " + typesAnnotatedWith.size());
+    System.out.println("Sum Servlets                   = " + servletCount);
     System.out.println("Sum RestEndpoints              = " + restClasses.size());
     System.out.println("Sum RestEndpoints (Singletons) = " + singletonClasses.size());
     System.out.println("================= Deployment Summary ================= ");
@@ -36,7 +40,7 @@ public class ActiveUrlPrinter {
       final String[] urlPatterns = annotation.urlPatterns();
       for (String urlPattern : urlPatterns) {
 //        System.out.println("Class = " + aClass.getName());
-        String url = "http://" + realServletHost + ":" + realServletPort + Main.MYAPP + "/" + urlPattern;
+        String url = "http://" + realServletHost + ":" + realServletPort + Main.MYAPP + urlPattern;
         System.out.println("url = " + url);
       }
     }
@@ -48,7 +52,7 @@ public class ActiveUrlPrinter {
       final Path annotation = aClass.getAnnotation(Path.class);
       final String urlPattern = annotation.value();
 //      System.out.println("Class = " + aClass.getName());
-      String url = "http://" + realRestHost + ":" + realRestPort + Main.CONTEXT_PATH_REST + "/" + urlPattern;
+      String url = "http://" + realRestHost + ":" + realRestPort + Main.CONTEXT_PATH_REST + urlPattern;
       System.out.println("url = " + url);
 
     }
@@ -58,7 +62,7 @@ public class ActiveUrlPrinter {
       final Path annotation = aClass.getClass().getAnnotation(Path.class);
       final String urlPattern = annotation.value();
 //      System.out.println("Class = " + aClass.getName());
-      String url = "http://" + realRestHost + ":" + realRestPort + Main.CONTEXT_PATH_REST + "/" + urlPattern;
+      String url = "http://" + realRestHost + ":" + realRestPort + Main.CONTEXT_PATH_REST + urlPattern;
       System.out.println("url = " + url);
 
     }
