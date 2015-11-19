@@ -86,6 +86,7 @@ public class CmdLineStartupActionExecutor implements Main.MainStartupAction {
                 })
                 .filter(Optional::isPresent)
                 .map(Optional::get)
+                .map(DI::activateDI)
                 .collect(Collectors.<T>toList());
     }
 }
