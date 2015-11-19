@@ -4,7 +4,9 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.Main;
+import org.rapidpm.microservice.optionals.cli.helper.ExitHelper;
 
+import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -14,6 +16,9 @@ import java.util.stream.Collectors;
  * Created by b.bosch on 18.11.2015.
  */
 public class CmdLineStartupActionExecutor implements Main.MainStartupAction {
+    @Inject
+    private ExitHelper exitHelper;
+
     public static final String CMD_HELP = "h";
 
     @Override
@@ -37,7 +42,7 @@ public class CmdLineStartupActionExecutor implements Main.MainStartupAction {
                     .append("\n")
                     .append(CmdLineSingleton.getInstance().getHelpText()).toString();
             System.out.println(message);
-            System.exit(1);
+            exitHelper.exit(1);
         }
     }
 
@@ -59,7 +64,7 @@ public class CmdLineStartupActionExecutor implements Main.MainStartupAction {
             final CommandLine cmdLine = commandLine.get();
             if (cmdLine.hasOption(CMD_HELP)) {
                 System.out.println(cmdLineSingleton.getHelpText());
-                System.exit(0);
+                exitHelper.exit(0);
             }
             startupActionInstances.stream().forEach(cmdLineStartupAction -> cmdLineStartupAction.execute(cmdLine));
         }

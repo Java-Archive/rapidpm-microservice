@@ -21,15 +21,13 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * Created by b.bosch on 19.11.2015.
  */
-public class MainTest005 extends BaseCmdlineTest {
+public class MainTest006 extends BaseCmdlineTest {
 
     @Test
     public void test001() throws Throwable {
-        final String[] args = {"-trololo", "-jolo"};
-        final int expectedStatus = 1;
-        final int status = startAndGetExit(args);
+        String[] args = {"-h"};
+        int status = startAndGetExit(args);
+        int expectedStatus = 0;
         Assert.assertEquals("System.exit must be called with the value of " + expectedStatus, expectedStatus, status);
     }
-
-
 }

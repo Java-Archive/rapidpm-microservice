@@ -21,14 +21,24 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * Created by b.bosch on 19.11.2015.
  */
-public class MainTest005 extends BaseCmdlineTest {
+public class MainTest007 {
+
 
     @Test
-    public void test001() throws Throwable {
-        final String[] args = {"-trololo", "-jolo"};
-        final int expectedStatus = 1;
-        final int status = startAndGetExit(args);
-        Assert.assertEquals("System.exit must be called with the value of " + expectedStatus, expectedStatus, status);
+    public void test001() throws Exception {
+        DI.clearReflectionModel();
+        DI.activatePackages(CmdStartup1.class.getPackage().getName());
+        Main.deploy(Optional.empty());
+
+        String helpText = CmdLineSingleton.getInstance().getHelpText();
+        Assert.assertTrue(helpText.contains(CmdStartup1.DESCRIPTION));
+        Assert.assertTrue(helpText.contains(CmdStartup1.LONGOPT));
+        Assert.assertTrue(helpText.contains(CmdStartup1.OPT));
+        Assert.assertTrue(helpText.contains(CmdStartup2.DESCRIPTION));
+        Assert.assertTrue(helpText.contains(CmdStartup2.LONGOPT));
+        Assert.assertTrue(helpText.contains(CmdStartup2.OPT));
+
+        Main.stop();
     }
 
 
