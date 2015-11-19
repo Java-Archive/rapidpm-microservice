@@ -21,7 +21,24 @@ public class CmdLineStartupActionExecutor implements Main.MainStartupAction {
         addHelpOption();
         List<CmdLineStartupAction> startupActionInstances = getCmdLineStartupActions();
         addOptionsToCmdLineSingleton(startupActionInstances);
+        checkCommands();
         executeActions(startupActionInstances);
+    }
+
+    private void checkCommands() {
+        List<String> argList = CmdLineSingleton.getInstance().getCommandLine().get().getArgList();
+        if (!argList.isEmpty()) {
+            String unrecognizedCommands = argList.stream()
+                    .map(s -> String.format("<%s>", s))
+                    .reduce((s1, s2) -> s1 + ", " + s2)
+                    .get();
+            String message = new StringBuilder().append("Unrecogized commands give :")
+                    .append(unrecognizedCommands)
+                    .append("\n")
+                    .append(CmdLineSingleton.getInstance().getHelpText()).toString();
+            System.out.println(message);
+            System.exit(1);
+        }
     }
 
     private List<CmdLineStartupAction> getCmdLineStartupActions() {
