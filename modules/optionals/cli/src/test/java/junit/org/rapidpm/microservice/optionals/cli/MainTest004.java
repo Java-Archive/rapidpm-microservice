@@ -36,7 +36,7 @@ public class MainTest004 {
         .request()
         .get(String.class);
     Assert.assertEquals(GOT_IT, result);
-
+    Assert.assertTrue(generateBasicReqURL.contains("1234"));
     client.close();
   }
 
