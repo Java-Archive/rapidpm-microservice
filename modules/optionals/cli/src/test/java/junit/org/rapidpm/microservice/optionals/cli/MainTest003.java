@@ -5,14 +5,15 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.rapidpm.microservice.Main;
-import org.rapidpm.microservice.optionals.cli.CmdLineSingleton;
+import org.rapidpm.microservice.optionals.cli.CmdLineParser;
+import org.rapidpm.microservice.optionals.cli.CmdLineStartupAction;
 
 import static org.rapidpm.microservice.optionals.cli.DefaultCmdLineOptions.CMD_REST_PORT;
 
 /**
  * Created by svenruppert on 14.09.15.
  */
-public class MainTest003 {
+public class MainTest003 extends BaseCmdlineTest {
 
   @After
   public void tearDown() throws Exception {
@@ -22,13 +23,8 @@ public class MainTest003 {
   @Test
   public void test001() throws Exception {
     Main.main(new String[]{"-" + CMD_REST_PORT + " 1234"});
-
-    final CommandLine cmd = CmdLineSingleton.getInstance().getCommandLine().get();
-    Assert.assertNotNull(cmd);
-    Assert.assertTrue(cmd.hasOption(CMD_REST_PORT));
-
-    final String optionValue = cmd.getOptionValue(CMD_REST_PORT);
-    Assert.assertEquals(optionValue, " 1234");
+    String restPort = (String) System.getProperties().get(Main.REST_PORT_PROPERTY);
+    Assert.assertEquals("1234", restPort);
 
   }
 

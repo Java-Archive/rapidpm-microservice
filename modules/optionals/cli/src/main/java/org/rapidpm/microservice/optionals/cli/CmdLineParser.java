@@ -7,29 +7,29 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Created by svenruppert on 31.08.15.
  */
-public class CmdLineSingleton {
-  private static CmdLineSingleton ourInstance = new CmdLineSingleton();
+public class CmdLineParser {
+
 
   private List<Option> cmdLineOptions = new ArrayList<>();
 
-  private static final AtomicReference<String[]> ATOMIC_REFERENCE_ARGS = new AtomicReference<>(new String[]{});
+  private String[] args;
 
-  private CmdLineSingleton() {
+  public CmdLineParser() {
+    initWithArgs();
   }
 
-  private static void initWithArgs() {
+  private void initWithArgs() {
     try {
       final Field cliArguments = Main.class.getDeclaredField("cliArguments");
       final boolean accessible = cliArguments.isAccessible();
       cliArguments.setAccessible(true);
       final Optional<String[]> cliOptional = (Optional<String[]>) cliArguments.get(null);
       if (cliOptional != null) {
-        cliOptional.ifPresent(ATOMIC_REFERENCE_ARGS::set);
+        cliOptional.ifPresent(args -> this.args = args);
       }
       cliArguments.setAccessible(accessible);
     } catch (NoSuchFieldException | IllegalAccessException e) {
@@ -37,16 +37,12 @@ public class CmdLineSingleton {
     }
   }
 
-  public static CmdLineSingleton getInstance() {
-    return ourInstance;
-  }
-
   public Optional<CommandLine> getCommandLine() {
     initWithArgs();
     try {
       final Options options = new Options();
       cmdLineOptions.forEach(options::addOption);
-      CommandLine cmd = new DefaultParser().parse(options, ATOMIC_REFERENCE_ARGS.get(), true);
+      CommandLine cmd = new DefaultParser().parse(options, args, true);
       return Optional.ofNullable(cmd);
     } catch (ParseException e) {
       e.printStackTrace();
@@ -54,8 +50,28 @@ public class CmdLineSingleton {
     }
   }
 
-  public CmdLineSingleton addCmdLineOption(final Option option) {
+  public CmdLineParser addCmdLineOption(final Option option) {
     cmdLineOptions.add(option);
     return this;
+  }
+
+  public String getHelpText() {
+    return cmdLineOptions.stream()
+            .map(option -> {
+              String opt = option.getOpt();
+              String description = option.getDescription();
+              String longOpt = option.getLongOpt();
+              if (opt != null && longOpt != null) {
+                return String.format("-%s, -%s:  %s\n", opt, longOpt, description);
+              } else if (opt != null) {
+                return String.format("-%s:  %s\n", opt, description);
+              } else if (longOpt != null) {
+                return String.format("-%s:  %s\n", longOpt, description);
+              } else {
+                return "";
+              }
+            })
+            .reduce((s1, s2) -> s1 + s2)
+            .get();
   }
 }

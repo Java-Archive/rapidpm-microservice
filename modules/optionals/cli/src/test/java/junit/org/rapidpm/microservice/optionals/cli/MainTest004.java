@@ -17,7 +17,7 @@ import static org.rapidpm.microservice.optionals.cli.DefaultCmdLineOptions.CMD_R
 /**
  * Created by svenruppert on 14.09.15.
  */
-public class MainTest004 {
+public class MainTest004 extends BaseCmdlineTest{
 
 
   public static final String GOT_IT = "Got it .. ";
@@ -36,7 +36,7 @@ public class MainTest004 {
         .request()
         .get(String.class);
     Assert.assertEquals(GOT_IT, result);
-
+    Assert.assertTrue(generateBasicReqURL.contains("1234"));
     client.close();
   }
 
