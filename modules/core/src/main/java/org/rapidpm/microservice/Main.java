@@ -11,6 +11,7 @@ import org.jboss.resteasy.spi.ResteasyDeployment;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.ddi.reflections.ReflectionUtils;
 import org.rapidpm.microservice.optionals.header.ActiveUrlPrinter;
+import org.rapidpm.microservice.rest.info.ActiveUrlsDetector;
 import org.rapidpm.microservice.optionals.header.HeaderScreenPrinter;
 import org.rapidpm.microservice.rest.JaxRsActivator;
 import org.rapidpm.microservice.rest.ddi.DdiInjectorFactory;
@@ -94,7 +95,7 @@ public class Main {
 
 
     new HeaderScreenPrinter().printOnScreen();
-    new ActiveUrlPrinter().printActiveURLs(jaxRsActivator);
+    new ActiveUrlPrinter().printActiveURLs(new ActiveUrlsDetector().detectUrls());
 
 
     System.out.println("");
