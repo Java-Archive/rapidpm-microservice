@@ -10,6 +10,9 @@ import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
 import org.jboss.resteasy.spi.ResteasyDeployment;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.ddi.reflections.ReflectionUtils;
+import org.rapidpm.microservice.optionals.header.ActiveUrlPrinter;
+import org.rapidpm.microservice.rest.info.ActiveUrlsDetector;
+import org.rapidpm.microservice.optionals.header.HeaderScreenPrinter;
 import org.rapidpm.microservice.rest.JaxRsActivator;
 import org.rapidpm.microservice.rest.ddi.DdiInjectorFactory;
 import org.rapidpm.microservice.servlet.ServletInstanceFactory;
@@ -20,7 +23,6 @@ import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
-import javax.ws.rs.Path;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -60,7 +62,9 @@ public class Main {
   }
 
   private static LocalDateTime deployStart;
+
   public static void deploy(Optional<String[]> args) {
+    cliArguments = args;
     deployStart = LocalDateTime.now();
     DI.bootstrap(); // per config steuern
     executeStartupActions(args);
@@ -89,54 +93,9 @@ public class Main {
       undertowServer.start();
     }
 
-    //print all URLs
-    final Set<Class<?>> typesAnnotatedWith = DI.getTypesAnnotatedWith(WebServlet.class);
-    final Set<Class<?>> restClasses = jaxRsActivator.getClasses();
-    final Set<Object> singletonClasses = jaxRsActivator.getSingletons();
 
-    System.out.println("================= Deployment Summary ================= ");
-    System.out.println("Sum Servlets                   = " + typesAnnotatedWith.size());
-    System.out.println("Sum RestEndpoints              = " + restClasses.size());
-    System.out.println("Sum RestEndpoints (Singletons) = " + singletonClasses.size());
-    System.out.println("================= Deployment Summary ================= ");
-
-
-    System.out.println("");
-    System.out.println("List Servlet - URLs ");
-
-    final String realServletPort = System.getProperty(SERVLET_PORT_PROPERTY, DEFAULT_SERVLET_PORT + "");
-    final String realServletHost = System.getProperty(SERVLET_HOST_PROPERTY, DEFAULT_HOST);
-    for (Class<?> aClass : typesAnnotatedWith) {
-      final WebServlet annotation = aClass.getAnnotation(WebServlet.class);
-      final String[] urlPatterns = annotation.urlPatterns();
-      for (String urlPattern : urlPatterns) {
-//        System.out.println("Class = " + aClass.getName());
-        String url = "http://" + realServletHost + ":" + realServletPort + MYAPP + "/" + urlPattern;
-        System.out.println("url = " + url);
-      }
-    }
-    System.out.println("");
-    System.out.println("List RestEndpoint - URLs");
-    final String realRestPort = System.getProperty(REST_PORT_PROPERTY, DEFAULT_REST_PORT + "");
-    final String realRestHost = System.getProperty(REST_HOST_PROPERTY, DEFAULT_HOST);
-    for (Class<?> aClass : restClasses) {
-      final Path annotation = aClass.getAnnotation(Path.class);
-      final String urlPattern = annotation.value();
-//      System.out.println("Class = " + aClass.getName());
-      String url = "http://" + realRestHost + ":" + realRestPort + CONTEXT_PATH_REST + "/" + urlPattern;
-      System.out.println("url = " + url);
-
-    }
-    System.out.println("");
-    System.out.println("List RestEndpoints (Singletons) URLs");
-    for (Object aClass : singletonClasses) {
-      final Path annotation = aClass.getClass().getAnnotation(Path.class);
-      final String urlPattern = annotation.value();
-//      System.out.println("Class = " + aClass.getName());
-      String url = "http://" + realRestHost + ":" + realRestPort + CONTEXT_PATH_REST + "/" + urlPattern;
-      System.out.println("url = " + url);
-
-    }
+    new HeaderScreenPrinter().printOnScreen();
+    new ActiveUrlPrinter().printActiveURLs(new ActiveUrlsDetector().detectUrls());
 
 
     System.out.println("");
@@ -149,7 +108,9 @@ public class Main {
 
   private static void executeStartupActions(final Optional<String[]> args) {
     final Set<Class<? extends MainStartupAction>> classes = DI.getSubTypesOf(MainStartupAction.class);
-    createInstances(classes).forEach((mainStartupAction) -> mainStartupAction.execute(args));
+    createInstances(classes).stream()
+        .map(DI::activateDI)
+        .forEach((mainStartupAction) -> mainStartupAction.execute(args));
   }
 
   private static DeploymentInfo createServletDeploymentInfos() {
@@ -176,6 +137,7 @@ public class Main {
           }
           return servletInfo;
         })
+        .filter(servletInfo -> !servletInfo.getMappings().isEmpty())
         .collect(Collectors.toList());
 
     final Set<Class<?>> weblisteners = DI.getTypesAnnotatedWith(WebListener.class);
@@ -269,7 +231,10 @@ public class Main {
 
   private static void executeShutdownActions(Optional<String[]> args) {
     final Set<Class<? extends MainShutdownAction>> classes = DI.getSubTypesOf(MainShutdownAction.class);
-    createInstances(classes).forEach((mainShutdownAction) -> mainShutdownAction.execute(args));
+    createInstances(classes)
+        .stream()
+        .map(DI::activateDI)
+        .forEach((mainShutdownAction) -> mainShutdownAction.execute(args));
   }
 
   public static void deploy() {

@@ -5,7 +5,7 @@
   <parent>
     <artifactId>rapidpm-microservice-modules-optionals</artifactId>
     <groupId>org.rapidpm.microservice</groupId>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -16,6 +16,7 @@
     <dependency>
       <groupId>org.rapidpm.microservice</groupId>
       <artifactId>rapidpm-microservice-modules-core</artifactId>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>commons-cli</groupId>

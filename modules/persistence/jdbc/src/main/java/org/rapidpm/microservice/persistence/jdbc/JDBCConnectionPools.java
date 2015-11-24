@@ -41,7 +41,7 @@ public class JDBCConnectionPools {
 
 
   public HikariDataSource getDataSource(String poolname) {
-    return POOL_MAP.get(poolname).getDataSource();
+    return  POOL_MAP.get(poolname) != null ? POOL_MAP.get(poolname).getDataSource() : null;
   }
 
 }

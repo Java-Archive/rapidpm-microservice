@@ -6,21 +6,17 @@ A base implementation for a microservice.
 The Core Service will listen on IP 0.0.0.0
 The base configuration will start Servlets at port 7080 and REST-Endpoints at 7081.
 
-build:
-+ master:
-[![Build Status](https://travis-ci.org/RapidPM/dynamic-cdi.svg?branch=master)](https://travis-ci.org/RapidPM/dynamic-cdi)
-+ develop:
-[![Build Status](https://travis-ci.org/RapidPM/dynamic-cdi.svg?branch=develop)](https://travis-ci.org/RapidPM/dynamic-cdi)
-
-
-
+[![Build Status - drone.io](https://drone.io/github.com/RapidPM/rapidpm-microservice/status.png)](https://drone.io/github.com/RapidPM/rapidpm-microservice/latest)
 
 branch
+
 master:
+[![Build Status](https://travis-ci.org/RapidPM/rapidpm-microservice.svg?branch=master)](https://travis-ci.org/RapidPM/rapidpm-microservice)
 [![Dependency Status](https://www.versioneye.com/user/projects/55a3a45e3239390021000540/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55a3a45e3239390021000540)
 [![Coverage Status](https://coveralls.io/repos/RapidPM/rapidpm-microservice/badge.svg?branch=master&service=github)](https://coveralls.io/github/RapidPM/rapidpm-microservice?branch=master)
 
 develop:
+[![Build Status](https://travis-ci.org/RapidPM/rapidpm-microservice.svg?branch=develop)](https://travis-ci.org/RapidPM/rapidpm-microservice)
 [![Dependency Status](https://www.versioneye.com/user/projects/55a3a44f32393900180005b2/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55a3a44f32393900180005b2)
 [![Coverage Status](https://coveralls.io/repos/RapidPM/rapidpm-microservice/badge.svg?branch=develop&service=github)](https://coveralls.io/github/RapidPM/rapidpm-microservice?branch=develop)
 

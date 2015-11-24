@@ -1,7 +1,10 @@
 package junit.org.rapidpm.microservice;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.Main;
 
 import java.util.Optional;
@@ -13,6 +16,19 @@ public class MainTest001 {
 
 
   public static boolean status = true;
+
+
+  @Before
+  public void setUp() throws Exception {
+    DI.clearReflectionModel();
+    DI.activatePackages("org.rapidpm");
+    DI.activatePackages(this.getClass().getPackage().getName());
+  }
+
+  @After
+  public void tearDown() throws Exception {
+    DI.clearReflectionModel();
+  }
 
   @Test
   public void test001() throws Exception {
