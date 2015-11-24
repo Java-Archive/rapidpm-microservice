@@ -13,7 +13,7 @@
   <packaging>pom</packaging>
   <modules>
     <module>health</module>
-    <module>performance</module>
+    <!--<module>performance</module>-->
   </modules>
 
 
