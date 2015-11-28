@@ -6,14 +6,14 @@
   <parent>
     <groupId>org.rapidpm</groupId>
     <artifactId>rapidpm-dependencies</artifactId>
-    <version>3.0.2-SNAPSHOT</version>
+    <version>3.0.3-SNAPSHOT</version>
   </parent>
 
 
   <groupId>org.rapidpm.microservice</groupId>
   <artifactId>rapidpm-microservice</artifactId>
   <packaging>pom</packaging>
-  <version>0.0.4-SNAPSHOT</version>
+  <version>0.0.5-SNAPSHOT</version>
 
   <modules>
     <module>modules</module>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>rapidpm-microservice-modules-optionals</artifactId>
+    <groupId>org.rapidpm.microservice</groupId>
+    <version>0.0.5-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>rapidpm-microservice-modules-optionals-vaadin</artifactId>
+
+  <dependencies>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+
+
+    <dependency>
+      <groupId>in.virit.vwscdn</groupId>
+      <artifactId>vwscdn-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.vaadin</groupId>
+      <artifactId>vaadin-server</artifactId>
+      <type>jar</type>
+      <exclusions>
+        <exclusion>
+          <groupId>com.vaadin.external.google</groupId>
+          <artifactId>guava</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.vaadin</groupId>
+          <artifactId>vaadin-sass-compiler</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.vaadin.external.flute</groupId>
+          <artifactId>flute</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <!--<dependency>-->
+      <!--<groupId>com.vaadin</groupId>-->
+      <!--<artifactId>vaadin-testbench-api</artifactId>-->
+      <!--&lt;!&ndash;<version>${vaadin.version}</version>&ndash;&gt;-->
+      <!--<scope>test</scope>-->
+    <!--</dependency>-->
+    <dependency>
+      <groupId>com.vaadin</groupId>
+      <artifactId>vaadin-themes</artifactId>
+      <!--<version>${vaadin.version}</version>-->
+    </dependency>
+
+
+
+
+
+  </dependencies>
+
+</project>

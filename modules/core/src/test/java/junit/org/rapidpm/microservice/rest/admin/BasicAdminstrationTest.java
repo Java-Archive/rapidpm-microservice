@@ -19,7 +19,9 @@ public class BasicAdminstrationTest extends BasicRestTest {
   @Override
   @After
   public void tearDown() throws Exception {
-    //no stop
+    //no stop and wait
+
+
   }
 
   @Test
@@ -37,8 +39,6 @@ public class BasicAdminstrationTest extends BasicRestTest {
     String val = response.getStatusInfo().toString();
     System.out.println("response status info = " + val);
     client.close();
-
-//    Thread.currentThread().wait(10_000);
-
+    Thread.sleep(10_000);
   }
 }

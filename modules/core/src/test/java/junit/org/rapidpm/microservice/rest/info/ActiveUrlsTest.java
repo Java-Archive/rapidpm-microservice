@@ -51,7 +51,5 @@ public class ActiveUrlsTest extends BasicRestTest {
 
     System.out.println("response status info = " + val);
     client.close();
-
-
   }
 }
