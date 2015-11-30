@@ -1,7 +1,7 @@
 package org.rapidpm.microservice.persistence.jdbc;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.rapidpm.proxybuilder.basepattern.builder.NestedBuilder;
+import org.rapidpm.dependencies.core.basepattern.builder.NestedBuilder;
 
 import javax.annotation.Nonnull;
 

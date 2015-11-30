@@ -6,12 +6,18 @@ import com.vaadin.server.VaadinServlet;
 import com.vaadin.server.VaadinServletService;
 
 import javax.servlet.ServletException;
+import java.util.List;
 
 /**
  * Created by svenruppert on 15.08.15.
  */
-public class DDIVaadinServlet extends VaadinServlet {
+public abstract class DDIVaadinServlet extends VaadinServlet {
 
+  /**
+   * return a list of pkg names that are available for Injection
+   * @return
+   */
+  public abstract List<String> topLevelPackagesToActivated();
 
   //add Metrics here
 
@@ -23,7 +29,7 @@ public class DDIVaadinServlet extends VaadinServlet {
 
   @Override
   protected VaadinServletService createServletService(final DeploymentConfiguration deploymentConfiguration) throws ServiceException {
-    final DDIVaadinServletService service = new DDIVaadinServletService(this, deploymentConfiguration);
+    final DDIVaadinServletService service = new DDIVaadinServletService(this, deploymentConfiguration, topLevelPackagesToActivated());
     service.init();
     return service;
   }
