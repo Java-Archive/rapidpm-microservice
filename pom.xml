@@ -46,8 +46,8 @@
     </developer>
   </developers>
   <issueManagement>
-    <system>Github</system>
-    <url>https://github.com/RapidPM/rapidpm-microservice/issues</url>
+    <system>Youtrack</system>
+    <url>http://rapidpm.myjetbrains.com/youtrack/issues?q=project%3A+Java-MicroService</url>
   </issueManagement>
   <ciManagement>
     <system>TravisCI</system>
