@@ -3,14 +3,9 @@ package org.rapidpm.microservice.optionals.vaadin;
 import com.vaadin.server.*;
 import com.vaadin.ui.UI;
 import org.rapidpm.ddi.DI;
-import org.reflections.util.ClasspathHelper;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.ServletContext;
-import java.net.URL;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 /**
