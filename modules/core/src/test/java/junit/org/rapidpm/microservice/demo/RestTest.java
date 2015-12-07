@@ -16,15 +16,7 @@ public class RestTest extends BasicRestTest {
 
   @Test
   public void testApplicationPath() throws Exception {
-//    server.deploy(JaxRsActivator.class);
     Client client = ClientBuilder.newClient();
-    //MicroRestApp Path = /base
-    //Resource Path = /test
-
-//    final String restAppPath = Main.CONTEXT_PATH_REST;
-//    final Path annotation = Resource.class.getAnnotation(Path.class);
-//    final String ressourcePath = annotation.value();
-//    final String generateURL = TestPortProvider.generateURL(restAppPath + ressourcePath);
     final String generateBasicReqURL = generateBasicReqURL(Resource.class);
     System.out.println("generateBasicReqURL = " + generateBasicReqURL);
     String val = client

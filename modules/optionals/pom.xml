@@ -15,6 +15,7 @@
     <module>cli</module>
     <module>metrics</module>
     <module>vaadin</module>
+    <module>admin</module>
   </modules>
 
 
