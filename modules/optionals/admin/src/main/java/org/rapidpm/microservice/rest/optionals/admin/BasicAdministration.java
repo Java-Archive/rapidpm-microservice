@@ -1,4 +1,4 @@
-package org.rapidpm.microservice.rest.admin;
+package org.rapidpm.microservice.rest.optionals.admin;
 
 
 import javax.ws.rs.GET;
