@@ -1,11 +1,11 @@
-package junit.org.rapidpm.microservice.rest.info;
+package junit.org.rapidpm.microservice.optionals.metrics.activeressources;
 
 import com.google.gson.Gson;
 import junit.org.rapidpm.microservice.BasicRestTest;
 import org.junit.Assert;
 import org.junit.Test;
 import org.rapidpm.microservice.optionals.header.ActiveUrlsHolder;
-import org.rapidpm.microservice.rest.info.ActiveUrls;
+import org.rapidpm.microservice.optionals.metrics.activeressources.ActiveUrls;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.client.Client;
@@ -15,7 +15,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
- * Created by svenruppert on 23.11.15.
+ * Created by svenruppert on 08.12.15.
  */
 public class ActiveUrlsTest extends BasicRestTest {
 
@@ -52,4 +52,6 @@ public class ActiveUrlsTest extends BasicRestTest {
     System.out.println("response status info = " + val);
     client.close();
   }
+
+
 }

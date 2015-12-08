@@ -1,6 +1,7 @@
-package org.rapidpm.microservice.rest.info;
+package org.rapidpm.microservice.optionals.metrics.activeressources;
 
 import com.google.gson.Gson;
+import org.rapidpm.microservice.optionals.ActiveUrlsDetector;
 import org.rapidpm.microservice.optionals.header.ActiveUrlsHolder;
 
 import javax.ws.rs.GET;

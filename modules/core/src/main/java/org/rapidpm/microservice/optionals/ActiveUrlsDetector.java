@@ -1,4 +1,4 @@
-package org.rapidpm.microservice.rest.info;
+package org.rapidpm.microservice.optionals;
 
 
 import org.rapidpm.ddi.DI;

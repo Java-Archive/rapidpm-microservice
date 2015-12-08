@@ -11,7 +11,7 @@ import org.jboss.resteasy.spi.ResteasyDeployment;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.ddi.reflections.ReflectionUtils;
 import org.rapidpm.microservice.optionals.header.ActiveUrlPrinter;
-import org.rapidpm.microservice.rest.info.ActiveUrlsDetector;
+import org.rapidpm.microservice.optionals.ActiveUrlsDetector;
 import org.rapidpm.microservice.optionals.header.HeaderScreenPrinter;
 import org.rapidpm.microservice.rest.JaxRsActivator;
 import org.rapidpm.microservice.rest.ddi.DdiInjectorFactory;
