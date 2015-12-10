@@ -33,12 +33,14 @@ public class DdiInjectorFactory implements InjectorFactory {
     return delegate.createConstructor(constructor, factory);
   }
 
+  @Override
   public PropertyInjector createPropertyInjector(Class resourceClass, ResteasyProviderFactory factory) {
     return new DdiPropertyInjector(
         delegate.createPropertyInjector(resourceClass, factory),
         resourceClass);
   }
 
+  @Override
   public ValueInjector createParameterExtractor(Class injectTargetClass, AccessibleObject injectTarget, Class type, Type genericType, Annotation[] annotations, ResteasyProviderFactory factory) {
     return delegate.createParameterExtractor(
         injectTargetClass,
