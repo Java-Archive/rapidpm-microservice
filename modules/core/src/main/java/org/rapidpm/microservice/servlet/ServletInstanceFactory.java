@@ -7,7 +7,7 @@ import org.rapidpm.proxybuilder.ProxyBuilder;
 import org.rapidpm.proxybuilder.type.dymamic.virtual.CreationStrategy;
 
 import javax.servlet.Servlet;
-import javax.servlet.http.HttpServlet;
+
 
 /**
  * Created by svenruppert on 31.05.15.
