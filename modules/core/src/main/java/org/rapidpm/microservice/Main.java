@@ -135,6 +135,7 @@ public class Main {
           for (String urlPattern : urlPatterns) {
             servletInfo.addMapping(urlPattern);
           }
+          servletInfo.setAsyncSupported(annotation.asyncSupported());
           return servletInfo;
         })
         .filter(servletInfo -> !servletInfo.getMappings().isEmpty())
