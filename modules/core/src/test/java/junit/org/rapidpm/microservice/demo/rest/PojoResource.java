@@ -12,7 +12,7 @@ import javax.ws.rs.Produces;
  * Created by svenruppert on 07.06.15.
  */
 
-@Path("pojo")
+@Path("/pojo")
 public class PojoResource {
 
 

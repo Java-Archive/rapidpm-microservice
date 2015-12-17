@@ -21,9 +21,9 @@ import java.util.SortedMap;
 @Path("/metrics/performance/overview")
 public class Overview {
 
-  public final static Type HISTORY_SNAPSHOT_LIST_TYPE = new TypeToken<List<HistogrammSnapshot>>() {
+  public static final Type HISTORY_SNAPSHOT_LIST_TYPE = new TypeToken<List<HistogrammSnapshot>>() {
   }.getType();
-  public final static String LIST_ALL_HISTOGRAMMS = "listAllHistogramms";
+  public static final String LIST_ALL_HISTOGRAMMS = "listAllHistogramms";
 
   @GET()
   @Path(LIST_ALL_HISTOGRAMMS)
