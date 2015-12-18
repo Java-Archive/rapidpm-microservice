@@ -145,20 +145,11 @@
           <workingDirectory>${project.build.outputDirectory}</workingDirectory>
         </configuration>
       </plugin>
-      <!-- Generate coveralls reports from Travis -->
-      <plugin>
-        <groupId>org.eluder.coveralls</groupId>
-        <artifactId>coveralls-maven-plugin</artifactId>
-        <configuration>
-          <repoToken>zZ8bx5IbHSZDSaPIo5htlUHf4Wxfopqrd</repoToken>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
 
 
   <profiles>
-
     <profile>
       <id>sys-nexus-deploy</id>
       <activation>
@@ -176,27 +167,6 @@
         </snapshotRepository>
       </distributionManagement>
     </profile>
-    <profile>
-      <id>sys-nexus-deploy-reply</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <!--for development of features/develop branch-->
-      <distributionManagement>
-        <repository>
-          <id>releasesReply</id>
-          <name>macrosreply Releases</name>
-          <!--<url>http://10.64.54.53/nexus/content/repositories/releases</url>-->
-          <url>http://78.47.221.68/content/repositories/releases</url>
-        </repository>
-        <snapshotRepository>
-          <id>snapshotsReply</id>
-          <!--<url>http://10.64.54.53/nexus/content/repositories/snapshots</url>-->
-          <url>http://78.47.221.68/content/repositories/snapshots</url>
-        </snapshotRepository>
-      </distributionManagement>
-    </profile>
-
   </profiles>
 
 </project>
