@@ -11,8 +11,8 @@ import java.time.format.DateTimeFormatter;
 /**
  * Created by svenruppert on 14.12.15.
  */
-@Path("/metrics/performance/administration")
-public class Administration {
+@Path("/metrics/performance/reporter")
+public class Reporter {
 
   public static final String STOP_JMXREPORTER = "stopJMXReporter";
   public static final String START_JMXREPORTER = "startJMXReporter";
@@ -26,6 +26,12 @@ public class Administration {
     RapidPMMetricsRegistry
         .getInstance().startJmxReporter();
     return result(START_JMXREPORTER);
+  }
+
+  private String result(final String methodPath) {
+    final String timestamp = LocalDateTime.now()
+        .format(DateTimeFormatter.ISO_DATE_TIME);
+    return "{\"methodPath\":\"" + methodPath + "\",\"timestamp\":\"" + timestamp + "\"}";
   }
 
   @GET()
@@ -57,12 +63,6 @@ public class Administration {
 
     System.out.println("ConsoleReporter was stopped - " + LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
     return result(STOP_CONSOLEREPORTER);
-  }
-
-  private String result(final String methodPath) {
-    final String timestamp = LocalDateTime.now()
-        .format(DateTimeFormatter.ISO_DATE_TIME);
-    return "{\"methodPath\":\"" + methodPath + "\",\"timestamp\":\"" + timestamp + "\"}";
   }
 
 }

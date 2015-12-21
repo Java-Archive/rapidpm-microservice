@@ -10,14 +10,13 @@ import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
 import org.jboss.resteasy.spi.ResteasyDeployment;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.ddi.reflections.ReflectionUtils;
-import org.rapidpm.microservice.optionals.header.ActiveUrlPrinter;
 import org.rapidpm.microservice.optionals.ActiveUrlsDetector;
+import org.rapidpm.microservice.optionals.header.ActiveUrlPrinter;
 import org.rapidpm.microservice.optionals.header.HeaderScreenPrinter;
 import org.rapidpm.microservice.rest.JaxRsActivator;
 import org.rapidpm.microservice.rest.ddi.DdiInjectorFactory;
 import org.rapidpm.microservice.servlet.ServletInstanceFactory;
 
-import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebListener;
@@ -52,6 +51,7 @@ public class Main {
   private static UndertowJaxrsServer jaxrsServer;
   private static Undertow undertowServer;
   private static Optional<String[]> cliArguments;
+  private static LocalDateTime deployStart;
 
   private Main() {
   }
@@ -60,8 +60,6 @@ public class Main {
     cliArguments = Optional.ofNullable(args);
     deploy(cliArguments);
   }
-
-  private static LocalDateTime deployStart;
 
   public static void deploy(Optional<String[]> args) {
     cliArguments = args;
@@ -120,7 +118,7 @@ public class Main {
     final List<ServletInfo> servletInfos = typesAnnotatedWith.stream()
         .filter(s -> new ReflectionUtils().checkInterface(s, HttpServlet.class))
         .map(c -> {
-          Class<Servlet> servletClass = (Class<Servlet>) c;
+          Class<HttpServlet> servletClass = (Class<HttpServlet>) c;
           final ServletInfo servletInfo = servlet(c.getSimpleName(), servletClass, new ServletInstanceFactory<>(servletClass));
           if (c.isAnnotationPresent(WebInitParam.class)) {
             final WebInitParam[] annotationsByType = c.getAnnotationsByType(WebInitParam.class);

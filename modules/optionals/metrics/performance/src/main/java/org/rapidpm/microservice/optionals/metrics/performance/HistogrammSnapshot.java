@@ -9,20 +9,20 @@ import java.util.Arrays;
 public class HistogrammSnapshot implements Serializable {
 
 
-  private String name;
+  private String name = "";
 
-  private double histogramSnapshot75thPercentile;
-  private double histogramSnapshot95thPercentile;
-  private double histogramSnapshot98thPercentile;
-  private double histogramSnapshot99thPercentile;
-  private double histogramSnapshot999thPercentile;
-  private long histogramSnapshotMax;
-  private double histogramSnapshotMean;
-  private double histogramSnapshotMedian;
-  private long histogramSnapshotMin;
-  private double histogramSnapshotStdDev;
-  private long[] histogramSnapshotValues;
-  private long histogramCount;
+  private double histogramSnapshot75thPercentile = 0;
+  private double histogramSnapshot95thPercentile = 0;
+  private double histogramSnapshot98thPercentile = 0;
+  private double histogramSnapshot99thPercentile = 0;
+  private double histogramSnapshot999thPercentile = 0;
+  private long histogramSnapshotMax = 0;
+  private double histogramSnapshotMean = 0;
+  private double histogramSnapshotMedian = 0;
+  private long histogramSnapshotMin = 0;
+  private double histogramSnapshotStdDev = 0;
+  private long[] histogramSnapshotValues = new long[0];
+  private long histogramCount = 0;
 
   public HistogrammSnapshot name(final String name) {
     this.name = name;
@@ -106,5 +106,57 @@ public class HistogrammSnapshot implements Serializable {
         ", histogramSnapshotValues=" + Arrays.toString(histogramSnapshotValues) +
         ", name='" + name + '\'' +
         '}';
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public double getHistogramSnapshot75thPercentile() {
+    return histogramSnapshot75thPercentile;
+  }
+
+  public double getHistogramSnapshot95thPercentile() {
+    return histogramSnapshot95thPercentile;
+  }
+
+  public double getHistogramSnapshot98thPercentile() {
+    return histogramSnapshot98thPercentile;
+  }
+
+  public double getHistogramSnapshot99thPercentile() {
+    return histogramSnapshot99thPercentile;
+  }
+
+  public double getHistogramSnapshot999thPercentile() {
+    return histogramSnapshot999thPercentile;
+  }
+
+  public long getHistogramSnapshotMax() {
+    return histogramSnapshotMax;
+  }
+
+  public double getHistogramSnapshotMean() {
+    return histogramSnapshotMean;
+  }
+
+  public double getHistogramSnapshotMedian() {
+    return histogramSnapshotMedian;
+  }
+
+  public long getHistogramSnapshotMin() {
+    return histogramSnapshotMin;
+  }
+
+  public double getHistogramSnapshotStdDev() {
+    return histogramSnapshotStdDev;
+  }
+
+  public long[] getHistogramSnapshotValues() {
+    return histogramSnapshotValues;
+  }
+
+  public long getHistogramCount() {
+    return histogramCount;
   }
 }
