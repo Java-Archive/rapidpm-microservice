@@ -11,12 +11,19 @@ import org.rapidpm.microservice.test.RestUtils;
  */
 public class BasicRestTest {
 
+  final RestUtils restUtils = new RestUtils();
+
   @Before
   public void setUp() throws Exception {
     DI.clearReflectionModel();
     DI.activatePackages("org.rapidpm");
     DI.activatePackages(this.getClass());
+    setRestEasyPropertys(Main.DEFAULT_REST_PORT + "");
     Main.deploy();
+  }
+
+  public void setRestEasyPropertys(final String port) {
+    restUtils.setRestEasyPropertys(port);
   }
 
   @After
@@ -27,7 +34,10 @@ public class BasicRestTest {
 
   public String generateBasicReqURL(Class restClass) {
     final String restAppPath = Main.CONTEXT_PATH_REST;
-    return new RestUtils().generateBasicReqURL(restClass, restAppPath);
+    return restUtils.generateBasicReqURL(restClass, restAppPath);
   }
 
+  public void setRestEasyPropertys(final String host, final String port) {
+    restUtils.setRestEasyPropertys(host, port);
+  }
 }
