@@ -44,7 +44,7 @@ public class HistogrammsTest extends BasicRestTest {
 
     IntStream.range(0, 1_00)
         .forEach(i -> {
-          final String result = target.request().get(String.class);
+          target.request().get(String.class);
         });
     client.close();
   }
@@ -126,6 +126,16 @@ public class HistogrammsTest extends BasicRestTest {
     Assert.assertEquals(check.getHistogramCount(), 0);
 
   }
+
+  @Test
+  public void test004() throws Exception {
+    final String basicReqURL = generateBasicReqURL(Histogramms.class);
+    final String generateBasicReqURL = basicReqURL + "/" + Histogramms.LIST_ALL_HISTOGRAMM_NAMES;
+    System.out.println("generateBasicReqURL = " + generateBasicReqURL);
+    final String requestWithCheck = requestWithCheck(generateBasicReqURL);
+    System.out.println("requestWithCheck = " + requestWithCheck);
+  }
+
 
   @Path("/OverviewTest")
 //  @StaticMetricsProxy

@@ -12,10 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
+import java.util.*;
 
 /**
  * Created by svenruppert on 14.12.15.
@@ -26,6 +23,7 @@ public class Histogramms {
   public static final Type HISTORY_SNAPSHOT_LIST_TYPE = new TypeToken<List<HistogrammSnapshot>>() {
   }.getType();
   public static final String LIST_ALL_HISTOGRAMMS = "listAllHistogramms";
+  public static final String LIST_ALL_HISTOGRAMM_NAMES = "listAllHistogrammNames";
   public static final String LIST_ONE_HISTOGRAMMS = "listOneHistogramm";
   public static final String REMOVE_ONE_HISTOGRAMMS = "removeOneHistogramm";
   public static final String QUERY_PARAM_HISTOGRAMM_NAME = "histogrammName";
@@ -61,8 +59,16 @@ public class Histogramms {
         .histogramSnapshotValues(histogramSnapshot.getValues());
   }
 
-  private HistogrammSnapshot emptyHistogrammSnapshot(@QueryParam(QUERY_PARAM_HISTOGRAMM_NAME) final String histogrammName) {
+  private HistogrammSnapshot emptyHistogrammSnapshot(final String histogrammName) {
     return new HistogrammSnapshot().name(histogrammName);
+  }
+
+  @GET()
+  @Path(LIST_ALL_HISTOGRAMM_NAMES)
+  @Produces("application/json")
+  public String listAllNames() {
+    final SortedMap<String, Histogram> histogramMap = RapidPMMetricsRegistry.getInstance().getMetrics().getHistograms();
+    return new Gson().toJson(histogramMap.keySet(), Set.class);
   }
 
   @GET()

@@ -8,6 +8,10 @@ import org.rapidpm.microservice.rest.JaxRsActivator;
 
 import javax.servlet.annotation.WebServlet;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.Parameter;
 import java.util.Set;
 
 /**
@@ -51,13 +55,33 @@ public class ActiveUrlsDetector {
       final Path annotation = aClass.getAnnotation(Path.class);
       final String urlPattern = annotation.value();
       String url = "http://" + realRestHost + ":" + realRestPort + Main.CONTEXT_PATH_REST + urlPattern;
-      activeUrlsHolder.addRestUrl(url);
+
+      final Method[] declaredMethods = aClass.getDeclaredMethods();
+      for (final Method declaredMethod : declaredMethods) {
+        final int modifiers = declaredMethod.getModifiers();
+        if (Modifier.isPublic(modifiers)) {
+          if (declaredMethod.isAnnotationPresent(Path.class)) {
+            final Path path = declaredMethod.getAnnotation(Path.class);
+            String methodPathValue = url + "/" + path.value();
+            final Parameter[] declaredMethodParameters = declaredMethod.getParameters();
+            for (final Parameter declaredMethodParameter : declaredMethodParameters) {
+              if (declaredMethodParameter.isAnnotationPresent(QueryParam.class)) {
+                methodPathValue = methodPathValue + " - " + declaredMethodParameter.getAnnotation(QueryParam.class).value();
+              }
+            }
+            activeUrlsHolder.addRestUrl(methodPathValue);
+          }
+        }
+      }
+      //activeUrlsHolder.addRestUrl(url);
     }
 
     for (Object aClass : singletonClasses) {
       final Path annotation = aClass.getClass().getAnnotation(Path.class);
       final String urlPattern = annotation.value();
       String url = "http://" + realRestHost + ":" + realRestPort + Main.CONTEXT_PATH_REST + urlPattern;
+
+
       activeUrlsHolder.addSingletonUrl(url);
     }
     return activeUrlsHolder;
