@@ -39,6 +39,7 @@ public class ActiveUrlsDetector {
 
     final String realServletPort = System.getProperty(Main.SERVLET_PORT_PROPERTY, Main.DEFAULT_SERVLET_PORT + "");
     final String realServletHost = System.getProperty(Main.SERVLET_HOST_PROPERTY, Main.DEFAULT_HOST);
+
     for (Class<?> aClass : typesAnnotatedWith) {
       final WebServlet annotation = aClass.getAnnotation(WebServlet.class);
       final String[] urlPatterns = annotation.urlPatterns();
@@ -48,19 +49,33 @@ public class ActiveUrlsDetector {
       }
     }
 
-    final String realRestPort = System.getProperty(Main.REST_PORT_PROPERTY, Main.DEFAULT_REST_PORT + "");
-    final String realRestHost = System.getProperty(Main.REST_HOST_PROPERTY, Main.DEFAULT_HOST);
+    final Executor executorREST = activeUrlsHolder::addRestUrl;
+    restClasses.forEach(executorREST::checkClass);
 
-    for (Class<?> aClass : restClasses) {
+    final Executor executorSingleton = activeUrlsHolder::addSingletonUrl;
+    singletonClasses.forEach(o -> executorSingleton.checkClass(o.getClass()));
+
+    return activeUrlsHolder;
+  }
+
+
+  @FunctionalInterface
+  private interface Executor {
+    String realRestPort = System.getProperty(Main.REST_PORT_PROPERTY, Main.DEFAULT_REST_PORT + "");
+    String realRestHost = System.getProperty(Main.REST_HOST_PROPERTY, Main.DEFAULT_HOST);
+
+    default void checkClass(final Class<?> aClass) {
       final Path annotation = aClass.getAnnotation(Path.class);
       final String urlPattern = annotation.value();
       String url = "http://" + realRestHost + ":" + realRestPort + Main.CONTEXT_PATH_REST + urlPattern;
 
+      boolean foundNoPath = true;
       final Method[] declaredMethods = aClass.getDeclaredMethods();
       for (final Method declaredMethod : declaredMethods) {
         final int modifiers = declaredMethod.getModifiers();
         if (Modifier.isPublic(modifiers)) {
           if (declaredMethod.isAnnotationPresent(Path.class)) {
+            foundNoPath = false;
             final Path path = declaredMethod.getAnnotation(Path.class);
             String methodPathValue = url + "/" + path.value();
             final Parameter[] declaredMethodParameters = declaredMethod.getParameters();
@@ -69,22 +84,16 @@ public class ActiveUrlsDetector {
                 methodPathValue = methodPathValue + " - " + declaredMethodParameter.getAnnotation(QueryParam.class).value();
               }
             }
-            activeUrlsHolder.addRestUrl(methodPathValue);
+            addURL(methodPathValue);
           }
         }
       }
-      //activeUrlsHolder.addRestUrl(url);
+      if (foundNoPath) {
+        addURL(url);
+      }
     }
 
-    for (Object aClass : singletonClasses) {
-      final Path annotation = aClass.getClass().getAnnotation(Path.class);
-      final String urlPattern = annotation.value();
-      String url = "http://" + realRestHost + ":" + realRestPort + Main.CONTEXT_PATH_REST + urlPattern;
-
-
-      activeUrlsHolder.addSingletonUrl(url);
-    }
-    return activeUrlsHolder;
+    void addURL(final String url);
   }
 
 
