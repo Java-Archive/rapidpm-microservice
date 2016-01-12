@@ -13,25 +13,26 @@ import java.util.List;
  */
 public abstract class DDIVaadinServlet extends VaadinServlet {
 
-  /**
-   * return a list of pkg names that are available for Injection
-   * @return
-   */
-  public abstract List<String> topLevelPackagesToActivated();
-
-  //add Metrics here
-
   @Override
   protected void servletInitialized() throws ServletException {
     super.servletInitialized();
 
   }
 
+  //add Metrics here
+
   @Override
   protected VaadinServletService createServletService(final DeploymentConfiguration deploymentConfiguration) throws ServiceException {
-    final DDIVaadinServletService service = new DDIVaadinServletService(this, deploymentConfiguration, topLevelPackagesToActivated());
+    final DDIVaadinServletService service = new DDIVaadinServletService(this, deploymentConfiguration, topLevelPackagesToActivate());
     service.init();
     return service;
   }
+
+  /**
+   * return a list of pkg names that are available for Injection
+   *
+   * @return
+   */
+  public abstract List<String> topLevelPackagesToActivate();
 
 }

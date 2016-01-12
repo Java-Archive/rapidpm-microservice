@@ -105,5 +105,12 @@ public class Histogramms {
     return new Gson().toJson(histogrammSnapshot, HistogrammSnapshot.class);
   }
 
+  //activate Metrics
+
+  //deactivate Metrics
+
+
+
+
 
 }

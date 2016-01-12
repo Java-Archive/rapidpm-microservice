@@ -19,13 +19,13 @@ public class MyUIServlet extends DDIVaadinServlet {
 
 
   @Override
-  public List<String> topLevelPackagesToActivated() {
-    return Arrays.asList("org.rapipm", "junit.org.rapidpm");
+  protected void servletInitialized() throws ServletException {
+    super.servletInitialized();
   }
 
   @Override
-  protected void servletInitialized() throws ServletException {
-    super.servletInitialized();
+  public List<String> topLevelPackagesToActivate() {
+    return Arrays.asList("org.rapipm", "junit.org.rapidpm");
   }
 
 }
