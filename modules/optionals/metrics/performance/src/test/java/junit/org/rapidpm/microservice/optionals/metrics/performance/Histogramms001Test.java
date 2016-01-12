@@ -1,8 +1,6 @@
 package junit.org.rapidpm.microservice.optionals.metrics.performance;
 
 import com.google.gson.Gson;
-import junit.org.rapidpm.microservice.BasicRestTest;
-import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,38 +8,17 @@ import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.optionals.metrics.performance.HistogrammSnapshot;
 import org.rapidpm.microservice.optionals.metrics.performance.Histogramms;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
 import java.util.List;
-import java.util.stream.IntStream;
 
 /**
  * Created by svenruppert on 15.12.15.
  */
-public class HistogrammsTest extends BasicRestTest {
-
-
-  public static final String HISTOGRAMM_NAME = TestRessource.class.getName() + ".doWork";
+public class Histogramms001Test extends HistogrammBaseTest {
 
   @Override
   @Before
   public void setUp() throws Exception {
     super.setUp();
-    runRequests();
-
-
-  }
-
-  private void runRequests() throws Exception {
-
-    final String generateBasicReqURL = generateBasicReqURL(TestRessource.class);
-    final Client client = ClientBuilder.newClient();
-    final WebTarget target = client.target(generateBasicReqURL);
-
-    IntStream.range(0, 1_00)
-        .forEach(i -> target.request().get(String.class));
-    client.close();
   }
 
   @Test
@@ -65,23 +42,6 @@ public class HistogrammsTest extends BasicRestTest {
     }
   }
 
-  @NotNull
-  private String requestWithCheck(final String generateBasicReqURL) {
-    final String result = request(generateBasicReqURL);
-    Assert.assertNotNull(result);
-    Assert.assertFalse(result.isEmpty());
-    return result;
-  }
-
-  private String request(final String generateBasicReqURL) {
-    Client client = ClientBuilder.newClient();
-    String val = client
-        .target(generateBasicReqURL)
-        .request()
-        .get(String.class);
-    client.close();
-    return val;
-  }
 
   @Test
   public void test002() throws Exception {
@@ -94,13 +54,6 @@ public class HistogrammsTest extends BasicRestTest {
             generateBasicReqURL));
   }
 
-  @NotNull
-  private HistogrammSnapshot fromJsonWithCheck(final String result) {
-    final HistogrammSnapshot histogrammSnapshot = new Gson().fromJson(result, HistogrammSnapshot.class);
-    Assert.assertNotNull(histogrammSnapshot);
-    Assert.assertEquals(histogrammSnapshot.getName(), HISTOGRAMM_NAME);
-    return histogrammSnapshot;
-  }
 
   @Test
   public void test003() throws Exception {
