@@ -34,7 +34,7 @@ public class ActiveUrlsDetector {
     activeUrlsHolder.setServletCount(servletCount);
 
     final JaxRsActivator jaxRsActivator = new JaxRsActivator();
-    final Set<Class<?>> restClasses = jaxRsActivator.getClasses();
+//
     final Set<Object> singletonClasses = jaxRsActivator.getSingletons();
 
     final String realServletPort = System.getProperty(Main.SERVLET_PORT_PROPERTY, Main.DEFAULT_SERVLET_PORT + "");
@@ -50,7 +50,9 @@ public class ActiveUrlsDetector {
     }
 
     final Executor executorREST = activeUrlsHolder::addRestUrl;
-    restClasses.forEach(executorREST::checkClass);
+    jaxRsActivator
+        .getClasses()
+        .forEach(executorREST::checkClass);
 
     final Executor executorSingleton = activeUrlsHolder::addSingletonUrl;
     singletonClasses.forEach(o -> executorSingleton.checkClass(o.getClass()));
@@ -61,13 +63,14 @@ public class ActiveUrlsDetector {
 
   @FunctionalInterface
   private interface Executor {
-    String realRestPort = System.getProperty(Main.REST_PORT_PROPERTY, Main.DEFAULT_REST_PORT + "");
-    String realRestHost = System.getProperty(Main.REST_HOST_PROPERTY, Main.DEFAULT_HOST);
+    String REAL_REST_PORT = System.getProperty(Main.REST_PORT_PROPERTY, Main.DEFAULT_REST_PORT + "");
+    String REAL_REST_HOST = System.getProperty(Main.REST_HOST_PROPERTY, Main.DEFAULT_HOST);
 
     default void checkClass(final Class<?> aClass) {
+      System.out.println("aClass = " + aClass);
       final Path annotation = aClass.getAnnotation(Path.class);
       final String urlPattern = annotation.value();
-      String url = "http://" + realRestHost + ":" + realRestPort + Main.CONTEXT_PATH_REST + urlPattern;
+      String url = "http://" + REAL_REST_HOST + ":" + REAL_REST_PORT + Main.CONTEXT_PATH_REST + urlPattern;
 
       boolean foundNoPath = true;
       final Method[] declaredMethods = aClass.getDeclaredMethods();

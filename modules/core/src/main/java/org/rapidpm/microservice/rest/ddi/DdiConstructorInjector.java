@@ -22,16 +22,8 @@ public class DdiConstructorInjector implements ConstructorInjector {
   }
 
   public Object construct() {
-
-    //TODO create instance wit injected properties ?
-    try {
-      final Object t = ((Class) type).newInstance();
-      DI.activateDI(t);
-      return t;
-    } catch (InstantiationException | IllegalAccessException e) {
-      e.printStackTrace();
-    }
-    return null;
+    final Object restRessource = DI.activateDI((Class) type);
+    return restRessource;
   }
 
   public Object construct(HttpRequest request, HttpResponse response) throws Failure, WebApplicationException, ApplicationException {

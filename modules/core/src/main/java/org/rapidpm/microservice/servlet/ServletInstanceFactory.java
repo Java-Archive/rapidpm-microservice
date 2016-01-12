@@ -24,18 +24,7 @@ public class ServletInstanceFactory<T extends HttpServlet> implements InstanceFa
     return new InstanceHandle<HttpServlet>() {
       @Override
       public HttpServlet getInstance() {
-        try {
-          final T t = servletClass.newInstance();
-          DI.activateDI(t);
-//          return ProxyBuilder
-//              .newDynamicVirtualProxyBuilder(Servlet.class, t.getClass(), CreationStrategy.NO_DUPLICATES)
-//              .addMetrics()
-//              .build();
-          return t;
-        } catch (InstantiationException | IllegalAccessException e) {
-          e.printStackTrace();
-        }
-        return null;
+        return DI.activateDI(servletClass);
       }
 
       @Override

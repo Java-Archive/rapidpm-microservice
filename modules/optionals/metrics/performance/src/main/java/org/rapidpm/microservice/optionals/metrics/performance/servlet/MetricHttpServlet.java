@@ -1,4 +1,4 @@
-package org.rapidpm.microservice.optionals.metrics.performance;
+package org.rapidpm.microservice.optionals.metrics.performance.servlet;
 
 import org.rapidpm.proxybuilder.staticgenerated.annotations.StaticMetricsProxy;
 

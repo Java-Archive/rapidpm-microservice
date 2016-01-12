@@ -19,7 +19,14 @@ public class BasicRestTest {
     DI.activatePackages("org.rapidpm");
     DI.activatePackages(this.getClass());
     setRestEasyPropertys(Main.DEFAULT_REST_PORT + "");
-    Main.deploy();
+    try {
+      Main.deploy();
+    } catch (Exception e) {
+      final StackTraceElement[] stackTrace = e.getStackTrace();
+      for (StackTraceElement stackTraceElement : stackTrace) {
+        System.out.println("stackTraceElement = " + stackTraceElement);
+      }
+    }
   }
 
   public void setRestEasyPropertys(final String port) {

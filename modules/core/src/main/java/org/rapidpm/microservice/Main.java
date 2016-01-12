@@ -113,9 +113,10 @@ public class Main {
 
   private static DeploymentInfo createServletDeploymentInfos() {
 
-    final Set<Class<?>> typesAnnotatedWith = DI.getTypesAnnotatedWith(WebServlet.class);
+    final Set<Class<?>> typesAnnotatedWith = DI.getTypesAnnotatedWith(WebServlet.class, true);
 
-    final List<ServletInfo> servletInfos = typesAnnotatedWith.stream()
+    final List<ServletInfo> servletInfos = typesAnnotatedWith
+        .stream()
         .filter(s -> new ReflectionUtils().checkInterface(s, HttpServlet.class))
         .map(c -> {
           Class<HttpServlet> servletClass = (Class<HttpServlet>) c;

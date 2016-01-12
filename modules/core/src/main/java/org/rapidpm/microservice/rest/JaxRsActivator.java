@@ -7,8 +7,9 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Application;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
+
+import static java.util.stream.Collectors.toSet;
 
 /**
  * Created by sven on 27.05.15.
@@ -24,14 +25,11 @@ public class JaxRsActivator extends Application {
 
   @Override
   public Set<Class<?>> getClasses() {
-    final Set<Class<?>> typesAnnotatedWith = DI.getTypesAnnotatedWith(Path.class);
-    Set<Class<?>> result = new HashSet<>();
-    for (Class<?> aClass : typesAnnotatedWith) {
-      if (!aClass.getCanonicalName().contains("org.jboss")) {
-        result.add(aClass);
-      }
-    }
-    return result;
+    final Set<Class<?>> collect = DI.getTypesAnnotatedWith(Path.class, true)
+        .stream()
+        .filter(aClass -> !aClass.getCanonicalName().contains("org.jboss"))
+        .collect(toSet());
+    return collect;
   }
 
   /**
