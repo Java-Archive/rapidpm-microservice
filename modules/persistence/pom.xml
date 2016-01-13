@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.rapidpm.microservice</groupId>
     <artifactId>rapidpm-microservice-modules</artifactId>
-    <version>0.0.5</version>
+    <version>0.0.6</version>
 
   </parent>
   <modelVersion>4.0.0</modelVersion>
@@ -23,6 +23,7 @@
     <dependency>
       <groupId>org.rapidpm.microservice</groupId>
       <artifactId>rapidpm-microservice-modules-core</artifactId>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 
