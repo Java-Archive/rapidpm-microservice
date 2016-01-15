@@ -1,9 +1,6 @@
 package junit.org.rapidpm.microservice.demo;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.Main;
 
@@ -12,6 +9,7 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Random;
 
 
 /**
@@ -19,14 +17,25 @@ import java.net.URL;
  */
 public class FullTest {
 
-  private final String url = "http://127.0.0.1:" + Main.DEFAULT_SERVLET_PORT + Main.MYAPP + "/test"; //from Annotation Servlet
+  private static String url;
   private final String USER_AGENT = "Mozilla/5.0";
+
+
+  @BeforeClass
+  public static void setUpClass() {
+    System.setProperty(Main.REST_PORT_PROPERTY, new Random().nextInt(65535 - 1024) + "");
+    System.setProperty(Main.SERVLET_PORT_PROPERTY, new Random().nextInt(65535 - 1024) + "");
+    url = "http://127.0.0.1:" + System.getProperty(Main.SERVLET_PORT_PROPERTY) + Main.MYAPP + "/test"; //from Annotation Servlet
+    System.out.println("url = " + url);
+  }
+
 
   @Before
   public void setUp() throws Exception {
     DI.clearReflectionModel();
     DI.activatePackages("org.rapidpm");
     DI.activatePackages(this.getClass());
+
     Main.deploy();
   }
 

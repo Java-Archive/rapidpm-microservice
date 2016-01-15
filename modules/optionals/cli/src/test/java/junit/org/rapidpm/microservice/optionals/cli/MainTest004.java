@@ -11,6 +11,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import java.util.Random;
 
 import static org.rapidpm.microservice.optionals.cli.DefaultCmdLineOptions.CMD_REST_PORT;
 
@@ -21,10 +22,11 @@ public class MainTest004 extends BaseCmdlineTest{
 
 
   public static final String GOT_IT = "Got it .. ";
+  public static final int PORT = new Random().nextInt(65535 - 1024);
 
   @Test
   public void test001() throws Exception {
-    Main.main(new String[]{"-" + CMD_REST_PORT + " 1234"});
+    Main.main(new String[]{"-" + CMD_REST_PORT + " " + PORT});
 
     final String restAppPath = Main.CONTEXT_PATH_REST;
     final String generateBasicReqURL = new RestUtils().generateBasicReqURL(PortDemoRest.class, restAppPath);
@@ -36,7 +38,7 @@ public class MainTest004 extends BaseCmdlineTest{
         .request()
         .get(String.class);
     Assert.assertEquals(GOT_IT, result);
-    Assert.assertTrue(generateBasicReqURL.contains("1234"));
+    Assert.assertTrue(generateBasicReqURL.contains(PORT + ""));
     client.close();
   }
 

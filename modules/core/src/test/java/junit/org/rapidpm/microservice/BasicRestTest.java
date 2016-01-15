@@ -2,8 +2,10 @@ package junit.org.rapidpm.microservice;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.Main;
+import org.rapidpm.microservice.test.PortUtils;
 import org.rapidpm.microservice.test.RestUtils;
 
 /**
@@ -12,6 +14,12 @@ import org.rapidpm.microservice.test.RestUtils;
 public class BasicRestTest {
 
   final RestUtils restUtils = new RestUtils();
+
+  @BeforeClass
+  public static void setUpClass() {
+    System.setProperty(Main.REST_PORT_PROPERTY, new PortUtils().nextFreePortForTest() + "");
+    System.setProperty(Main.SERVLET_PORT_PROPERTY, new PortUtils().nextFreePortForTest() + "");
+  }
 
   @Before
   public void setUp() throws Exception {

@@ -1,12 +1,11 @@
 package junit.org.rapidpm.microservice.optionals.cli;
 
-import org.apache.commons.cli.CommandLine;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.rapidpm.microservice.Main;
-import org.rapidpm.microservice.optionals.cli.CmdLineParser;
-import org.rapidpm.microservice.optionals.cli.CmdLineStartupAction;
+
+import java.util.Random;
 
 import static org.rapidpm.microservice.optionals.cli.DefaultCmdLineOptions.CMD_REST_PORT;
 
@@ -15,6 +14,9 @@ import static org.rapidpm.microservice.optionals.cli.DefaultCmdLineOptions.CMD_R
  */
 public class MainTest003 extends BaseCmdlineTest {
 
+  public static final int PORT = new Random().nextInt(65535 - 1024);
+
+
   @After
   public void tearDown() throws Exception {
     Main.stop();
@@ -22,9 +24,11 @@ public class MainTest003 extends BaseCmdlineTest {
 
   @Test
   public void test001() throws Exception {
-    Main.main(new String[]{"-" + CMD_REST_PORT + " 1234"});
+
+
+    Main.main(new String[]{"-" + CMD_REST_PORT + " " + PORT});
     String restPort = (String) System.getProperties().get(Main.REST_PORT_PROPERTY);
-    Assert.assertEquals("1234", restPort);
+    Assert.assertEquals(PORT + "", restPort);
 
   }
 

@@ -1,15 +1,12 @@
 package org.rapidpm.microservice.optionals.metrics.health.rest;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.optionals.metrics.health.rest.api.SessionHealthInfo;
 import org.rapidpm.microservice.optionals.metrics.health.rest.api.SessionHealthInfoJsonConverter;
+import org.rapidpm.microservice.test.PortUtils;
 import org.rapidpm.microservice.test.RestUtils;
 
 import javax.ws.rs.client.Client;
@@ -19,19 +16,27 @@ import javax.ws.rs.core.Response;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+
 
 /**
  * Created by b.bosch on 04.11.2015.
  */
 public class SessionHealthTest  {
 
+    private static String url;
     private final String USER_AGENT = "Mozilla/5.0";
-    private final String url = "http://127.0.0.1:" + Main.DEFAULT_SERVLET_PORT + Main.MYAPP + "/test"; //from Annotation Servlet
+
+    @BeforeClass
+    public static void setUpClass() {
+        final PortUtils portUtils = new PortUtils();
+        System.setProperty(Main.REST_PORT_PROPERTY, portUtils.nextFreePortForTest() + "");
+        System.setProperty(Main.SERVLET_PORT_PROPERTY, portUtils.nextFreePortForTest() + "");
+        url = "http://127.0.0.1:" + System.getProperty(Main.SERVLET_PORT_PROPERTY) + Main.MYAPP + "/test"; //from Annotation Servlet
+        System.out.println("url = " + url);
+    }
 
     @Before
     public void startUp(){
@@ -64,6 +69,10 @@ public class SessionHealthTest  {
         
     }
 
+    public String generateBasicReqURL(Class restClass) {
+        final String restAppPath = Main.CONTEXT_PATH_REST;
+        return new RestUtils().generateBasicReqURL(restClass, restAppPath);
+    }
 
     @Test
     public void heathTest002(){
@@ -138,10 +147,5 @@ public class SessionHealthTest  {
             response.append(inputLine);
         }
         in.close();
-    }
-
-    public String generateBasicReqURL(Class restClass) {
-        final String restAppPath = Main.CONTEXT_PATH_REST;
-        return new RestUtils().generateBasicReqURL(restClass, restAppPath);
     }
 }

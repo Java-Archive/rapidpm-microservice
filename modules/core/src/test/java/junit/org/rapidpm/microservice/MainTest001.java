@@ -1,13 +1,12 @@
 package junit.org.rapidpm.microservice;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.Main;
+import org.rapidpm.microservice.test.PortUtils;
 
 import java.util.Optional;
+
 
 /**
  * Created by svenruppert on 27.08.15.
@@ -17,7 +16,11 @@ public class MainTest001 {
 
   public static boolean status = true;
 
-
+  @BeforeClass
+  public static void setUpClass() {
+    System.setProperty(Main.REST_PORT_PROPERTY, new PortUtils().nextFreePortForTest() + "");
+    System.setProperty(Main.SERVLET_PORT_PROPERTY, new PortUtils().nextFreePortForTest() + "");
+  }
   @Before
   public void setUp() throws Exception {
     DI.clearReflectionModel();

@@ -3,6 +3,7 @@ package junit.org.rapidpm.microservice.optionals.cli;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.ddi.ResponsibleFor;
 import org.rapidpm.ddi.implresolver.ClassResolver;
@@ -10,12 +11,18 @@ import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.optionals.cli.helper.ExitHelper;
 
 import java.util.Optional;
+import java.util.Random;
 
 /**
  * Created by b.bosch on 19.11.2015.
  */
 public class BaseCmdlineTest {
 
+  @BeforeClass
+  public static void setUpClass() {
+    System.setProperty(Main.REST_PORT_PROPERTY, new Random().nextInt(65535 - 1024) + "");
+    System.setProperty(Main.SERVLET_PORT_PROPERTY, new Random().nextInt(65535 - 1024) + "");
+  }
 
   @Before
   public void setUp() throws Exception {
@@ -55,15 +62,15 @@ public class BaseCmdlineTest {
     public static int exitCode = -1;
     public static boolean exitCalled = false;
 
-    @Override
-    public void exit(int exitCode) {
-      this.exitCode = exitCode;
-      exitCalled = true;
-    }
-
     public static void reset() {
       exitCode = -1;
       exitCalled = false;
+    }
+
+    @Override
+    public void exit(int exitCode) {
+      JunitExitHelper.exitCode = exitCode;
+      exitCalled = true;
     }
   }
 }
