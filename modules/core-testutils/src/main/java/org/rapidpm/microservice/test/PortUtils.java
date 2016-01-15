@@ -14,7 +14,7 @@ public class PortUtils {
     int counter = 0;
     while (counter < 1_00) {
       try {
-        final int port = new Random().nextInt(65535 - 1024);
+        final int port = 1024 + (new Random().nextInt(65535 - 2048));
         new ServerSocket(port).close();
         return port;
       } catch (IOException ex) {

@@ -17,8 +17,9 @@ public class BasicRestTest {
 
   @BeforeClass
   public static void setUpClass() {
-    System.setProperty(Main.REST_PORT_PROPERTY, new PortUtils().nextFreePortForTest() + "");
-    System.setProperty(Main.SERVLET_PORT_PROPERTY, new PortUtils().nextFreePortForTest() + "");
+    final PortUtils portUtils = new PortUtils();
+    System.setProperty(Main.REST_PORT_PROPERTY, portUtils.nextFreePortForTest() + "");
+    System.setProperty(Main.SERVLET_PORT_PROPERTY, portUtils.nextFreePortForTest() + "");
   }
 
   @Before
