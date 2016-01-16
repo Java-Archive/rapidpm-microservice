@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by svenruppert on 11.09.15.
+ * Created by Sven Ruppert on 11.09.15.
  */
 public class DefaultCmdLineOptions implements CmdLineStartupAction {
 
@@ -31,20 +31,20 @@ public class DefaultCmdLineOptions implements CmdLineStartupAction {
     @Override
     public void execute(CommandLine cli) {
 
-        if (cli.hasOption(DefaultCmdLineOptions.CMD_SERVLET_PORT)) {
-            final String optionValue = cli.getOptionValue(DefaultCmdLineOptions.CMD_SERVLET_PORT).trim();
+        if (cli.hasOption(CMD_SERVLET_PORT)) {
+            final String optionValue = cli.getOptionValue(CMD_SERVLET_PORT).trim();
             System.setProperty(Main.SERVLET_PORT_PROPERTY, optionValue);
         }
-        if (cli.hasOption(DefaultCmdLineOptions.CMD_SERVLET_HOST)) {
-            final String optionValue = cli.getOptionValue(DefaultCmdLineOptions.CMD_SERVLET_HOST).trim();
+        if (cli.hasOption(CMD_SERVLET_HOST)) {
+            final String optionValue = cli.getOptionValue(CMD_SERVLET_HOST).trim();
             System.setProperty(Main.SERVLET_HOST_PROPERTY, optionValue);
         }
-        if (cli.hasOption(DefaultCmdLineOptions.CMD_REST_PORT)) {
-            final String optionValue = cli.getOptionValue(DefaultCmdLineOptions.CMD_REST_PORT).trim();
+        if (cli.hasOption(CMD_REST_PORT)) {
+            final String optionValue = cli.getOptionValue(CMD_REST_PORT).trim();
             System.setProperty(Main.REST_PORT_PROPERTY, optionValue);
         }
-        if (cli.hasOption(DefaultCmdLineOptions.CMD_REST_HOST)) {
-            final String optionValue = cli.getOptionValue(DefaultCmdLineOptions.CMD_REST_HOST).trim();
+        if (cli.hasOption(CMD_REST_HOST)) {
+            final String optionValue = cli.getOptionValue(CMD_REST_HOST).trim();
             System.setProperty(Main.REST_HOST_PROPERTY, optionValue);
         }
     }

@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by svenruppert on 20.11.15.
+ * Created by Sven Ruppert on 20.11.15.
  */
 public class ActiveUrlsHolder {
 
-  private List<String> restUrls = new ArrayList<>();
-  private List<String> servletUrls = new ArrayList<>();
-  private List<String> singletonUrls = new ArrayList<>();
+  private final List<String> restUrls = new ArrayList<>();
+  private final List<String> servletUrls = new ArrayList<>();
+  private final List<String> singletonUrls = new ArrayList<>();
   private long servletCounter;
 
   public ActiveUrlsHolder setServletCount(long counter) {

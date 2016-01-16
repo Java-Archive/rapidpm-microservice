@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Enumeration;
 
 /**
- * Created by svenruppert on 18.12.15.
+ * Created by Sven Ruppert on 18.12.15.
  */
 @StaticMetricsProxy
 public abstract class MetricHttpServlet extends HttpServlet {

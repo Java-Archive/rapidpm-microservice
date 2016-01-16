@@ -15,15 +15,14 @@ import java.lang.reflect.Type;
 public class DdiConstructorInjector implements ConstructorInjector {
   public static final Object[] OBJECTS = new Object[0];
 
-  private Type type;
+  private final Type type;
 
   public DdiConstructorInjector(Type type) {
     this.type = type;
   }
 
   public Object construct() {
-    final Object restRessource = DI.activateDI((Class) type);
-    return restRessource;
+    return DI.activateDI((Class) type);
   }
 
   public Object construct(HttpRequest request, HttpResponse response) throws Failure, WebApplicationException, ApplicationException {

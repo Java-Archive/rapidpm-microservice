@@ -8,7 +8,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 /**
- * Created by svenruppert on 10.11.15.
+ * Created by Sven Ruppert on 10.11.15.
  */
 public class SessionHealthInfoJsonConverter {
 

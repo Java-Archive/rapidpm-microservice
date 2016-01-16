@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Created by svenruppert on 14.12.15.
+ * Created by Sven Ruppert on 14.12.15.
  */
 @Path("/metrics/performance/reporter")
 public class Reporter {

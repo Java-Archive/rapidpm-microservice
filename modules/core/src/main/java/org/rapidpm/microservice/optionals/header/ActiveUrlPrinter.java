@@ -1,7 +1,7 @@
 package org.rapidpm.microservice.optionals.header;
 
 /**
- * Created by svenruppert on 04.11.15.
+ * Created by Sven Ruppert on 04.11.15.
  */
 public class ActiveUrlPrinter {
 

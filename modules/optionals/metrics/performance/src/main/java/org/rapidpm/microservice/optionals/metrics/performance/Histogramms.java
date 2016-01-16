@@ -13,10 +13,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.SortedMap;
 
 /**
- * Created by svenruppert on 14.12.15.
+ * Created by Sven Ruppert on 14.12.15.
  */
 @Path("/metrics/performance/histogramms")
 public class Histogramms {
@@ -52,7 +56,7 @@ public class Histogramms {
   public String listAll() {
     final SortedMap<String, Histogram> histogramMap = RapidPMMetricsRegistry.getInstance().getMetrics().getHistograms();
     final List<HistogrammSnapshot> histogrammSnapshots = new ArrayList<>();
-    for (Map.Entry<String, Histogram> entry : histogramMap.entrySet()) {
+    for (Entry<String, Histogram> entry : histogramMap.entrySet()) {
       final String key = entry.getKey();
       final Histogram histogram = entry.getValue();
       histogrammSnapshots.add(mapData(key, histogram));

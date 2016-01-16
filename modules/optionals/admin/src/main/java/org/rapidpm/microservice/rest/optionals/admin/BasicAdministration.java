@@ -9,7 +9,7 @@ import javax.ws.rs.Produces;
 import static org.rapidpm.microservice.Main.stop;
 
 /**
- * Created by svenruppert on 28.08.15.
+ * Created by Sven Ruppert on 28.08.15.
  */
 @Path("/admin/basicadministration")
 public class BasicAdministration {

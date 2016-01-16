@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * Created by b.bosch on 04.11.2015.
+ * Created by Sven Ruppert on 04.11.2015.
  */
 public class SessionHealthInfo {
 
@@ -41,6 +41,11 @@ public class SessionHealthInfo {
   }
 
   @Override
+  public int hashCode() {
+    return Objects.hash(transientSessions, deploymentName, allSessions, activeSessions, startTime, maxActiveSessions, activeSessionCount, averageSessionAliveTime, createdSessionCount, expiredSessionCount, maxSessionAliveTime, rejectedSessions);
+  }
+
+  @Override
   public boolean equals(final Object o) {
     if (this == o) return true;
     if (!(o instanceof SessionHealthInfo)) return false;
@@ -57,11 +62,6 @@ public class SessionHealthInfo {
         Objects.equals(deploymentName, that.deploymentName) &&
         Objects.equals(allSessions, that.allSessions) &&
         Objects.equals(activeSessions, that.activeSessions);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(transientSessions, deploymentName, allSessions, activeSessions, startTime, maxActiveSessions, activeSessionCount, averageSessionAliveTime, createdSessionCount, expiredSessionCount, maxSessionAliveTime, rejectedSessions);
   }
 
   @Override

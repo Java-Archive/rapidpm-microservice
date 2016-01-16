@@ -12,7 +12,7 @@ import java.util.Set;
 import static java.util.stream.Collectors.toSet;
 
 /**
- * Created by sven on 27.05.15.
+ * Created by Sven Ruppert on 27.05.15.
  */
 @ApplicationPath("/rest")
 public class JaxRsActivator extends Application {
@@ -25,11 +25,10 @@ public class JaxRsActivator extends Application {
 
   @Override
   public Set<Class<?>> getClasses() {
-    final Set<Class<?>> collect = DI.getTypesAnnotatedWith(Path.class, true)
+    return DI.getTypesAnnotatedWith(Path.class, true)
         .stream()
         .filter(aClass -> !aClass.getCanonicalName().contains("org.jboss"))
         .collect(toSet());
-    return collect;
   }
 
   /**

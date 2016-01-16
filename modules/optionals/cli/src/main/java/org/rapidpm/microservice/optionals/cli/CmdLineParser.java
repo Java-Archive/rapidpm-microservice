@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Created by svenruppert on 31.08.15.
+ * Created by Sven Ruppert on 31.08.15.
  */
 public class CmdLineParser {
 
 
-  private List<Option> cmdLineOptions = new ArrayList<>();
+  private final List<Option> cmdLineOptions = new ArrayList<>();
 
   private String[] args;
 

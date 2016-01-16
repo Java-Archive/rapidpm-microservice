@@ -4,25 +4,25 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 /**
- * Created by svenruppert on 15.12.15.
+ * Created by Sven Ruppert on 15.12.15.
  */
 public class HistogrammSnapshot implements Serializable {
 
 
   private String name = "";
 
-  private double histogramSnapshot75thPercentile = 0;
-  private double histogramSnapshot95thPercentile = 0;
-  private double histogramSnapshot98thPercentile = 0;
-  private double histogramSnapshot99thPercentile = 0;
-  private double histogramSnapshot999thPercentile = 0;
-  private long histogramSnapshotMax = 0;
-  private double histogramSnapshotMean = 0;
-  private double histogramSnapshotMedian = 0;
-  private long histogramSnapshotMin = 0;
-  private double histogramSnapshotStdDev = 0;
+  private double histogramSnapshot75thPercentile;
+  private double histogramSnapshot95thPercentile;
+  private double histogramSnapshot98thPercentile;
+  private double histogramSnapshot99thPercentile;
+  private double histogramSnapshot999thPercentile;
+  private long histogramSnapshotMax;
+  private double histogramSnapshotMean;
+  private double histogramSnapshotMedian;
+  private long histogramSnapshotMin;
+  private double histogramSnapshotStdDev;
   private long[] histogramSnapshotValues = new long[0];
-  private long histogramCount = 0;
+  private long histogramCount;
 
   public HistogrammSnapshot name(final String name) {
     this.name = name;

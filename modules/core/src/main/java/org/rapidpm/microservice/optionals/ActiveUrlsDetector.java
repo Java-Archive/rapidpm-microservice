@@ -15,7 +15,7 @@ import java.lang.reflect.Parameter;
 import java.util.Set;
 
 /**
- * Created by svenruppert on 20.11.15.
+ * Created by Sven Ruppert on 20.11.15.
  */
 public class ActiveUrlsDetector {
 

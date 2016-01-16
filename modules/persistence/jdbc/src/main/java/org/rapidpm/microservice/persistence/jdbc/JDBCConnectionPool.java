@@ -6,7 +6,7 @@ import org.rapidpm.dependencies.core.basepattern.builder.NestedBuilder;
 import javax.annotation.Nonnull;
 
 /**
- * Created by svenruppert on 13.07.15.
+ * Created by Sven Ruppert on 13.07.15.
  */
 public class JDBCConnectionPool {
 
@@ -68,6 +68,7 @@ public class JDBCConnectionPool {
     }
 
     public static final class Builder extends NestedBuilder<JDBCConnectionPools, JDBCConnectionPool> {
+        public String jdbcDriverClassName;
         private String poolname;
         private String jdbcURL;
         private String username;
@@ -76,7 +77,6 @@ public class JDBCConnectionPool {
         private String sqlInit;
         private String sqlTest;
         private Integer timeout;
-        public String jdbcDriverClassName;
 
         private Builder() {
         }
@@ -137,8 +137,7 @@ public class JDBCConnectionPool {
 
         @Nonnull
         public JDBCConnectionPool build() {
-            final JDBCConnectionPool jdbcConnectionPool = new JDBCConnectionPool(this);
-            return jdbcConnectionPool;
+            return new JDBCConnectionPool(this);
         }
     }
 }

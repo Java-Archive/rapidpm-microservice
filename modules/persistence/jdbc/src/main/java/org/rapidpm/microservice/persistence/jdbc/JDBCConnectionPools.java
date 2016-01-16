@@ -1,18 +1,19 @@
 package org.rapidpm.microservice.persistence.jdbc;
 
 import com.zaxxer.hikari.HikariDataSource;
+import org.rapidpm.microservice.persistence.jdbc.JDBCConnectionPool.Builder;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
- * Created by svenruppert on 10.07.15.
+ * Created by Sven Ruppert on 10.07.15.
  */
 public class JDBCConnectionPools {
 
   private static final Map<String, JDBCConnectionPool> POOL_MAP = new ConcurrentHashMap<>();
-  private static JDBCConnectionPools ourInstance = new JDBCConnectionPools();
+  private static final JDBCConnectionPools ourInstance = new JDBCConnectionPools();
 
   private JDBCConnectionPools() {
   }
@@ -22,12 +23,12 @@ public class JDBCConnectionPools {
   }
 
   private JDBCConnectionPools withJDBCConnectionPool(JDBCConnectionPool pool) {
-    JDBCConnectionPools.POOL_MAP.put(pool.getPoolname(), pool);
+    POOL_MAP.put(pool.getPoolname(), pool);
     return this;
   }
 
-  public JDBCConnectionPool.Builder addJDBCConnectionPool(String poolname) {
-    final JDBCConnectionPool.Builder builder = JDBCConnectionPool.newBuilder().withParentBuilder(this);
+  public Builder addJDBCConnectionPool(String poolname) {
+    final Builder builder = JDBCConnectionPool.newBuilder().withParentBuilder(this);
     return builder.withPoolname(poolname);
   }
 

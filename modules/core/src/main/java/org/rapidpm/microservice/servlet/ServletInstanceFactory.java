@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 
 
 /**
- * Created by svenruppert on 31.05.15.
+ * Created by Sven Ruppert on 31.05.15.
  */
 public class ServletInstanceFactory<T extends HttpServlet> implements InstanceFactory<HttpServlet> {
 

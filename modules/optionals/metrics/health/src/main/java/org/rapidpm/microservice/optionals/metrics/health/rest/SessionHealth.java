@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Created by b.bosch on 04.11.2015.
+ * Created by Sven Ruppert on 04.11.2015.
  */
 @Path("/metrics/health")
 public class SessionHealth {

@@ -2,6 +2,7 @@ package org.rapidpm.microservice;
 
 import io.undertow.Handlers;
 import io.undertow.Undertow;
+import io.undertow.Undertow.Builder;
 import io.undertow.UndertowOptions;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.handlers.PathHandler;
@@ -30,7 +31,7 @@ import java.util.stream.Collectors;
 import static io.undertow.servlet.Servlets.*;
 
 /**
- * Created by svenruppert on 02.06.15.
+ * Created by Sven Ruppert on 02.06.15.
  */
 public class Main {
 
@@ -67,7 +68,7 @@ public class Main {
     DI.bootstrap(); // per config steuern
     executeStartupActions(args);
 
-    final Undertow.Builder builder = Undertow.builder()
+    final Builder builder = Undertow.builder()
         .setDirectBuffers(true)
         .setServerOption(UndertowOptions.ENABLE_HTTP2, true);
 
@@ -143,8 +144,7 @@ public class Main {
     final Set<Class<?>> weblisteners = DI.getTypesAnnotatedWith(WebListener.class);
     final List<ListenerInfo> listenerInfos = weblisteners.stream()
         .map(c -> {
-          final ListenerInfo listenerInfo = new ListenerInfo((Class<? extends EventListener>) c);
-          return listenerInfo;
+          return new ListenerInfo((Class<? extends EventListener>) c);
         })
         .collect(Collectors.toList());
 
@@ -160,7 +160,7 @@ public class Main {
         .addServlets(servletInfos);
   }
 
-  private static void deployServlets(final Undertow.Builder builder, final DeploymentInfo deploymentInfo) throws ServletException {
+  private static void deployServlets(final Builder builder, final DeploymentInfo deploymentInfo) throws ServletException {
     final ServletContainer servletContainer = defaultContainer();
     DeploymentManager manager = servletContainer.addDeployment(deploymentInfo);
     manager.deploy();
@@ -174,7 +174,7 @@ public class Main {
     builder.addHttpListener(Integer.parseInt(realServletPort), realServletHost, pathServlet);
   }
 
-  private static void deployRestRessources(final Undertow.Builder builder, final JaxRsActivator jaxRsActivator) {
+  private static void deployRestRessources(final Builder builder, final JaxRsActivator jaxRsActivator) {
     final String realRestPort = System.getProperty(REST_PORT_PROPERTY, DEFAULT_REST_PORT + "");
     final String realRestHost = System.getProperty(REST_HOST_PROPERTY, DEFAULT_HOST);
 
@@ -214,7 +214,7 @@ public class Main {
     TIMER.schedule(new TimerTask() {
       @Override
       public void run() {
-        Main.stop();
+        stop();
       }
     }, delayMS);
   }
@@ -238,13 +238,15 @@ public class Main {
   }
 
   public static void deploy() {
-    deploy(Optional.<String[]>empty());
+    deploy(Optional.empty());
   }
 
+  @FunctionalInterface
   public interface MainStartupAction {
     void execute(Optional<String[]> args);
   }
 
+  @FunctionalInterface
   public interface MainShutdownAction {
     void execute(Optional<String[]> args);
   }

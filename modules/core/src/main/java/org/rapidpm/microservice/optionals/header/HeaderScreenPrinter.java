@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.function.Function;
 
 /**
- * Created by svenruppert on 04.11.15.
+ * Created by Sven Ruppert on 04.11.15.
  */
 public class HeaderScreenPrinter {
 

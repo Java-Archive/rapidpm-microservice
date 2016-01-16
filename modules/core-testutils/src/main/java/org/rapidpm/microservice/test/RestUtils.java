@@ -5,7 +5,7 @@ import org.jboss.resteasy.test.TestPortProvider;
 import javax.ws.rs.Path;
 
 /**
- * Created by svenruppert on 31.08.15.
+ * Created by Sven Ruppert on 31.08.15.
  */
 public class RestUtils {
 
