@@ -14,7 +14,7 @@
   <modules>
     <module>jdbc</module>
     <module>local-hashmap</module>
-    <module>distributed-filesystem</module>
+    <!--<module>distributed-filesystem</module>-->
   </modules>
 
   <artifactId>rapidpm-microservice-modules-persistence</artifactId>
