@@ -5,6 +5,7 @@ import org.rapidpm.proxybuilder.core.metrics.RapidPMMetricsRegistry;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -21,7 +22,7 @@ public class Reporter {
 
   @GET()
   @Path(START_JMXREPORTER)
-  @Produces("application/json")
+  @Produces(MediaType.APPLICATION_JSON)
   public String startJMXReporter() {
     RapidPMMetricsRegistry
         .getInstance().startJmxReporter();
@@ -36,7 +37,7 @@ public class Reporter {
 
   @GET()
   @Path(STOP_JMXREPORTER)
-  @Produces("application/json")
+  @Produces(MediaType.APPLICATION_JSON)
   public String stopJMXReporter() {
     RapidPMMetricsRegistry
         .getInstance().stopJmxReporter();
@@ -45,7 +46,7 @@ public class Reporter {
 
   @GET()
   @Path(START_CONSOLEREPORTER)
-  @Produces("application/json")
+  @Produces(MediaType.APPLICATION_JSON)
   public String startConsoleReporter() {
     RapidPMMetricsRegistry
         .getInstance()
@@ -55,7 +56,7 @@ public class Reporter {
 
   @GET()
   @Path(STOP_CONSOLEREPORTER)
-  @Produces("application/json")
+  @Produces(MediaType.APPLICATION_JSON)
   public String stopConsoleReporter() {
     RapidPMMetricsRegistry
         .getInstance()

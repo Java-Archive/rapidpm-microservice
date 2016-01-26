@@ -12,6 +12,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,7 @@ public class Histogramms {
 
   @GET()
   @Path(LIST_ALL_HISTOGRAMMS)
-  @Produces("application/json")
+  @Produces(MediaType.APPLICATION_JSON)
   public String listAll() {
     final SortedMap<String, Histogram> histogramMap = RapidPMMetricsRegistry.getInstance().getMetrics().getHistograms();
     final List<HistogrammSnapshot> histogrammSnapshots = new ArrayList<>();
@@ -87,7 +88,7 @@ public class Histogramms {
 
   @GET()
   @Path(LIST_ALL_HISTOGRAMM_NAMES)
-  @Produces("application/json")
+  @Produces(MediaType.APPLICATION_JSON)
   public String listAllNames() {
     final SortedMap<String, Histogram> histogramMap = RapidPMMetricsRegistry.getInstance().getMetrics().getHistograms();
     return new Gson().toJson(histogramMap.keySet(), Set.class);
@@ -95,7 +96,7 @@ public class Histogramms {
 
   @GET()
   @Path(LIST_ONE_HISTOGRAMMS)
-  @Produces("application/json")
+  @Produces(MediaType.APPLICATION_JSON)
   public String listOneHistogramm(@QueryParam(QUERY_PARAM_HISTOGRAMM_NAME) final String histogrammName) {
     final SortedMap<String, Histogram> histograms = RapidPMMetricsRegistry.getInstance().getMetrics().getHistograms();
     final HistogrammSnapshot histogrammSnapshot;
@@ -109,7 +110,7 @@ public class Histogramms {
 
   @GET()
   @Path(REMOVE_ONE_HISTOGRAMMS)
-  @Produces("application/json")
+  @Produces(MediaType.APPLICATION_JSON)
   public String removeOneHistogramm(@QueryParam(QUERY_PARAM_HISTOGRAMM_NAME) final String histogrammName) {
     final MetricRegistry metricRegistry = RapidPMMetricsRegistry.getInstance().getMetrics();
 
@@ -130,7 +131,7 @@ public class Histogramms {
 
   @GET()
   @Path(LIST_ALL_ACTIVATED_METRICS)
-  @Produces("application/json")
+  @Produces(MediaType.APPLICATION_JSON)
   public String listAllActivatedMetrics() {
     return new Gson().toJson(DI.listAllActivatedMetrics(), STRING_SET_TYPE);
   }
@@ -154,6 +155,7 @@ public class Histogramms {
 
   @GET()
   @Path(ACTIVATE_METRICS_FOR_PKG)
+  @Produces(MediaType.TEXT_PLAIN)
   public String activateMetricsForPKG(@QueryParam(QUERY_PARAM_PKG_NAME) final String pkgName) {
     if (pkgName != null && !pkgName.isEmpty()) {
       DI.activateMetrics(pkgName);

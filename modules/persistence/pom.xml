@@ -13,7 +13,7 @@
   <packaging>pom</packaging>
   <modules>
     <module>jdbc</module>
-    <module>local-hashmap</module>
+    <module>local</module>
     <!--<module>distributed-filesystem</module>-->
   </modules>
 

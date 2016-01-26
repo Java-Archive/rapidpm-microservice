@@ -3,13 +3,13 @@ package junit.org.rapidpm.microservice.demo;
 import org.junit.*;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.Main;
+import org.rapidpm.microservice.test.PortUtils;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Random;
 
 
 /**
@@ -23,8 +23,8 @@ public class FullTest {
 
   @BeforeClass
   public static void setUpClass() {
-    System.setProperty(Main.REST_PORT_PROPERTY, new Random().nextInt(65535 - 1024) + "");
-    System.setProperty(Main.SERVLET_PORT_PROPERTY, new Random().nextInt(65535 - 1024) + "");
+    System.setProperty(Main.REST_PORT_PROPERTY, new PortUtils().nextFreePortForTest() + "");
+    System.setProperty(Main.SERVLET_PORT_PROPERTY, new PortUtils().nextFreePortForTest() + "");
     url = "http://127.0.0.1:" + System.getProperty(Main.SERVLET_PORT_PROPERTY) + Main.MYAPP + "/test"; //from Annotation Servlet
     System.out.println("url = " + url);
   }

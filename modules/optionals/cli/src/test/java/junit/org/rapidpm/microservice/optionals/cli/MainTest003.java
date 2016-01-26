@@ -4,8 +4,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.rapidpm.microservice.Main;
-
-import java.util.Random;
+import org.rapidpm.microservice.test.PortUtils;
 
 import static org.rapidpm.microservice.optionals.cli.DefaultCmdLineOptions.CMD_REST_PORT;
 
@@ -14,7 +13,7 @@ import static org.rapidpm.microservice.optionals.cli.DefaultCmdLineOptions.CMD_R
  */
 public class MainTest003 extends BaseCmdlineTest {
 
-  public static final int PORT = new Random().nextInt(65535 - 1024);
+  public static final int PORT = new PortUtils().nextFreePortForTest();
 
 
   @After

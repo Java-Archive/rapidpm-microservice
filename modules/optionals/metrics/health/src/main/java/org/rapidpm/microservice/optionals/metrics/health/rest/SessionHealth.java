@@ -12,6 +12,7 @@ import org.rapidpm.microservice.optionals.metrics.health.rest.api.SessionHealthI
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 public class SessionHealth {
 
   @GET()
-  @Produces("application/json")
+  @Produces(MediaType.APPLICATION_JSON)
   public String getServletHealth() {
     ServletContainer servletContainer = Servlets.defaultContainer();
     List<SessionHealthInfo> sessionHealthInfos = servletContainer

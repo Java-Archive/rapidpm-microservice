@@ -9,9 +9,9 @@ import org.rapidpm.ddi.ResponsibleFor;
 import org.rapidpm.ddi.implresolver.ClassResolver;
 import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.optionals.cli.helper.ExitHelper;
+import org.rapidpm.microservice.test.PortUtils;
 
 import java.util.Optional;
-import java.util.Random;
 
 /**
  * Created by b.bosch on 19.11.2015.
@@ -20,8 +20,8 @@ public class BaseCmdlineTest {
 
   @BeforeClass
   public static void setUpClass() {
-    System.setProperty(Main.REST_PORT_PROPERTY, new Random().nextInt(65535 - 1024) + "");
-    System.setProperty(Main.SERVLET_PORT_PROPERTY, new Random().nextInt(65535 - 1024) + "");
+    System.setProperty(Main.REST_PORT_PROPERTY, new PortUtils().nextFreePortForTest() + "");
+    System.setProperty(Main.SERVLET_PORT_PROPERTY, new PortUtils().nextFreePortForTest() + "");
   }
 
   @Before
@@ -60,7 +60,7 @@ public class BaseCmdlineTest {
   public static class JunitExitHelper implements ExitHelper {
 
     public static int exitCode = -1;
-    public static boolean exitCalled = false;
+    public static boolean exitCalled;
 
     public static void reset() {
       exitCode = -1;

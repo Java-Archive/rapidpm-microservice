@@ -223,6 +223,7 @@ public class Main {
     executeShutdownActions(cliArguments);
 
     if (jaxrsServer != null) {
+      if (new JaxRsActivator().somethingToDeploy())
       jaxrsServer.stop();
     } else if (undertowServer != null) {
       undertowServer.stop();

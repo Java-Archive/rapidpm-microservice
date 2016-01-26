@@ -7,6 +7,7 @@ import org.rapidpm.microservice.optionals.header.ActiveUrlsHolder;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 
 /**
@@ -17,7 +18,7 @@ import javax.ws.rs.Produces;
 @Path("/info/activeurls")
 public class ActiveUrls {
   @GET()
-  @Produces("application/json")
+  @Produces(MediaType.APPLICATION_JSON)
   public String listAll() {
     final ActiveUrlsHolder activeUrlsHolder = new ActiveUrlsDetector().detectUrls();
     return new Gson().toJson(activeUrlsHolder, ActiveUrlsHolder.class);

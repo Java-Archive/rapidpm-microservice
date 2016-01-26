@@ -16,7 +16,6 @@ public class HeaderTest {
     DI.clearReflectionModel();
     DI.activatePackages("org.rapidpm");
     DI.activatePackages(this.getClass());
-    Main.deploy();
   }
 
   @After
@@ -28,7 +27,7 @@ public class HeaderTest {
 
   @Test
   public void test001() throws Exception {
-
+    Main.deploy();
 
   }
 

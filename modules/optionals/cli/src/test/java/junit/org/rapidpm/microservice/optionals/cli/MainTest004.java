@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.rapidpm.microservice.Main;
+import org.rapidpm.microservice.test.PortUtils;
 import org.rapidpm.microservice.test.RestUtils;
 
 import javax.ws.rs.GET;
@@ -11,7 +12,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import java.util.Random;
 
 import static org.rapidpm.microservice.optionals.cli.DefaultCmdLineOptions.CMD_REST_PORT;
 
@@ -22,7 +22,7 @@ public class MainTest004 extends BaseCmdlineTest{
 
 
   public static final String GOT_IT = "Got it .. ";
-  public static final int PORT = new Random().nextInt(65535 - 1024);
+  public static final int PORT = new PortUtils().nextFreePortForTest();
 
   @Test
   public void test001() throws Exception {
