@@ -17,18 +17,15 @@
  * under the License.
  */
 
-package org.rapidpm.microservice.optionals.index.stores;
+package junit.org.rapidpm.microservice.optionals.index.v004.api;
 
-import org.rapidpm.ddi.DI;
-import org.rapidpm.ddi.scopes.provided.JVMSingletonInjectionScope;
-import org.rapidpm.microservice.Main.MainStartupAction;
 
-import java.util.Optional;
+import org.rapidpm.microservice.optionals.index.stores.indices.IndexOfType;
 
-public class RegisterDefaultIndexStoreAsSingleton implements MainStartupAction {
+public interface IndexOfTypeLoggerEvent extends IndexOfType<LoggerEvent> {
+  String LEVEL = "level";
+  String CREATED = "created";
+  String TIMESTAMP = "timestamp";
+  String MESSAGE = "message";
 
-  @Override
-  public void execute(final Optional<String[]> args) {
-    DI.registerClassForScope(IndexStore.class, JVMSingletonInjectionScope.class.getSimpleName());
-  }
 }

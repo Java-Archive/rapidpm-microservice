@@ -17,8 +17,11 @@
  * under the License.
  */
 
-package org.rapidpm.microservice.optionals.index.stores.indices;
+package junit.org.rapidpm.microservice.optionals.index.v004.server;
 
+import junit.org.rapidpm.microservice.optionals.index.v004.api.IndexOfTypeLoggerEvent;
+import junit.org.rapidpm.microservice.optionals.index.v004.api.LoggerEvent;
+import junit.org.rapidpm.microservice.optionals.index.v004.api.LoggerIndexAPIKt;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -31,7 +34,9 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopScoreDocCollector;
+import org.jetbrains.annotations.NotNull;
 import org.rapidpm.microservice.optionals.index.IndexManagement;
+import org.rapidpm.microservice.optionals.index.stores.indices.BasicLuceneIndexOfType;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
@@ -40,13 +45,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class IndexOfTypeString extends BasicLuceneIndexOfType<String> {
+public class LoggerEventIndex extends BasicLuceneIndexOfType<LoggerEvent> implements IndexOfTypeLoggerEvent {
 
 
-  public static final String FIELD_TXT = "txt";
+  protected LoggerEventIndex(final String indexName) {
+    super(indexName);
+  }
 
-
-  private IndexOfTypeString(final Builder builder) {
+  private LoggerEventIndex(final Builder builder) {
     super(builder.indexName);
   }
 
@@ -55,21 +61,28 @@ public class IndexOfTypeString extends BasicLuceneIndexOfType<String> {
   }
 
   @Override
-  public List<String> queryByExample(final String s) {
-    return Collections.emptyList();
+  public List<LoggerEvent> queryByExample(final LoggerEvent loggerEvent) {
+    return query(LoggerIndexAPIKt.toLuceneQuery(loggerEvent));
   }
 
   @Override
-  public List<String> query(final String query) {
+  public List<LoggerEvent> query(final String query) {
     try {
-      final Query q = new QueryParser(FIELD_TXT, analyzer).parse(query);
+      final Query q = new QueryParser(MESSAGE, analyzer).parse(query);
       final IndexSearcher searcher = new IndexSearcher(directoryReader);
       final TopScoreDocCollector collector = TopScoreDocCollector.create(1_00);
       searcher.search(q, collector);
       final ScoreDoc[] hits = collector.topDocs().scoreDocs;
-      final List<String> result = new ArrayList<>();
+      final List<LoggerEvent> result = new ArrayList<>();
       for (final ScoreDoc hit : hits) {
-        result.add(hit.toString());
+        final int doc = hit.doc;
+        final Document document = searcher.doc(doc);
+        document.get(LEVEL);
+        result.add(new LoggerEvent()
+            .level(document.get(LEVEL))
+            .message(document.get(MESSAGE))
+            .timestamp(LocalDateTime.parse(document.get(TIMESTAMP), IndexManagement.DATE_TIME_FORMATTER))
+        );
       }
       return result;
     } catch (ParseException | IOException e) {
@@ -84,13 +97,15 @@ public class IndexOfTypeString extends BasicLuceneIndexOfType<String> {
   }
 
   @Override
-  protected Document transform2Document(final String value) {
+  @NotNull
+  protected Document transform2Document(final LoggerEvent loggerEvent) {
     final Document doc = new Document();
-    doc.add(new TextField(FIELD_TXT, value, Store.YES));
-    doc.add(new StringField("created", LocalDateTime.now().format(IndexManagement.DATE_TIME_FORMATTER), Store.YES));
+    doc.add(new StringField(LEVEL, loggerEvent.getLevel(), Store.YES));
+    doc.add(new StringField(CREATED, LocalDateTime.now().format(IndexManagement.DATE_TIME_FORMATTER), Store.YES));
+    doc.add(new StringField(TIMESTAMP, loggerEvent.getTimestamp().format(IndexManagement.DATE_TIME_FORMATTER), Store.YES));
+    doc.add(new TextField(MESSAGE, loggerEvent.getMessage(), Store.YES));
     return doc;
   }
-
 
   public static final class Builder {
     private String indexName;
@@ -105,8 +120,8 @@ public class IndexOfTypeString extends BasicLuceneIndexOfType<String> {
     }
 
     @Nonnull
-    public IndexOfTypeString build() {
-      return new IndexOfTypeString(this);
+    public LoggerEventIndex build() {
+      return new LoggerEventIndex(this);
     }
   }
 }

@@ -17,18 +17,22 @@
  * under the License.
  */
 
-package org.rapidpm.microservice.optionals.index.stores;
+package junit.org.rapidpm.microservice.optionals.index.v004.api;
 
-import org.rapidpm.ddi.DI;
-import org.rapidpm.ddi.scopes.provided.JVMSingletonInjectionScope;
-import org.rapidpm.microservice.Main.MainStartupAction;
+import org.junit.Test;
 
-import java.util.Optional;
+import java.time.LocalDateTime;
 
-public class RegisterDefaultIndexStoreAsSingleton implements MainStartupAction {
+public class LoggerIndexAPITest {
 
-  @Override
-  public void execute(final Optional<String[]> args) {
-    DI.registerClassForScope(IndexStore.class, JVMSingletonInjectionScope.class.getSimpleName());
+  @Test
+  public void test001() throws Exception {
+    final String luceneQuery = LoggerIndexAPIKt
+        .toLuceneQuery(new LoggerEvent()
+            .level("LEVEL")
+            .message("Message")
+            .timestamp(LocalDateTime.now()));
+    System.out.println("luceneQuery = " + luceneQuery);
+
   }
 }

@@ -36,12 +36,7 @@ import java.util.Set;
 
 public class DefaultIndexStore implements IndexStore {
 
-
   private final Map<String, IndexOfType> indexOfTypeMap = new HashMap<>();
-
-  public DefaultIndexStore() {
-    System.out.println("DefaultIndexStore.... = ");
-  }
 
   @Override
   public <I extends IndexOfType<T>, T> void addIndexOfType(final String indexName, final I indexOfType) {
