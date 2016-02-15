@@ -28,4 +28,10 @@ public interface IndexOfTypeLoggerEvent extends IndexOfType<LoggerEvent> {
   String TIMESTAMP = "timestamp";
   String MESSAGE = "message";
 
+
+  default String toLuceneQuery(final LoggerEvent event) {
+    return LEVEL + ":" + "\"" + event.getLevel() + "\"" + " AND " +
+        MESSAGE + ":" + "\"" + event.getMessage() + "\"" + " AND " +
+        TIMESTAMP + ":" + "\"" + event.getTimestamp() + "\"";
+  }
 }

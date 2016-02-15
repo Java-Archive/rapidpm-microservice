@@ -115,13 +115,8 @@
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-stdlib</artifactId>
-      <version>${kotlin.version}</version>
     </dependency>
     <!--TDD-->
-
-
   </dependencies>
-  <properties>
-    <kotlin.version>1.0.0-beta-4589</kotlin.version>
-  </properties>
+
 </project>

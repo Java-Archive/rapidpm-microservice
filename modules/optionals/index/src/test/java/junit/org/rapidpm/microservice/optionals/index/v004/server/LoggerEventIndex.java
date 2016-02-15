@@ -21,7 +21,6 @@ package junit.org.rapidpm.microservice.optionals.index.v004.server;
 
 import junit.org.rapidpm.microservice.optionals.index.v004.api.IndexOfTypeLoggerEvent;
 import junit.org.rapidpm.microservice.optionals.index.v004.api.LoggerEvent;
-import junit.org.rapidpm.microservice.optionals.index.v004.api.LoggerIndexAPIKt;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -60,9 +59,10 @@ public class LoggerEventIndex extends BasicLuceneIndexOfType<LoggerEvent> implem
     return new Builder();
   }
 
+
   @Override
   public List<LoggerEvent> queryByExample(final LoggerEvent loggerEvent) {
-    return query(LoggerIndexAPIKt.toLuceneQuery(loggerEvent));
+    return query(toLuceneQuery(loggerEvent));
   }
 
   @Override

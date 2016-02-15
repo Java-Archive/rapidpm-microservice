@@ -22,12 +22,33 @@ package junit.org.rapidpm.microservice.optionals.index.v004.api;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class LoggerIndexAPITest {
 
   @Test
   public void test001() throws Exception {
-    final String luceneQuery = LoggerIndexAPIKt
+    final String luceneQuery = new IndexOfTypeLoggerEvent() {
+      @Override
+      public void addElement(final LoggerEvent loggerEvent) {
+
+      }
+
+      @Override
+      public List<LoggerEvent> queryByExample(final LoggerEvent loggerEvent) {
+        return null;
+      }
+
+      @Override
+      public List<LoggerEvent> query(final String query) {
+        return null;
+      }
+
+      @Override
+      public void shutdown() {
+
+      }
+    }
         .toLuceneQuery(new LoggerEvent()
             .level("LEVEL")
             .message("Message")

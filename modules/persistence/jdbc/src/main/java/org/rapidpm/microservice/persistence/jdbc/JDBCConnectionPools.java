@@ -20,6 +20,8 @@
 package org.rapidpm.microservice.persistence.jdbc;
 
 import com.zaxxer.hikari.HikariDataSource;
+import org.rapidpm.ddi.Produces;
+import org.rapidpm.ddi.producer.Producer;
 import org.rapidpm.microservice.persistence.jdbc.JDBCConnectionPool.Builder;
 
 import java.util.Map;
@@ -60,5 +62,16 @@ public class JDBCConnectionPools {
   public HikariDataSource getDataSource(String poolname) {
     return  POOL_MAP.get(poolname) != null ? POOL_MAP.get(poolname).getDataSource() : null;
   }
+
+
+  @Produces(JDBCConnectionPools.class)
+  public static class JDBCConnectionPoolsProducer implements Producer<JDBCConnectionPools> {
+
+    @Override
+    public JDBCConnectionPools create() {
+      return instance();
+    }
+  }
+
 
 }
