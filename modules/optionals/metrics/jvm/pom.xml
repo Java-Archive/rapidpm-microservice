@@ -22,20 +22,20 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
-    <artifactId>rapidpm-microservice-modules-optionals</artifactId>
+    <artifactId>rapidpm-microservice-modules-optionals-metrics</artifactId>
     <groupId>org.rapidpm.microservice</groupId>
     <version>0.0.7-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>rapidpm-microservice-modules-optionals-metrics</artifactId>
-  <packaging>pom</packaging>
-  <modules>
-    <module>health</module>
-    <module>performance</module>
-    <module>activeressources</module>
-    <module>jvm</module>
-  </modules>
+  <artifactId>rapidpm-microservice-modules-optionals-metrics-jvm</artifactId>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+    </dependency>
+  </dependencies>
 
 
 </project>
