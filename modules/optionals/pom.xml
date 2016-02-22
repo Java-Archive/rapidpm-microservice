@@ -36,7 +36,7 @@
     <module>vaadin</module>
     <module>admin</module>
     <module>index</module>
-    <module>message-queues</module>
+    <!--<module>message-queues</module>-->
   </modules>
 
 
