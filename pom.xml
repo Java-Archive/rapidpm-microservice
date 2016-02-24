@@ -32,7 +32,7 @@
   <groupId>org.rapidpm.microservice</groupId>
   <artifactId>rapidpm-microservice</artifactId>
   <packaging>pom</packaging>
-  <version>0.0.7-SNAPSHOT</version>
+  <version>0.0.7</version>
 
   <modules>
     <module>modules</module>
