@@ -36,6 +36,7 @@ public class JDBCConnectionPool {
     private final boolean autoCommit;
     private final String sqlInit;
     private final String sqlTest;
+    private final int maximalPoolSize;
     private final String jdbcDriverClassName;
 
     private HikariDataSource dataSource;
@@ -49,6 +50,7 @@ public class JDBCConnectionPool {
         sqlInit = builder.sqlInit;
         sqlTest = builder.sqlTest;
         timeout = builder.timeout;
+        maximalPoolSize = builder.maximalPoolSize;
         jdbcDriverClassName = builder.jdbcDriverClassName;
     }
 
@@ -63,6 +65,7 @@ public class JDBCConnectionPool {
             dataSource.setUsername(username);
             dataSource.setPoolName(poolname);
             dataSource.setAutoCommit(autoCommit);
+            dataSource.setMaximumPoolSize(maximalPoolSize);
             if (passwd != null) dataSource.setPassword(passwd);
             if (sqlInit != null) dataSource.setConnectionInitSql(sqlInit);
             if (sqlTest != null) dataSource.setConnectionTestQuery(sqlTest);
@@ -85,6 +88,7 @@ public class JDBCConnectionPool {
 
     public static final class Builder extends NestedBuilder<JDBCConnectionPools, JDBCConnectionPool> {
         public String jdbcDriverClassName;
+        public int maximalPoolSize = 20;
         private String poolname;
         private String jdbcURL;
         private String username;
@@ -92,7 +96,7 @@ public class JDBCConnectionPool {
         private boolean autoCommit;
         private String sqlInit;
         private String sqlTest;
-        private Integer timeout;
+        private int timeout = 2000;
 
         private Builder() {
         }
@@ -140,8 +144,14 @@ public class JDBCConnectionPool {
         }
 
         @Nonnull
-        public Builder withTimeout(@Nonnull final Integer timeout) {
+        public Builder withTimeout(@Nonnull final int timeout) {
             this.timeout = timeout;
+            return this;
+        }
+
+        @Nonnull
+        public Builder withMaximalPoolsSize(@Nonnull final int maximalPoolSize) {
+            this.maximalPoolSize = maximalPoolSize;
             return this;
         }
 
