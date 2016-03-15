@@ -44,14 +44,15 @@
     <name>RapidPM</name>
     <url>http://www.rapidpm.org</url>
   </organization>
-  <url>https://github.com/RapidPM/rapidpm-microservice</url>
+  <!--<url>http://www.java-microservice.org/</url>-->
+  <url>https://github.com/JavaMicroService/rapidpm-microservice</url>
   <name>RapidPM MicroService Framework / Implementation</name>
   <description>MicroService Implementation for easy usage and fine grained options for production</description>
 
   <scm>
-    <url>https://github.com/RapidPM/rapidpm-microservice</url>
-    <connection>scm:git:https://github.com/RapidPM/rapidpm-microservice.git</connection>
-    <developerConnection>scm:git:https://github.com/RapidPM/rapidpm-microservice.git</developerConnection>
+    <url>https://github.com/JavaMicroService/rapidpm-microservice</url>
+    <connection>scm:git:https://github.com/JavaMicroService/rapidpm-microservice.git</connection>
+    <developerConnection>scm:git:https://github.com/JavaMicroService/rapidpm-microservice.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
   <developers>
@@ -69,8 +70,8 @@
     <url>http://rapidpm.myjetbrains.com/youtrack/issues?q=project%3A+Java-MicroService</url>
   </issueManagement>
   <ciManagement>
-    <system>TravisCI</system>
-    <url>https://travis-ci.org/RapidPM/rapidpm-microservice/</url>
+    <system>TeamCity</system>
+    <url>http://78.47.22.54/project.html?projectId=RapidPM_RapidPMMicroservice</url>
   </ciManagement>
   <licenses>
     <license>
@@ -81,6 +82,16 @@
     </license>
   </licenses>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.rapidpm</groupId>
+        <artifactId>rapidpm-dependencies</artifactId>
+        <version>3.0.6-SNAPSHOT</version>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <dependencies>
     <dependency>

@@ -75,9 +75,8 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>in.virit.vwscdn</groupId>
-        <artifactId>vwscdn-maven-plugin</artifactId>
-        <version>${vwscdn.version}</version>
+        <groupId>com.vaadin.wscdn</groupId>
+        <artifactId>wscdn-maven-plugin</artifactId>
         <executions>
           <execution>
             <phase>generate-sources</phase>
