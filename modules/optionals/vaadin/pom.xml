@@ -77,6 +77,10 @@
       <plugin>
         <groupId>com.vaadin.wscdn</groupId>
         <artifactId>wscdn-maven-plugin</artifactId>
+        <configuration>
+          <downloadedDirectory>target/classes/VAADIN/widgetsets</downloadedDirectory>
+          <download>true</download>
+        </configuration>
         <executions>
           <execution>
             <phase>generate-sources</phase>
