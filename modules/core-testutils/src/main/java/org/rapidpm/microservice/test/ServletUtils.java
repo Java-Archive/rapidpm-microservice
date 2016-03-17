@@ -37,6 +37,12 @@ public class ServletUtils {
     System.setProperty(SERVLET_PORT_PROPERTY, port);
   }
 
+  public void setAllForLocalHost() {
+    final PortUtils portUtils = new PortUtils();
+    System.setProperty(SERVLET_PORT_PROPERTY, portUtils.nextFreePortForTest() + "");
+    System.setProperty(SERVLET_HOST_PROPERTY, "127.0.0.1");
+  }
+
 
   public String generateBasicReqURL(Class<? extends HttpServlet> servletClass, String servletPath) {
     if (servletClass.isAnnotationPresent(WebServlet.class)) {

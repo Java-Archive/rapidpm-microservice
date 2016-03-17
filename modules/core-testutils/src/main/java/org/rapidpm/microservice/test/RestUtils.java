@@ -27,6 +27,15 @@ public class RestUtils {
 
   public static final String RESTEASY_PORT_PROPERTY = "org.jboss.resteasy.port";
   public static final String RESTEASY_HOST_PROPERTY = "org.jboss.resteasy.host";
+  public static final String REST_PORT_PROPERTY = "org.rapidpm.microservice.rest.port";
+  public static final String REST_HOST_PROPERTY = "org.rapidpm.microservice.rest.host";
+
+
+  public void setAllForLocalHost() {
+    final PortUtils portUtils = new PortUtils();
+    System.setProperty(REST_PORT_PROPERTY, portUtils.nextFreePortForTest() + "");
+    System.setProperty(REST_HOST_PROPERTY, "127.0.0.1");
+  }
 
 
   public void setRestEasyPropertys(String host, String port) {
