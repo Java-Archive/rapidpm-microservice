@@ -47,12 +47,7 @@ public class BasicRestTest {
     DI.clearReflectionModel();
     DI.activatePackages("org.rapidpm");
     DI.activatePackages(this.getClass());
-//    setRestEasyPropertys(Main.DEFAULT_REST_PORT + "");
     Main.deploy();
-  }
-
-  public void setRestEasyPropertys(final String port) {
-    restUtils.setRestEasyPropertys(port);
   }
 
   @After
@@ -66,7 +61,4 @@ public class BasicRestTest {
     return restUtils.generateBasicReqURL(restClass, restAppPath);
   }
 
-  public void setRestEasyPropertys(final String host, final String port) {
-    restUtils.setRestEasyPropertys(host, port);
-  }
 }

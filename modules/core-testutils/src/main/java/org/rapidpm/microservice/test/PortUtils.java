@@ -28,9 +28,10 @@ public class PortUtils {
   //TODO static ??
   public int nextFreePortForTest() {
     int counter = 0;
+    final Random random = new Random();
     while (counter < 1_00) {
       try {
-        final int port = 1024 + (new Random().nextInt(65535 - 2048));
+        final int port = 1024 + (random.nextInt(65535 - 2048));
         new ServerSocket(port).close();
         return port;
       } catch (IOException ex) {
