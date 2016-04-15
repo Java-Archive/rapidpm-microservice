@@ -1,7 +1,7 @@
 package junit.org.rapidpm.microservice.propertyservice.rest;
 
 
-import junit.org.rapidpm.microservice.propertyservice.impl.PropertyServiceImpl;
+import org.rapidpm.microservice.propertyservice.impl.PropertyServiceImpl;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

@@ -4,6 +4,7 @@ package junit.org.rapidpm.microservice.propertyservice.impl;
 import junit.org.rapidpm.microservice.propertyservice.BasicRestTest;
 import junit.org.rapidpm.microservice.propertyservice.rest.Resource;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.ws.rs.client.Client;
@@ -11,7 +12,7 @@ import javax.ws.rs.client.ClientBuilder;
 
 public class BasicTest001 extends BasicRestTest {
 
-  @Test
+  @Test @Ignore
   public void test001() throws Exception {
     Client client = ClientBuilder.newClient();
     final String generateBasicReqURL = generateBasicReqURL(Resource.class);
