@@ -33,9 +33,17 @@ public class BasicAdministration {
   @GET()
   @Path("{a}")
   @Produces("text/plain")
-  public String shutdownNow(@PathParam("a") String timeout) {
-    stop(5_000);
+  public String shutdownNow(@PathParam("a") final String timeout) {
+    if (timeout == null || timeout.isEmpty()) {
+      stop();
+    } else {
+      try {
+        final Integer integer = Integer.valueOf(timeout);
+        stop(integer);
+      } catch (NumberFormatException e) {
+        stop();
+      }
+    }
     return "code OK";
   }
-
 }

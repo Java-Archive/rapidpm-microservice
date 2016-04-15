@@ -41,8 +41,8 @@ public class SessionHealth {
   @GET()
   @Produces(MediaType.APPLICATION_JSON)
   public String getServletHealth() {
-    ServletContainer servletContainer = Servlets.defaultContainer();
-    List<SessionHealthInfo> sessionHealthInfos = servletContainer
+    final ServletContainer servletContainer = Servlets.defaultContainer();
+    final List<SessionHealthInfo> sessionHealthInfos = servletContainer
         .listDeployments()
         .stream()
         .map(servletContainer::getDeployment)
