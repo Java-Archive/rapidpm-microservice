@@ -20,12 +20,17 @@
 package org.rapidpm.microservice.optionals.metrics.jvm.model.jvm;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class GCInfos implements Serializable {
 
   private long collectionCount;
   private long collectionTime;
+  private String[] memoryPoolNames;
+  private String name;
+  private String objectName;
+
 
   public GCInfos collectionCount(final long collectionCount) {
     this.collectionCount = collectionCount;
@@ -37,18 +42,36 @@ public class GCInfos implements Serializable {
     return this;
   }
 
+  public GCInfos memoryPoolNames(final String[] memoryPoolNames) {
+    this.memoryPoolNames = memoryPoolNames;
+    return this;
+  }
+
+  public GCInfos name(final String name) {
+    this.name = name;
+    return this;
+  }
+
+  public GCInfos objectName(final String objectName) {
+    this.objectName = objectName;
+    return this;
+  }
+
   @Override
   public int hashCode() {
-    return Objects.hash(collectionCount, collectionTime);
+    return Objects.hash(collectionCount, collectionTime, memoryPoolNames, name, objectName);
   }
 
   @Override
   public boolean equals(final Object o) {
     if (this == o) return true;
     if (!(o instanceof GCInfos)) return false;
-    final GCInfos gciNfos = (GCInfos) o;
-    return collectionCount == gciNfos.collectionCount &&
-        collectionTime == gciNfos.collectionTime;
+    final GCInfos gcInfos = (GCInfos) o;
+    return collectionCount == gcInfos.collectionCount &&
+        collectionTime == gcInfos.collectionTime &&
+        Arrays.equals(memoryPoolNames, gcInfos.memoryPoolNames) &&
+        Objects.equals(name, gcInfos.name) &&
+        Objects.equals(objectName, gcInfos.objectName);
   }
 
   @Override
@@ -56,6 +79,9 @@ public class GCInfos implements Serializable {
     return "GCInfos{" +
         "collectionCount=" + collectionCount +
         ", collectionTime=" + collectionTime +
+        ", memoryPoolNames=" + Arrays.toString(memoryPoolNames) +
+        ", name='" + name + '\'' +
+        ", objectName='" + objectName + '\'' +
         '}';
   }
 
@@ -65,5 +91,17 @@ public class GCInfos implements Serializable {
 
   public long getCollectionTime() {
     return collectionTime;
+  }
+
+  public String[] getMemoryPoolNames() {
+    return memoryPoolNames;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public String getObjectName() {
+    return objectName;
   }
 }

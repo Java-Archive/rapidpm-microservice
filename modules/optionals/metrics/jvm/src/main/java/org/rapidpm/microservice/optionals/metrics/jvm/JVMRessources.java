@@ -54,9 +54,16 @@ public class JVMRessources {
     final String specVersion = runtimeMXBean.getSpecVersion();
 
     final List<GCInfos> gcInfos = ManagementFactory.getGarbageCollectorMXBeans()
-        .stream().map(g -> new GCInfos()
+        .stream()
+        .map(g -> new GCInfos()
             .collectionCount(g.getCollectionCount())
-            .collectionTime(g.getCollectionTime()))
+                .collectionTime(g.getCollectionTime())
+                .name(g.getName())
+//            .objectName(g.getObjectName().)
+                .memoryPoolNames(g.getMemoryPoolNames())
+
+
+        )
         .collect(Collectors.toList());
 
     Type listType = new TypeToken<ArrayList<GCInfos>>() {
