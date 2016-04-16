@@ -16,6 +16,8 @@ public class PropertyService {
 
   private HazelcastInstance hazelcastInstance;
   private Map<String, String> properties;
+  private boolean isRunning = false;
+
   @Inject
   PropertiesLoader propertiesLoader;
 
@@ -25,8 +27,23 @@ public class PropertyService {
 
     if (source != null && !source.isEmpty() && properties.isEmpty())
       properties.putAll(propertiesLoader.load(source));
+    isRunning = true;
   }
 
+
+  public void initFromCmd() {
+    hazelcastInstance = Hazelcast.newHazelcastInstance();
+    properties = hazelcastInstance.getReplicatedMap("properties");
+    properties.putAll(propertiesLoader.load(System.getProperty("file")));
+    isRunning = true;
+  }
+
+  public String loadProperties(String scope) {
+    if (!isRunning()) {
+      initFromCmd();
+    }
+    return "success";
+  }
 
   public String getSingleProperty(String property) {
     if (properties.containsKey(property))
@@ -55,4 +72,11 @@ public class PropertyService {
     return domainProperties;
   }
 
+  public boolean isRunning() {
+    return isRunning;
+  }
+
+  public void shutdown() {
+    hazelcastInstance.shutdown();
+  }
 }

@@ -15,14 +15,18 @@ public class PropertyServiceRest {
   @Inject
   PropertyService propertyService;
 
-  public PropertyServiceRest(String source) {
-    propertyService.init(source);
+  @GET()
+  @Path("loadProperties")
+  @Produces("text/plain")
+  public String loadProperties(@QueryParam("scope") String scope) {
+    return propertyService.loadProperties(scope);
   }
+
 
   @GET()
   @Path("getSingleProperty")
   @Produces("text/plain")
-  public String get(@QueryParam("property") String property) {
+  public String getSingleProperty(@QueryParam("property") String property) {
     return propertyService.getSingleProperty("test");
   }
 

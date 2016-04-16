@@ -4,37 +4,32 @@ package junit.org.rapidpm.microservice.propertyservice.rest;
 import junit.org.rapidpm.microservice.propertyservice.BaseRestTest;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.rapidpm.microservice.propertyservice.rest.PropertyServiceRest;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.core.Response;
 
 public class RestTest001 extends BaseRestTest {
-
-  private PropertyServiceRest serviceRest;
 
   @Override
   @Before
   public void setUp() throws Exception {
     super.setUp();
-    serviceRest = new PropertyServiceRest(this.getClass().getResource("example.properties").getPath());
+    System.setProperty("file", this.getClass().getResource("example.properties").getPath());
   }
 
-
-  @Test @Ignore
+  @Test
   public void test001() throws Exception {
     Client client = ClientBuilder.newClient();
-    final String uri = generateBasicReqURL(PropertyServiceRest.class) + "/getSingleProperty?property=rest01.prop01";
-    final Response response = client
+    final String uri = generateBasicReqURL(PropertyServiceRest.class) + "/loadProperties?scope=example";
+    final String response = client
         .target(uri)
         .request()
-        .get();
-    Assert.assertEquals(200, response.getStatus());
+        .get(String.class);
+    //Assert.assertEquals(200, response.getStatus());
     client.close();
-
+    Assert.assertEquals("success", response);
   }
 }
 

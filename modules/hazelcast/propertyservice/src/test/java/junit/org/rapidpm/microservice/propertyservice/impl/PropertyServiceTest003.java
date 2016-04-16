@@ -1,9 +1,7 @@
 package junit.org.rapidpm.microservice.propertyservice.impl;
 
 import junit.org.rapidpm.microservice.propertyservice.BaseDITest;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.propertyservice.impl.PropertyService;
 
@@ -17,9 +15,19 @@ public class PropertyServiceTest003 extends BaseDITest {
   @Inject
   PropertyService service02;
 
+  @Override
   @Before
   public void setUp() throws Exception {
+    super.setUp();
     DI.activateDI(this);
+  }
+
+  @Override
+  @After
+  public void tearDown() throws Exception {
+    super.tearDown();
+    service01.shutdown();
+    service02.shutdown();
   }
 
   @Test

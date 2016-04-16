@@ -33,13 +33,12 @@
   <dependencies>
     <dependency>
       <groupId>org.rapidpm.microservice</groupId>
-      <artifactId>rapidpm-microservice-modules-core</artifactId>
-      <scope>provided</scope>
+      <artifactId>rapidpm-microservice-modules-optionals-cli</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.hazelcast</groupId>
-      <artifactId>hazelcast</artifactId>
-      <version>3.7-SNAPSHOT</version>
+      <groupId>org.rapidpm.microservice</groupId>
+      <artifactId>rapidpm-microservice-modules-core</artifactId>
+      <scope>provided</scope>
     </dependency>
     <!-- Testing -->
     <dependency>
