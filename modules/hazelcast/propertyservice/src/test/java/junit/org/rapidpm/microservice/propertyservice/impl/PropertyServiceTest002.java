@@ -1,22 +1,35 @@
 package junit.org.rapidpm.microservice.propertyservice.impl;
 
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.propertyservice.impl.PropertyServiceImpl;
 
+import javax.inject.Inject;
 import java.util.Map;
 import java.util.Set;
 
 public class PropertyServiceTest002 {
 
-  private PropertyServiceImpl service;
+  @Inject
+  PropertyServiceImpl service;
 
   @Before
   public void setUp() throws Exception {
-    service = new PropertyServiceImpl();
-    service.init();
+    DI.clearReflectionModel();
+    DI.activatePackages(this.getClass());
+    DI.activatePackages("org.rapidpm");
+    DI.activateDI(this);
+
+    service.init(this.getClass().getResource("example.properties").getPath());
+  }
+
+  @After
+  public void tearDown() throws Exception {
+    DI.clearReflectionModel();
   }
 
   @Test
@@ -26,6 +39,7 @@ public class PropertyServiceTest002 {
     Assert.assertNotNull(index);
     Assert.assertTrue(index.size() > 0);
     Assert.assertTrue(index.contains("example.part01.001"));
+    Assert.assertTrue(index.contains("example.part01.002"));
   }
 
   @Test

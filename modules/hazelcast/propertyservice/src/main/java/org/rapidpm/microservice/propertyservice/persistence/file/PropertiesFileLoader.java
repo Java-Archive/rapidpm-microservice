@@ -1,13 +1,18 @@
 package org.rapidpm.microservice.propertyservice.persistence.file;
 
 
-import java.io.*;
+import org.rapidpm.microservice.propertyservice.persistence.PropertiesLoader;
+
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-public class PropertiesFileLoader {
+public class PropertiesFileLoader implements PropertiesLoader {
 
+  @Override
   public Map<String, String> load(String path) {
     final Properties properties = new Properties();
     try {
@@ -24,9 +29,10 @@ public class PropertiesFileLoader {
     return resultMap;
   }
 
-  public void store(Map<String, String> propertieMap, String path) {
+  @Override
+  public void store(Map<String, String> propertiesMap, String path) {
     final Properties properties = new Properties();
-    propertieMap.keySet().forEach(key -> properties.put(key, propertieMap.get(key)));
+    propertiesMap.keySet().forEach(key -> properties.put(key, propertiesMap.get(key)));
     try {
       properties.store(new FileWriter(path), "");
     }  catch (IOException e) {

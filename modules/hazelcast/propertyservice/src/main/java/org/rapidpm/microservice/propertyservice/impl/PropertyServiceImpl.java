@@ -3,7 +3,10 @@ package org.rapidpm.microservice.propertyservice.impl;
 
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
+import org.rapidpm.microservice.propertyservice.persistence.PropertiesLoader;
 
+import javax.annotation.Nullable;
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -13,19 +16,15 @@ public class PropertyServiceImpl {
 
   private HazelcastInstance hazelcastInstance;
   private Map<String, String> properties;
+  @Inject
+  PropertiesLoader propertiesLoader;
 
-  public void init() {
+  public void init(@Nullable String source) {
     hazelcastInstance = Hazelcast.newHazelcastInstance();
     properties = hazelcastInstance.getReplicatedMap("properties");
 
-    if (properties.isEmpty())
-      loadProperties();
-  }
-
-  private void loadProperties() {
-    properties.put("example.part01.001", "test001");
-    properties.put("example.part01.002", "test002");
-    properties.put("single.theonlykey", "theonlyvalue");
+    if (source != null && !source.isEmpty() && properties.isEmpty())
+      properties.putAll(propertiesLoader.load(source));
   }
 
 
@@ -33,7 +32,7 @@ public class PropertyServiceImpl {
     if (properties.containsKey(property))
       return properties.get(property);
     else
-      return "";
+      return ""; // Todo return something useful or make optional
   }
 
   public Set<String> getIndex() {
@@ -41,12 +40,10 @@ public class PropertyServiceImpl {
   }
 
   public Set<String> getIndexToDomain(String domain) {
-    final Set<String> domainIndex =
-        properties.keySet()
-            .stream()
-            .filter(key -> key.startsWith(domain))
-            .collect(Collectors.toSet());
-    return domainIndex;
+    return properties.keySet()
+        .stream()
+        .filter(key -> key.startsWith(domain))
+        .collect(Collectors.toSet());
   }
 
   public Map<String, String> getPropertiesOfDomain(String domain) {
