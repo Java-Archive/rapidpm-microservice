@@ -27,7 +27,7 @@ import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.test.PortUtils;
 import org.rapidpm.microservice.test.RestUtils;
 
-public class BasicRestTest extends BasicDITest{
+public class BaseRestTest extends BaseDITest {
 
   final RestUtils restUtils = new RestUtils();
 

@@ -1,7 +1,7 @@
 package org.rapidpm.microservice.propertyservice.rest;
 
 
-import org.rapidpm.microservice.propertyservice.impl.PropertyServiceImpl;
+import org.rapidpm.microservice.propertyservice.impl.PropertyService;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -13,7 +13,7 @@ import javax.ws.rs.QueryParam;
 public class PropertyServiceRest {
 
   @Inject
-  PropertyServiceImpl propertyService;
+  PropertyService propertyService;
 
   public PropertyServiceRest(String source) {
     propertyService.init(source);

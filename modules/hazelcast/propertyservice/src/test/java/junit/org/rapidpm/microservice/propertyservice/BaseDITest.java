@@ -5,7 +5,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.rapidpm.ddi.DI;
 
-public class BasicDITest {
+public class BaseDITest {
 
   @Before
   public void setUp() throws Exception {

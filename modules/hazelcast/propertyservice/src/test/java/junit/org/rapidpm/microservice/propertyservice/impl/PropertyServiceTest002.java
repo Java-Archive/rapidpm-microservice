@@ -1,35 +1,27 @@
 package junit.org.rapidpm.microservice.propertyservice.impl;
 
 
-import org.junit.After;
+import junit.org.rapidpm.microservice.propertyservice.BaseDITest;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.rapidpm.ddi.DI;
-import org.rapidpm.microservice.propertyservice.impl.PropertyServiceImpl;
+import org.rapidpm.microservice.propertyservice.impl.PropertyService;
 
 import javax.inject.Inject;
 import java.util.Map;
 import java.util.Set;
 
-public class PropertyServiceTest002 {
+public class PropertyServiceTest002 extends BaseDITest {
 
   @Inject
-  PropertyServiceImpl service;
+  PropertyService service;
 
   @Before
   public void setUp() throws Exception {
-    DI.clearReflectionModel();
-    DI.activatePackages(this.getClass());
-    DI.activatePackages("org.rapidpm");
     DI.activateDI(this);
 
     service.init(this.getClass().getResource("example.properties").getPath());
-  }
-
-  @After
-  public void tearDown() throws Exception {
-    DI.clearReflectionModel();
   }
 
   @Test
