@@ -26,8 +26,9 @@ public class PropertyServiceTest002 extends BaseDITest {
   public void setUp() throws Exception {
     super.setUp();
     DI.activateDI(this);
-    System.setProperty("file", this.getClass().getResource("example.properties").getPath());
+    System.setProperty("file", this.getClass().getResource("").getPath());
     service.initFromCmd();
+    service.loadProperties("example");
   }
 
   @Override

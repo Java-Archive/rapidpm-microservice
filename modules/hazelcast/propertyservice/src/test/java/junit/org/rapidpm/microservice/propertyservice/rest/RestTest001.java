@@ -4,9 +4,9 @@ package junit.org.rapidpm.microservice.propertyservice.rest;
 import junit.org.rapidpm.microservice.propertyservice.BaseRestTest;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.rapidpm.ddi.DI;
+import org.rapidpm.ddi.scopes.provided.JVMSingletonInjectionScope;
 import org.rapidpm.microservice.propertyservice.impl.PropertyService;
 import org.rapidpm.microservice.propertyservice.persistence.file.PropertiesFileLoader;
 import org.rapidpm.microservice.propertyservice.rest.PropertyServiceRest;
@@ -14,9 +14,7 @@ import org.rapidpm.microservice.propertyservice.rest.PropertyServiceRest;
 import javax.inject.Inject;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import java.util.Set;
 
-@Ignore
 public class RestTest001 extends BaseRestTest {
 
   @Inject
@@ -27,25 +25,30 @@ public class RestTest001 extends BaseRestTest {
   public void setUp() throws Exception {
     super.setUp();
     DI.activateDI(new PropertiesFileLoader());
-    System.setProperty("file", this.getClass().getResource("example.properties").getPath());
+    DI.registerClassForScope(PropertyService.class, JVMSingletonInjectionScope.class.getSimpleName());
+    System.setProperty("file", this.getClass().getResource("").getPath());
   }
 
   @Test
   public void test001() throws Exception {
+    final String response = callLoadingOfProperties();
+    Assert.assertEquals("success", response);
+  }
+
+  private String callLoadingOfProperties() {
     Client client = ClientBuilder.newClient();
-    final String uri = generateBasicReqURL(PropertyServiceRest.class) + "/loadProperties?scope=example";
+    final String uri = generateBasicReqURL(PropertyServiceRest.class) + "/loadProperties?scope=rest01";
     final String response = client
         .target(uri)
         .request()
         .get(String.class);
-    //Assert.assertEquals(200, response.getStatus());
     client.close();
-    Assert.assertEquals("success", response);
+    return response;
   }
 
   @Test
   public void test002() throws Exception {
-    test001();
+    callLoadingOfProperties();
     Client client = ClientBuilder.newClient();
     final String uri = generateBasicReqURL(PropertyServiceRest.class) + "/getSingleProperty?property=rest01.prop01";
     final String response = client
@@ -58,33 +61,35 @@ public class RestTest001 extends BaseRestTest {
 
   @Test
   public void test003() throws Exception {
+    callLoadingOfProperties();
     Client client = ClientBuilder.newClient();
     final String uri = generateBasicReqURL(PropertyServiceRest.class) + "/getIndexOfLoadedProperties";
-    final Set<String> response = client
+    final String response = client
         .target(uri)
         .request()
-        .get(Set.class);
-    //Assert.assertEquals(200, response.getStatus());
+        .get(String.class);
     client.close();
     Assert.assertNotNull(response);
-    Assert.assertTrue(response.size() == 1);
+    Assert.assertFalse(response.isEmpty());
   }
 
   @Test
   public void test004() throws Exception {
+    callLoadingOfProperties();
     Client client = ClientBuilder.newClient();
     final String uri = generateBasicReqURL(PropertyServiceRest.class) + "/getIndexOfScope?scope=rest01";
-    final Set<String> response = client
+    final String response = client
         .target(uri)
         .request()
-        .get(Set.class);
+        .get(String.class);
     client.close();
     Assert.assertNotNull(response);
-    Assert.assertTrue(response.size() == 1);
+    Assert.assertEquals("[\"rest01.prop01\"]", response);
   }
 
   @Test
   public void test005() throws Exception {
+    callLoadingOfProperties();
     Client client = ClientBuilder.newClient();
     final String uri = generateBasicReqURL(PropertyServiceRest.class) + "/getPropertiesOfScope?scope=rest01";
     final String response = client
@@ -93,7 +98,7 @@ public class RestTest001 extends BaseRestTest {
         .get(String.class);
     client.close();
     Assert.assertNotNull(response);
-    Assert.assertTrue(response.length() == 1);
+    Assert.assertEquals("{\"rest01.prop01\":\"test001\"}", response);
   }
 
 }

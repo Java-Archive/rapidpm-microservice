@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 public class PropertyService {
 
+  public static final String PROPERTIES = "properties";
   private HazelcastInstance hazelcastInstance;
   private Map<String, String> properties;
   private boolean isRunning = false;
@@ -32,8 +33,8 @@ public class PropertyService {
 
   public void initFromCmd() {
     hazelcastInstance = Hazelcast.newHazelcastInstance();
-    properties = hazelcastInstance.getReplicatedMap("properties");
-    properties.putAll(propertiesLoader.load(System.getProperty("file")));
+    properties = hazelcastInstance.getReplicatedMap(PROPERTIES);
+    //properties.putAll(propertiesLoader.load(System.getProperty("file")));
     isRunning = true;
   }
 

@@ -20,6 +20,7 @@ public class PropertyServiceTest003 extends BaseDITest {
   public void setUp() throws Exception {
     super.setUp();
     DI.activateDI(this);
+    System.setProperty("file", this.getClass().getResource("").getPath());
   }
 
   @Override
@@ -32,8 +33,10 @@ public class PropertyServiceTest003 extends BaseDITest {
 
   @Test
   public void test001() throws Exception {
-    service01.init(this.getClass().getResource("example.properties").getPath());
-    service02.init(null);
+    service01.initFromCmd();
+    service01.loadProperties("example");
+    //service01.init(this.getClass().getResource("example.properties").getPath());
+    service02.initFromCmd();
     final String singleProperty = service02.getSingleProperty("example.part01.001");
     Assert.assertNotNull(singleProperty);
     Assert.assertFalse(singleProperty.isEmpty());
@@ -42,9 +45,9 @@ public class PropertyServiceTest003 extends BaseDITest {
 
   @Test
   public void test002() throws Exception {
-    service01.init(null);
-    service02.init(this.getClass().getResource("example.properties").getPath());
-
+    service01.initFromCmd();
+    service02.initFromCmd();
+    service02.loadProperties("example");
     final String singleProperty = service01.getSingleProperty("example.part01.001");
     Assert.assertNotNull(singleProperty);
     Assert.assertFalse(singleProperty.isEmpty());
@@ -52,8 +55,9 @@ public class PropertyServiceTest003 extends BaseDITest {
 
   @Test
   public void test003() throws Exception {
-    service01.init(null);
-    service02.init(this.getClass().getResource("example.properties").getPath());
+    service01.initFromCmd();
+    service02.initFromCmd();
+    service01.loadProperties("example");
 
     final Set<String> indexToDomain = service01.getIndexOfScope("example");
     Assert.assertNotNull(indexToDomain);

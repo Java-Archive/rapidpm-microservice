@@ -1,6 +1,7 @@
 package org.rapidpm.microservice.propertyservice.rest;
 
 
+import com.google.gson.Gson;
 import org.rapidpm.microservice.propertyservice.impl.PropertyService;
 
 import javax.inject.Inject;
@@ -8,14 +9,14 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import java.util.Map;
-import java.util.Set;
 
 @Path("/propertyservice")
 public class PropertyServiceRest {
 
   @Inject
   PropertyService propertyService;
+
+  private final Gson gson = new Gson();
 
   @GET()
   @Path("loadProperties")
@@ -34,23 +35,23 @@ public class PropertyServiceRest {
 
   @GET()
   @Path("getIndexOfLoadedProperties")
-  @Produces("text/plain")
-  public Set<String> getIndexOfLoadedProperties() {
-    return propertyService.getIndexOfLoadedProperties();
+  @Produces("application/json")
+  public String getIndexOfLoadedProperties() {
+    return gson.toJson(propertyService.getIndexOfLoadedProperties());
   }
 
   @GET()
   @Path("getIndexOfScope")
-  @Produces("text/plain")
-  public Set<String> getIndexOfScope(@QueryParam("scope") String scope) {
-    return propertyService.getIndexOfScope(scope);
+  @Produces("application/json")
+  public String getIndexOfScope(@QueryParam("scope") String scope) {
+    return gson.toJson(propertyService.getIndexOfScope(scope));
   }
 
   @GET()
   @Path("getPropertiesOfScope")
-  @Produces("text/plain")
-  public Map<String, String> getPropertiesOfScope(@QueryParam("scope") String scope) {
-    return propertyService.getPropertiesOfScope(scope);
+  @Produces("application/json")
+  public String getPropertiesOfScope(@QueryParam("scope") String scope) {
+    return gson.toJson(propertyService.getPropertiesOfScope(scope));
   }
 
 }

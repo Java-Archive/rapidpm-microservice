@@ -40,6 +40,10 @@
       <artifactId>rapidpm-microservice-modules-core</artifactId>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+    </dependency>
     <!-- Testing -->
     <dependency>
       <groupId>org.rapidpm.microservice</groupId>

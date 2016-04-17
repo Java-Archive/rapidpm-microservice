@@ -41,7 +41,7 @@ public class PropertyServiceTest001 extends BaseDITest{
     service.shutdown();
   }
 
-  @Test
+  @Test @Ignore
   public void test001() throws Exception {
     final String singleProperty = service.getSingleProperty(PROPERTY_KEY);
 
