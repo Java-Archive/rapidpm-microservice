@@ -30,7 +30,6 @@ public class PropertyService {
     isRunning = true;
   }
 
-
   public void initFromCmd() {
     hazelcastInstance = Hazelcast.newHazelcastInstance();
     properties = hazelcastInstance.getReplicatedMap("properties");
@@ -42,6 +41,8 @@ public class PropertyService {
     if (!isRunning()) {
       initFromCmd();
     }
+    properties.putAll(propertiesLoader.load(System.getProperty("file"), scope));
+
     return "success";
   }
 
@@ -52,22 +53,22 @@ public class PropertyService {
       return ""; // Todo return something useful or make optional
   }
 
-  public Set<String> getIndex() {
+  public Set<String> getIndexOfLoadedProperties() {
     return properties.keySet();
   }
 
-  public Set<String> getIndexToDomain(String domain) {
+  public Set<String> getIndexOfScope(String scope) {
     return properties.keySet()
         .stream()
-        .filter(key -> key.startsWith(domain))
+        .filter(key -> key.startsWith(scope))
         .collect(Collectors.toSet());
   }
 
-  public Map<String, String> getPropertiesOfDomain(String domain) {
+  public Map<String, String> getPropertiesOfScope(String scope) {
     final Map<String, String> domainProperties = new HashMap<>();
     properties.keySet()
         .stream()
-        .filter(key -> key.startsWith(domain))
+        .filter(key -> key.startsWith(scope))
         .forEach(key -> domainProperties.put(key, properties.get(key)));
     return domainProperties;
   }

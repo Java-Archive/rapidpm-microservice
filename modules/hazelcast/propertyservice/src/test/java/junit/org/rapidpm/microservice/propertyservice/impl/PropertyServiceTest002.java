@@ -54,7 +54,7 @@ public class PropertyServiceTest002 extends BaseDITest {
 
   @Test
   public void test003() throws Exception {
-    final Set<String> index = service.getIndex();
+    final Set<String> index = service.getIndexOfLoadedProperties();
 
     Assert.assertNotNull(index);
     Assert.assertTrue(index.size() > 0);
@@ -64,7 +64,7 @@ public class PropertyServiceTest002 extends BaseDITest {
 
   @Test
   public void test004() throws Exception {
-    final Set<String> indexToDomain = service.getIndexToDomain("single");
+    final Set<String> indexToDomain = service.getIndexOfScope("single");
 
     Assert.assertNotNull(indexToDomain);
     Assert.assertEquals(1, indexToDomain.size());
@@ -73,7 +73,7 @@ public class PropertyServiceTest002 extends BaseDITest {
 
   @Test
   public void test005() throws Exception {
-    final Map<String, String> propertiesOfDomain = service.getPropertiesOfDomain("single");
+    final Map<String, String> propertiesOfDomain = service.getPropertiesOfScope("single");
 
     Assert.assertNotNull(propertiesOfDomain);
     Assert.assertEquals(1, propertiesOfDomain.size());

@@ -55,7 +55,7 @@ public class PropertyServiceTest003 extends BaseDITest {
     service01.init(null);
     service02.init(this.getClass().getResource("example.properties").getPath());
 
-    final Set<String> indexToDomain = service01.getIndexToDomain("example");
+    final Set<String> indexToDomain = service01.getIndexOfScope("example");
     Assert.assertNotNull(indexToDomain);
     Assert.assertTrue(indexToDomain.size() == 2);
   }

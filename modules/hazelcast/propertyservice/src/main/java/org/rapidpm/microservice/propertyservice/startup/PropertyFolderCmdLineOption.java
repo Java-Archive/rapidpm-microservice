@@ -7,13 +7,13 @@ import org.rapidpm.microservice.optionals.cli.CmdLineStartupAction;
 import java.util.Arrays;
 import java.util.List;
 
-public class LoadFromFSCmdLineOptions implements CmdLineStartupAction {
+public class PropertyFolderCmdLineOption implements CmdLineStartupAction {
 
-  public static final String OPT = "fs";
+  public static final String OPT = "pf";
 
   @Override
   public List<Option> getOptions() {
-    return Arrays.asList(new Option(OPT, true, "path to properties"));
+    return Arrays.asList(new Option(OPT, "propertyfolder", true, "folder with property files"));
   }
 
   @Override
