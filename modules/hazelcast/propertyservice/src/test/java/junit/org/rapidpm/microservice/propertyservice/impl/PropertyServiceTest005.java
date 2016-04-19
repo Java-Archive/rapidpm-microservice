@@ -26,7 +26,6 @@ public class PropertyServiceTest005 {
   @After
   public void tearDown() throws Exception {
     service.forget();
-    service.shutdown();
   }
 
   @Test

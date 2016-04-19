@@ -38,7 +38,6 @@
     <dependency>
       <groupId>org.rapidpm.microservice</groupId>
       <artifactId>rapidpm-microservice-modules-core</artifactId>
-      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.google.code.gson</groupId>
@@ -65,7 +64,8 @@
               <goal>shade</goal>
             </goals>
             <configuration>
-              <dependencyReducedPomLocation>${project.build.directory}/reduced-pom.xml
+              <dependencyReducedPomLocation>
+                ${project.build.directory}/reduced-pom.xml
               </dependencyReducedPomLocation>
               <transformers>
                 <transformer

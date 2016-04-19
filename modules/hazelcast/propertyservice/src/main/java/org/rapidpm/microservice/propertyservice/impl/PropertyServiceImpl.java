@@ -1,6 +1,7 @@
 package org.rapidpm.microservice.propertyservice.impl;
 
 
+import com.hazelcast.config.Config;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import org.rapidpm.microservice.propertyservice.api.PropertyService;
@@ -26,8 +27,12 @@ public class PropertyServiceImpl implements PropertyService {
 
   @Override
   public void init(@Nullable String source) {
-    hazelcastInstance = Hazelcast.newHazelcastInstance();
-    properties = hazelcastInstance.getReplicatedMap(getMapName());
+    if (System.getProperty("distributed", "") == "true") {
+      hazelcastInstance = Hazelcast.newHazelcastInstance(getDefaultConfig());
+      properties = hazelcastInstance.getReplicatedMap(getMapName());
+    } else {
+      properties = new HashMap<>();
+    }
 
     if (source != null && !source.isEmpty() && properties.isEmpty())
       properties.putAll(propertiesLoader.load(source));
@@ -36,14 +41,25 @@ public class PropertyServiceImpl implements PropertyService {
 
   @Override
   public void initFromCmd() {
-    hazelcastInstance = Hazelcast.newHazelcastInstance();
-    properties = hazelcastInstance.getReplicatedMap(getMapName());
+    if (System.getProperty("distributed", "") == "true") {
+      hazelcastInstance = Hazelcast.newHazelcastInstance(getDefaultConfig());
+      properties = hazelcastInstance.getReplicatedMap(getMapName());
+    } else {
+      properties = new HashMap<>();
+    }
     isRunning = true;
+  }
+
+  private Config getDefaultConfig() {
+    final Config config = new Config();
+    config.setProperty("hazelcast.network.tcpip", "true");
+    config.setProperty("hazelcast.network.multicast", "false");
+    return config;
   }
 
   @Override
   public String loadProperties(String scope) {
-    if (!isRunning()) {
+    if (!isRunning) {
       initFromCmd();
     }
     properties.putAll(propertiesLoader.load(System.getProperty("file"), scope));

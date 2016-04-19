@@ -2,6 +2,9 @@ package org.rapidpm.microservice.propertyservice.rest;
 
 
 import com.google.gson.Gson;
+import org.rapidpm.ddi.DI;
+import org.rapidpm.ddi.scopes.provided.JVMSingletonInjectionScope;
+import org.rapidpm.microservice.propertyservice.api.PropertyService;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -13,9 +16,13 @@ import javax.ws.rs.QueryParam;
 public class PropertyServiceRest {
 
   @Inject
-  org.rapidpm.microservice.propertyservice.api.PropertyService propertyService;
+  PropertyService propertyService;
 
   private final Gson gson = new Gson();
+
+  public PropertyServiceRest() {
+    DI.registerClassForScope(PropertyService.class, JVMSingletonInjectionScope.class.getSimpleName());
+  }
 
   @GET()
   @Path("loadProperties")

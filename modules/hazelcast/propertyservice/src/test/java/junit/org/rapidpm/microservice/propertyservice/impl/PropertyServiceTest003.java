@@ -31,12 +31,15 @@ public class PropertyServiceTest003 extends BaseDITest {
     DI.activateDI(service01);
     DI.activateDI(service02);
     System.setProperty("file", this.getClass().getResource("").getPath());
+    System.setProperty("distributed", "true");
   }
 
   @Override
   @After
   public void tearDown() throws Exception {
     super.tearDown();
+    service01.shutdown();
+    service02.shutdown();
   }
 
   @Test
