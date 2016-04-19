@@ -3,7 +3,7 @@ package junit.org.rapidpm.microservice.propertyservice.impl;
 import junit.org.rapidpm.microservice.propertyservice.BaseDITest;
 import org.junit.*;
 import org.rapidpm.ddi.DI;
-import org.rapidpm.microservice.propertyservice.impl.PropertyService;
+import org.rapidpm.microservice.propertyservice.api.PropertyService;
 
 import javax.inject.Inject;
 import java.util.Set;
@@ -20,6 +20,7 @@ public class PropertyServiceTest003 extends BaseDITest {
   public void setUp() throws Exception {
     super.setUp();
     DI.activateDI(this);
+    System.setProperty("mapname", PropertyServiceTest003.class.getSimpleName());
     System.setProperty("file", this.getClass().getResource("").getPath());
   }
 
@@ -27,6 +28,8 @@ public class PropertyServiceTest003 extends BaseDITest {
   @After
   public void tearDown() throws Exception {
     super.tearDown();
+    service01.forget();
+    service02.forget();
     service01.shutdown();
     service02.shutdown();
   }
@@ -35,7 +38,6 @@ public class PropertyServiceTest003 extends BaseDITest {
   public void test001() throws Exception {
     service01.initFromCmd();
     service01.loadProperties("example");
-    //service01.init(this.getClass().getResource("example.properties").getPath());
     service02.initFromCmd();
     final String singleProperty = service02.getSingleProperty("example.part01.001");
     Assert.assertNotNull(singleProperty);

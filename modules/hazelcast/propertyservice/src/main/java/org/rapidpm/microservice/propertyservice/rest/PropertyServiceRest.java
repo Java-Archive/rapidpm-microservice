@@ -2,7 +2,6 @@ package org.rapidpm.microservice.propertyservice.rest;
 
 
 import com.google.gson.Gson;
-import org.rapidpm.microservice.propertyservice.impl.PropertyService;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -14,7 +13,7 @@ import javax.ws.rs.QueryParam;
 public class PropertyServiceRest {
 
   @Inject
-  PropertyService propertyService;
+  org.rapidpm.microservice.propertyservice.api.PropertyService propertyService;
 
   private final Gson gson = new Gson();
 

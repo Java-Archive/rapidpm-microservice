@@ -3,6 +3,7 @@ package org.rapidpm.microservice.propertyservice.impl;
 
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
+import org.rapidpm.microservice.propertyservice.api.PropertyService;
 import org.rapidpm.microservice.propertyservice.persistence.PropertiesLoader;
 
 import javax.annotation.Nullable;
@@ -12,9 +13,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class PropertyService {
+public class PropertyServiceImpl implements PropertyService {
 
-  public static final String PROPERTIES = "properties";
+  public static final String DEFAULT_MAPNAME = "properties";
+  public static final String MAPNAME = "mapname";
   private HazelcastInstance hazelcastInstance;
   private Map<String, String> properties;
   private boolean isRunning = false;
@@ -22,22 +24,24 @@ public class PropertyService {
   @Inject
   PropertiesLoader propertiesLoader;
 
+  @Override
   public void init(@Nullable String source) {
     hazelcastInstance = Hazelcast.newHazelcastInstance();
-    properties = hazelcastInstance.getReplicatedMap("properties");
+    properties = hazelcastInstance.getReplicatedMap(getMapName());
 
     if (source != null && !source.isEmpty() && properties.isEmpty())
       properties.putAll(propertiesLoader.load(source));
     isRunning = true;
   }
 
+  @Override
   public void initFromCmd() {
     hazelcastInstance = Hazelcast.newHazelcastInstance();
-    properties = hazelcastInstance.getReplicatedMap(PROPERTIES);
-    //properties.putAll(propertiesLoader.load(System.getProperty("file")));
+    properties = hazelcastInstance.getReplicatedMap(getMapName());
     isRunning = true;
   }
 
+  @Override
   public String loadProperties(String scope) {
     if (!isRunning()) {
       initFromCmd();
@@ -47,6 +51,7 @@ public class PropertyService {
     return "success";
   }
 
+  @Override
   public String getSingleProperty(String property) {
     if (properties.containsKey(property))
       return properties.get(property);
@@ -54,10 +59,12 @@ public class PropertyService {
       return ""; // Todo return something useful or make optional
   }
 
+  @Override
   public Set<String> getIndexOfLoadedProperties() {
     return properties.keySet();
   }
 
+  @Override
   public Set<String> getIndexOfScope(String scope) {
     return properties.keySet()
         .stream()
@@ -65,6 +72,7 @@ public class PropertyService {
         .collect(Collectors.toSet());
   }
 
+  @Override
   public Map<String, String> getPropertiesOfScope(String scope) {
     final Map<String, String> domainProperties = new HashMap<>();
     properties.keySet()
@@ -74,11 +82,27 @@ public class PropertyService {
     return domainProperties;
   }
 
+  @Override
+  public void forget() {
+    if (properties != null && !properties.isEmpty())
+      properties.clear();
+  }
+
+  @Override
   public boolean isRunning() {
     return isRunning;
   }
 
+  @Override
   public void shutdown() {
     hazelcastInstance.shutdown();
   }
+
+  private String getMapName() {
+    if (System.getProperty(MAPNAME) != null)
+      return System.getProperty("mapname");
+    else
+      return DEFAULT_MAPNAME;
+  }
+
 }

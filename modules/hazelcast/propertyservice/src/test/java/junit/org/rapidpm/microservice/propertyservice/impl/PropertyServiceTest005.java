@@ -1,6 +1,5 @@
 package junit.org.rapidpm.microservice.propertyservice.impl;
 
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,36 +11,32 @@ import org.rapidpm.microservice.propertyservice.impl.PropertyServiceImpl;
 import java.util.Map;
 import java.util.Set;
 
-public class PropertyServiceTest002 {
+public class PropertyServiceTest005 {
 
   private static PropertyService service;
 
-  private static final String PROPERTY_KEY = "example.part01.001";
-  private static final String PROPERTY_VALUE = "test001";
-
   @Before
-  public void setUp() {
+  public void setUp() throws Exception {
     service = new PropertyServiceImpl();
     DI.activateDI(service);
     System.setProperty("mapname", this.getClass().getSimpleName());
-    System.setProperty("file", PropertyServiceTest002.class.getResource("").getPath());
-    service.initFromCmd();
-    service.loadProperties("example");
+    service.init(PropertyServiceTest005.class.getResource("example.properties").getPath());
   }
 
   @After
   public void tearDown() throws Exception {
+    //super.tearDown();
     service.forget();
     service.shutdown();
   }
 
   @Test
   public void test001() throws Exception {
-    final String singleProperty = service.getSingleProperty(PROPERTY_KEY);
+    final String singleProperty = service.getSingleProperty("example.part01.002");
 
     Assert.assertNotNull(singleProperty);
     Assert.assertFalse(singleProperty.isEmpty());
-    Assert.assertEquals(PROPERTY_VALUE, singleProperty);
+    Assert.assertEquals("test002", singleProperty);
   }
 
   @Test
@@ -53,7 +48,7 @@ public class PropertyServiceTest002 {
   @Test
   public void test003() throws Exception {
     final Set<String> index = service.getIndexOfLoadedProperties();
-
+    System.out.println("index = " + index);
     Assert.assertNotNull(index);
     Assert.assertTrue(index.size() > 0);
     Assert.assertTrue(index.contains("example.part01.001"));
@@ -78,4 +73,5 @@ public class PropertyServiceTest002 {
     Assert.assertTrue(propertiesOfDomain.keySet().contains("single.theonlykey"));
     Assert.assertEquals("theonlyvalue", propertiesOfDomain.get("single.theonlykey"));
   }
+
 }
