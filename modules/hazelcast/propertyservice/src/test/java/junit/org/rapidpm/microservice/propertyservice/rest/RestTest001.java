@@ -12,14 +12,10 @@ import org.rapidpm.microservice.propertyservice.impl.PropertyServiceImpl;
 import org.rapidpm.microservice.propertyservice.persistence.file.PropertiesFileLoader;
 import org.rapidpm.microservice.propertyservice.rest.PropertyServiceRest;
 
-import javax.inject.Inject;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 
 public class RestTest001 extends BaseRestTest {
-
-  @Inject
-  PropertyServiceImpl propertyService;
 
   @Override
   @Before

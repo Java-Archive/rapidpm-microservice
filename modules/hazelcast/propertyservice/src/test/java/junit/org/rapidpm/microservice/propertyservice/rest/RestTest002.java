@@ -2,6 +2,7 @@ package junit.org.rapidpm.microservice.propertyservice.rest;
 
 
 import junit.org.rapidpm.microservice.propertyservice.BaseRestTest;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,14 +12,10 @@ import org.rapidpm.microservice.propertyservice.impl.PropertyServiceImpl;
 import org.rapidpm.microservice.propertyservice.persistence.file.PropertiesFileLoader;
 import org.rapidpm.microservice.propertyservice.rest.PropertyServiceRest;
 
-import javax.inject.Inject;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 
 public class RestTest002 extends BaseRestTest {
-
-  @Inject
-  PropertyServiceImpl propertyService;
 
   @Override
   @Before
@@ -28,6 +25,12 @@ public class RestTest002 extends BaseRestTest {
     DI.registerClassForScope(PropertyServiceImpl.class, JVMSingletonInjectionScope.class.getSimpleName());
     System.setProperty("mapname", RestTest002.class.getSimpleName());
     System.setProperty("file", this.getClass().getResource("").getPath());
+  }
+
+  @Override
+  @After
+  public void tearDown() throws Exception {
+    super.tearDown();
   }
 
   @Test
