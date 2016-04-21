@@ -33,12 +33,6 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.rapidpm.microservice</groupId>
-      <artifactId>rapidpm-microservice-modules-core</artifactId>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
       <groupId>com.vaadin</groupId>
       <artifactId>vaadin-server</artifactId>
       <exclusions>
