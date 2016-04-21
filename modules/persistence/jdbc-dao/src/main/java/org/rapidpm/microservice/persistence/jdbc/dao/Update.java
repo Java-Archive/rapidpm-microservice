@@ -29,7 +29,8 @@ import java.sql.Statement;
 public interface Update extends BasicOperation {
 
   default int update(final JDBCConnectionPools connectionPools) {
-    final HikariDataSource dataSource = connectionPools.getDataSource(getPoolname());
+    final String poolname = getPoolname();
+    final HikariDataSource dataSource = connectionPools.getDataSource(poolname);
     try {
       final Connection connection = dataSource.getConnection();
       final int count;

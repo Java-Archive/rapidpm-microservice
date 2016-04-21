@@ -22,9 +22,7 @@ package junit.org.rapidpm.microservice.persistence.jdbc;
 import org.apache.commons.io.IOUtils;
 import org.hsqldb.server.Server;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.persistence.jdbc.JDBCConnectionPools;
 import org.rapidpm.microservice.test.PortUtils;
@@ -39,29 +37,64 @@ import java.sql.Statement;
 
 public abstract class HsqlBaseTest {
 
-  protected static Server hsqlServer;
-  private static String url;
-  private static int port;
+  public static final String TEST_DB = "testDB";
+  public static final String TEST_DBPOOL = "testDBPOOL";
   private final String[] scripts = createSQLInitScriptArray();
+  protected Server hsqlServer;
+  private String url;
+  private int port;
 
   // add here other *basic* scripts that should be executed
 //  private final String[] scripts = {
 //      "CLEAR_SCHEMA.sql", "CREATE_TABLE_EXAMPLE.sql"
 //  };
+  private String dbName;
+  private String poolname;
 
-  @BeforeClass
-  public static void beforeClass() throws Exception {
+  public abstract String[] createSQLInitScriptArray();
+
+  @Before
+  public void initSchema() throws Exception {
+
+//    dbName = TEST_DB + getClass().getSimpleName();
+//    poolname = TEST_DBPOOL + getClass().getSimpleName();
+    dbName = TEST_DB;
+    poolname = TEST_DBPOOL;
+
     port = new PortUtils().nextFreePortForTest();
     url = "jdbc:hsqldb:mem://127.0.0.1:" + port + "/" + dbname();
     startServer();
     startPools();
+
+    DI.clearReflectionModel();
+    DI.activatePackages("org.rapidpm");
+    activateDI4Packages();
+    DI.activatePackages(this.getClass());
+    DI.activateDI(this);
+
+    for (final String script : scripts) {
+      final Class<? extends HsqlBaseTest> aClass = this.getClass();
+      System.out.println(aClass.getName());
+
+      final URL resource = aClass.getResource(script);
+      System.out.println("resource.toExternalForm() = " + resource.toExternalForm());
+      executeSqlScript(resource.getPath());
+    }
+
+    final URL testSqlResource = getClass().getResource(getClass().getSimpleName() + ".sql");
+    if (testSqlResource != null) {
+      final String testSqlPath = testSqlResource.getPath();
+      executeSqlScript(testSqlPath);
+    } else {
+      System.out.println("No SQL for " + getClass().getSimpleName());
+    }
   }
 
-  public static String dbname() {
-    return "testDB";
+  public String dbname() {
+    return dbName;
   }
 
-  private static void startServer() {
+  private void startServer() {
     hsqlServer = new Server();
     hsqlServer.setDatabaseName(0, dbname());
     hsqlServer.setDatabasePath(0, "mem:target/" + dbname());
@@ -77,7 +110,7 @@ public abstract class HsqlBaseTest {
 //    logger.logDebug("server started");
   }
 
-  private static void startPools() {
+  private void startPools() {
     JDBCConnectionPools pools = JDBCConnectionPools.instance();
     pools
         .addJDBCConnectionPool(poolname())
@@ -88,50 +121,8 @@ public abstract class HsqlBaseTest {
         .withAutoCommit(true)
         .done();
     // add more pools if needed
-    pools.connectPools();
+    pools.connectPool(poolname());
 //    logger.logDebug("pools connected");
-  }
-
-  public static String poolname() {
-    return "testDBPOOL";
-  }
-
-  public static String username() {
-    return "SA";
-  }
-
-  public static String password() {
-    return "";
-  }
-
-  @AfterClass
-  public static void after() throws Exception {
-    JDBCConnectionPools.instance().shutdownPools();
-    hsqlServer.shutdown();
-    hsqlServer.stop();
-  }
-
-  public abstract String[] createSQLInitScriptArray();
-
-  @Before
-  public void initSchema() throws Exception {
-    DI.clearReflectionModel();
-    DI.activatePackages("org.rapidpm");
-    activateDI4Packages();
-    DI.activatePackages(this.getClass());
-    DI.activateDI(this);
-
-    for (final String script : scripts) {
-      executeSqlScript(this.getClass().getResource(script).getPath());
-    }
-
-    final URL testSqlResource = getClass().getResource(getClass().getSimpleName() + ".sql");
-    if (testSqlResource != null) {
-      final String testSqlPath = testSqlResource.getPath();
-      executeSqlScript(testSqlPath);
-    } else {
-      System.out.println("No SQL for " + getClass().getSimpleName());
-    }
   }
 
   public abstract void activateDI4Packages();
@@ -150,8 +141,25 @@ public abstract class HsqlBaseTest {
     }
   }
 
+  public String poolname() {
+    return poolname;
+  }
+
+  public String username() {
+    return "SA";
+  }
+
+  public String password() {
+    return "";
+  }
+
   @After
   public void tearDown() throws Exception {
+    JDBCConnectionPools.instance().shutdownPool(poolname());
+    if (hsqlServer != null) {
+      hsqlServer.shutdown();
+      hsqlServer.stop();
+    }
     DI.clearReflectionModel();
   }
 

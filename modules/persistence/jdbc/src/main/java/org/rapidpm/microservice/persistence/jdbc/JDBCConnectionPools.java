@@ -54,6 +54,21 @@ public class JDBCConnectionPools {
     POOL_MAP.forEach((k, v) -> v.close());
   }
 
+  public void shutdownPool(String poolname) {
+    final boolean b = POOL_MAP.containsKey(poolname);
+    if (b) {
+      POOL_MAP.get(poolname).close();
+      POOL_MAP.remove(poolname);
+    }
+  }
+
+  public void connectPool(String poolname) {
+    final boolean b = POOL_MAP.containsKey(poolname);
+    if (b) {
+      POOL_MAP.get(poolname).connect();
+    }
+  }
+
   public void connectPools() {
     POOL_MAP.forEach((k, v) -> v.connect());
   }
