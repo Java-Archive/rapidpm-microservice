@@ -73,7 +73,7 @@ public abstract class HsqlBaseTest {
     DI.activateDI(this);
 
     for (final String script : scripts) {
-      final Class<? extends HsqlBaseTest> aClass = this.getClass();
+      final Class<? extends HsqlBaseTest> aClass = baseTestClass();
       System.out.println(aClass.getName());
 
       final URL resource = aClass.getResource(script);
@@ -126,6 +126,8 @@ public abstract class HsqlBaseTest {
   }
 
   public abstract void activateDI4Packages();
+
+  public abstract Class baseTestClass();
 
   private void executeSqlScript(final String filePath) {
     try (

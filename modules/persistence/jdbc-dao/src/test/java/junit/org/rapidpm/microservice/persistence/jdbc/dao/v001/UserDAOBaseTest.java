@@ -24,11 +24,6 @@ import org.rapidpm.ddi.DI;
 
 public class UserDAOBaseTest extends HsqlBaseTest {
   @Override
-  public String poolname() {
-    return super.poolname();
-  }
-
-  @Override
   public String[] createSQLInitScriptArray() {
     return new String[]{
         "CLEAR_SCHEMA.sql", "CREATE_TABLE_EXAMPLE.sql"
@@ -37,7 +32,17 @@ public class UserDAOBaseTest extends HsqlBaseTest {
   }
 
   @Override
+  public Class baseTestClass() {
+    return UserDAOBaseTest.class;
+  }
+
+  @Override
   public void activateDI4Packages() {
     DI.activatePackages(this.getClass());
+  }
+
+  @Override
+  public String poolname() {
+    return super.poolname();
   }
 }

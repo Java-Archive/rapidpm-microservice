@@ -41,12 +41,9 @@ public class UserDAOTest001 extends UserDAOBaseTest {
     Assert.assertTrue(resultUser.isPresent());
     Assert.assertEquals(user.getCustomerID(), resultUser.get().getCustomerID());
     Assert.assertEquals(user.getFirstname(), resultUser.get().getFirstname());
-  }
 
-  @Test
-  public void test002() throws Exception {
-    final User user = new User(002, "jane", "doe", "jane.d@yahooo.com");
-    userDAO.writeUser(user);
+    final User user02 = new User(002, "jane", "doe", "jane.d@yahooo.com");
+    userDAO.writeUser(user02);
 
     final Optional<String> resultMail = userDAO.readMailAddress(002);
     Assert.assertNotNull(resultMail);
