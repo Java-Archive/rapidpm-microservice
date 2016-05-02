@@ -36,6 +36,7 @@
     <module>vaadin</module>
     <module>admin</module>
     <module>index</module>
+    <module>filesystem</module>
     <!--<module>message-queues</module>-->
   </modules>
 
@@ -58,9 +59,5 @@
       <artifactId>rapidpm-microservice-modules-core-testutils</artifactId>
       <scope>test</scope>
     </dependency>
-
-
-
-
   </dependencies>
 </project>

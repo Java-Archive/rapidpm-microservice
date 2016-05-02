@@ -19,9 +19,9 @@
 
 package org.rapidpm.microservice.optionals.index.stores;
 
+import org.rapidpm.dependencies.core.fs.DirectoryUtils;
 import org.rapidpm.microservice.optionals.index.IndexManagement;
 import org.rapidpm.microservice.optionals.index.stores.indices.IndexOfType;
-import org.rapidpm.microservice.test.DirectoryUtils;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -60,8 +60,8 @@ public class DefaultIndexStore implements IndexStore {
   }
 
   private boolean deleteIndexDirectory(final String indexName) {
-    final DirectoryUtils directoryUtils = new DirectoryUtils();
-    return directoryUtils.deleteIndexDirectory(IndexManagement.IDX_BASE_DIR + "/" + indexName);
+    return new DirectoryUtils()
+        .deleteIndexDirectory(IndexManagement.IDX_BASE_DIR + "/" + indexName);
   }
 
 

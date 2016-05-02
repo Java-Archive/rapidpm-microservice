@@ -21,10 +21,10 @@ package junit.org.rapidpm.microservice;
 
 import org.junit.*;
 import org.rapidpm.ddi.DI;
+import org.rapidpm.dependencies.core.net.PortUtils;
 import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.Main.MainShutdownAction;
 import org.rapidpm.microservice.Main.MainStartupAction;
-import org.rapidpm.microservice.test.PortUtils;
 
 import java.util.Optional;
 

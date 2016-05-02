@@ -23,8 +23,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.rapidpm.ddi.DI;
+import org.rapidpm.dependencies.core.net.PortUtils;
 import org.rapidpm.microservice.Main;
-import org.rapidpm.microservice.test.PortUtils;
 import org.rapidpm.microservice.test.RestUtils;
 
 public class BasicRestTest {

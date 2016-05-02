@@ -21,8 +21,8 @@ package junit.org.rapidpm.microservice.demo;
 
 import org.junit.*;
 import org.rapidpm.ddi.DI;
+import org.rapidpm.dependencies.core.net.PortUtils;
 import org.rapidpm.microservice.Main;
-import org.rapidpm.microservice.test.PortUtils;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;

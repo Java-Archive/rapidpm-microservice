@@ -84,6 +84,11 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.rapidpm</groupId>
+      <artifactId>rapidpm-dependencies-core</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>org.rapidpm.dynamic-cdi</groupId>
       <artifactId>rapidpm-dynamic-cdi</artifactId>
     </dependency>

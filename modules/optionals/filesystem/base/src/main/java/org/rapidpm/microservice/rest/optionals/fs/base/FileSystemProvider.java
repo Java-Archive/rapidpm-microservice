@@ -17,35 +17,16 @@
  * under the License.
  */
 
-package junit.org.rapidpm.microservice.optionals.cli;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Test;
-import org.rapidpm.dependencies.core.net.PortUtils;
-import org.rapidpm.microservice.Main;
-
-import static org.rapidpm.microservice.optionals.cli.DefaultCmdLineOptions.CMD_REST_PORT;
-
-public class MainTest003 extends BaseCmdlineTest {
-
-  public static final int PORT = new PortUtils().nextFreePortForTest();
+package org.rapidpm.microservice.rest.optionals.fs.base;
 
 
-  @After
-  public void tearDown() throws Exception {
-    Main.stop();
-  }
+import java.nio.file.FileSystem;
 
-  @Test
-  public void test001() throws Exception {
+public interface FileSystemProvider {
 
 
-    Main.main(new String[]{"-" + CMD_REST_PORT + " " + PORT});
-    String restPort = (String) System.getProperties().get(Main.REST_PORT_PROPERTY);
-    Assert.assertEquals(PORT + "", restPort);
+  FileSystem createFilesystem();
 
-  }
 
 
 }

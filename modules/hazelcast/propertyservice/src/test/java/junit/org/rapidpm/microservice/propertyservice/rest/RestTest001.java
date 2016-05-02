@@ -1,7 +1,7 @@
 package junit.org.rapidpm.microservice.propertyservice.rest;
 
 
-import junit.org.rapidpm.microservice.propertyservice.BaseRestTest;
+import junit.org.rapidpm.microservice.BasicRestTest;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,7 +15,7 @@ import org.rapidpm.microservice.propertyservice.rest.PropertyServiceRest;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 
-public class RestTest001 extends BaseRestTest {
+public class RestTest001 extends BasicRestTest {
 
   @Override
   @Before

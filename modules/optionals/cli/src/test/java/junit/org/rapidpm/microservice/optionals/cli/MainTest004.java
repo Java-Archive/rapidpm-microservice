@@ -22,8 +22,8 @@ package junit.org.rapidpm.microservice.optionals.cli;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
+import org.rapidpm.dependencies.core.net.PortUtils;
 import org.rapidpm.microservice.Main;
-import org.rapidpm.microservice.test.PortUtils;
 import org.rapidpm.microservice.test.RestUtils;
 
 import javax.ws.rs.GET;

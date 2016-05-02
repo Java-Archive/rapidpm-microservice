@@ -19,6 +19,8 @@
 
 package org.rapidpm.microservice.test;
 
+import org.rapidpm.dependencies.core.net.PortUtils;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 

@@ -17,8 +17,12 @@ public class PropertyServiceTest005 {
 
   @Before
   public void setUp() throws Exception {
-    service = new PropertyServiceImpl();
-    DI.activateDI(service);
+    DI.clearReflectionModel();
+    DI.activatePackages("org.rapidpm");
+    DI.activatePackages(this.getClass());
+
+    service = DI.activateDI(new PropertyServiceImpl());
+
     System.setProperty("mapname", this.getClass().getSimpleName());
     service.init(PropertyServiceTest005.class.getResource("example.properties").getPath());
   }
@@ -48,7 +52,7 @@ public class PropertyServiceTest005 {
     final Set<String> index = service.getIndexOfLoadedProperties();
     System.out.println("index = " + index);
     Assert.assertNotNull(index);
-    Assert.assertTrue(index.size() > 0);
+    Assert.assertFalse(index.isEmpty());
     Assert.assertTrue(index.contains("example.part01.001"));
     Assert.assertTrue(index.contains("example.part01.002"));
   }

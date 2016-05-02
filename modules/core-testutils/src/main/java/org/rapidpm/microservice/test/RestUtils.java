@@ -20,6 +20,7 @@
 package org.rapidpm.microservice.test;
 
 import org.jboss.resteasy.test.TestPortProvider;
+import org.rapidpm.dependencies.core.net.PortUtils;
 
 import javax.ws.rs.Path;
 

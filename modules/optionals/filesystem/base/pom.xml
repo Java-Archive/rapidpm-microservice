@@ -23,29 +23,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
     <groupId>org.rapidpm.microservice</groupId>
-    <artifactId>rapidpm-microservice-modules</artifactId>
+    <artifactId>rapidpm-microservice-modules-optionals-filesystem</artifactId>
     <version>0.1.0-SNAPSHOT</version>
-
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <packaging>pom</packaging>
-  <modules>
-    <!--<module>jdbc</module>-->
-    <!--<module>jdbc-dao</module>-->
-    <module>jdbc-speedment</module>
-    <!--<module>local</module>-->
-    <!--<module>distributed-filesystem</module>-->
-  </modules>
+  <artifactId>rapidpm-microservice-modules-optionals-filesystem-base</artifactId>
 
-  <artifactId>rapidpm-microservice-modules-persistence</artifactId>
-
-  <dependencies>
-    <dependency>
-      <groupId>org.rapidpm.microservice</groupId>
-      <artifactId>rapidpm-microservice-modules-core</artifactId>
-      <scope>provided</scope>
-    </dependency>
-  </dependencies>
 
 </project>

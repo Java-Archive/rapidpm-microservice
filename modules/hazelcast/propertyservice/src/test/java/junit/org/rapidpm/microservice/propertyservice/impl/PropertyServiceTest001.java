@@ -75,7 +75,7 @@ public class PropertyServiceTest001 extends BaseDITest{
     final Set<String> index = service.getIndexOfLoadedProperties();
     System.out.println("index = " + index);
     Assert.assertNotNull(index);
-    Assert.assertTrue(index.size() > 0);
+    Assert.assertFalse(index.isEmpty());
     Assert.assertTrue(index.contains("example.part01.001"));
     Assert.assertTrue(index.contains("example.part01.002"));
   }

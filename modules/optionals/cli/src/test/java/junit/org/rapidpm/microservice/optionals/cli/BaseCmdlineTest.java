@@ -26,9 +26,9 @@ import org.junit.BeforeClass;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.ddi.ResponsibleFor;
 import org.rapidpm.ddi.implresolver.ClassResolver;
+import org.rapidpm.dependencies.core.net.PortUtils;
 import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.optionals.cli.helper.ExitHelper;
-import org.rapidpm.microservice.test.PortUtils;
 
 import java.util.Optional;
 

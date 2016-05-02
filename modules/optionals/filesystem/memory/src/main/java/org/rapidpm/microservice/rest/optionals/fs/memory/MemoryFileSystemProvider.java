@@ -17,35 +17,26 @@
  * under the License.
  */
 
-package junit.org.rapidpm.microservice.optionals.cli;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Test;
-import org.rapidpm.dependencies.core.net.PortUtils;
-import org.rapidpm.microservice.Main;
-
-import static org.rapidpm.microservice.optionals.cli.DefaultCmdLineOptions.CMD_REST_PORT;
-
-public class MainTest003 extends BaseCmdlineTest {
-
-  public static final int PORT = new PortUtils().nextFreePortForTest();
+package org.rapidpm.microservice.rest.optionals.fs.memory;
 
 
-  @After
-  public void tearDown() throws Exception {
-    Main.stop();
+import com.google.common.jimfs.Configuration;
+import com.google.common.jimfs.Jimfs;
+import org.rapidpm.microservice.rest.optionals.fs.base.FileSystemProvider;
+
+import java.nio.file.FileSystem;
+
+public class MemoryFileSystemProvider implements FileSystemProvider {
+
+  private static final Configuration CONFIGURATION = Configuration.unix().toBuilder()
+      .setAttributeViews("basic", "owner", "posix", "unix")
+      .setWorkingDirectory("/home/user")
+      .build();
+
+  private static final FileSystem FILE_SYSTEM = Jimfs.newFileSystem(CONFIGURATION);
+
+  @Override
+  public FileSystem createFilesystem() {
+    return FILE_SYSTEM;
   }
-
-  @Test
-  public void test001() throws Exception {
-
-
-    Main.main(new String[]{"-" + CMD_REST_PORT + " " + PORT});
-    String restPort = (String) System.getProperties().get(Main.REST_PORT_PROPERTY);
-    Assert.assertEquals(PORT + "", restPort);
-
-  }
-
-
 }
