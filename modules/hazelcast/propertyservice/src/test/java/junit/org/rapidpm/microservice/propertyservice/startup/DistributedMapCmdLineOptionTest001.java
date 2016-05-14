@@ -23,16 +23,8 @@ public class DistributedMapCmdLineOptionTest001  extends BasicRestTest {
     lineOptions = new DistributedMapCmdLineOption();
   }
 
-  @Test @Ignore // what exactly do you want to test here ?
-  public void test001() throws Exception {
-    final String[] argArray = {"-distributedmap"};
-    final Optional<String[]> args = Optional.of(argArray);
-    Main.deploy(args);
-    Main.stop();
-  }
-
   @Test
-  public void test002() throws Exception {
+  public void test001() throws Exception {
     final List<Option> options = lineOptions.getOptions();
     Assert.assertNotNull(options);
     Assert.assertFalse(options.isEmpty());
