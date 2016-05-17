@@ -22,21 +22,14 @@ public class DedicatedMapNameCmdLineOptionTest001 extends BasicRestTest {
 
   }
 
-  @Test @Ignore // what exactly do you want to test here ?
-  public void test001() throws Exception {
-    final String[] argArray = {"-mapname " + "test"};
-    final Optional<String[]> args = Optional.of(argArray);
-    Main.deploy(args);
-    Main.stop();
-  }
-
   @Test
-  public void test002() throws Exception {
+  public void test001() throws Exception {
     final CmdLineStartupAction lineOptions = new DedicatedMapNameCmdLineOption();
     final List<Option> options = lineOptions.getOptions();
     Assert.assertNotNull(options);
     Assert.assertFalse(options.isEmpty());
     Assert.assertEquals("mn", options.get(0).getOpt());
   }
+
 
 }

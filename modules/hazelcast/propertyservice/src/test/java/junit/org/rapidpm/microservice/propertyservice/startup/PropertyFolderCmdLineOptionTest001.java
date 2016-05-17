@@ -41,16 +41,8 @@ public class PropertyFolderCmdLineOptionTest001 extends BasicRestTest {
     lineOptions = new PropertyFolderCmdLineOption();
   }
 
-  @Test @Ignore // what exactly do you want to test here ?
+  @Test
   public void test001() throws Exception {
-    final String[] argArray = {"-propertyfolder " + this.getClass().getResource("example.properties").getPath()};
-    final Optional<String[]> args = Optional.of(argArray);
-    Main.deploy(args);
-    Main.stop();
-  }
-
-  @Test @Ignore // what exactly do you want to test here ?
-  public void test002() throws Exception {
     final List<Option> options = lineOptions.getOptions();
     Assert.assertNotNull(options);
     Assert.assertFalse(options.isEmpty());
