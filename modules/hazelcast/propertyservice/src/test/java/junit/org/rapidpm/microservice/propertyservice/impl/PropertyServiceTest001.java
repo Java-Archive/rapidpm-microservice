@@ -28,7 +28,7 @@ public class PropertyServiceTest001 extends BaseDITest{
 
   @BeforeClass
   public static void beforeClass() {
-    System.setProperty("mapname", "PropertyServiceTest001");
+    System.setProperty("mapname", PropertyServiceTest001.class.getSimpleName());
     service = new PropertyServiceImpl();
     DI.activateDI(service);
     service.init(PropertyServiceTest001.class.getResource("example.properties").getPath());
@@ -44,7 +44,7 @@ public class PropertyServiceTest001 extends BaseDITest{
   @Before
   public void setUp() throws Exception {
     super.setUp();
-    System.setProperty("mapname", "PropertyServiceTest001");
+    System.setProperty("mapname", PropertyServiceTest001.class.getSimpleName());
     service.loadProperties("example");
   }
 

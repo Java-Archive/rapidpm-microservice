@@ -15,12 +15,11 @@ import javax.ws.rs.QueryParam;
 @Path("/propertyservice")
 public class PropertyServiceRest {
 
-  @Inject
-  PropertyService propertyService;
-
+  private @Inject PropertyService propertyService;
   private final Gson gson = new Gson();
 
   public PropertyServiceRest() {
+    // TODO Startup Action
     DI.registerClassForScope(PropertyService.class, JVMSingletonInjectionScope.class.getSimpleName());
   }
 

@@ -22,13 +22,12 @@ public class PropertyServiceImpl implements PropertyService {
   private Map<String, String> properties;
   private boolean isRunning = false;
 
-  @Inject
-  PropertiesLoader propertiesLoader;
+  @Inject PropertiesLoader propertiesLoader;
 
   @Override
   public void init(@Nullable String source) {
     if (System.getProperty("distributed", "") == "true") {
-      hazelcastInstance = Hazelcast.newHazelcastInstance(getDefaultConfig());
+      hazelcastInstance = Hazelcast.getOrCreateHazelcastInstance(getDefaultConfig());
       properties = hazelcastInstance.getReplicatedMap(getMapName());
     } else {
       properties = new HashMap<>();
@@ -42,7 +41,7 @@ public class PropertyServiceImpl implements PropertyService {
   @Override
   public void initFromCmd() {
     if (System.getProperty("distributed", "") == "true") {
-      hazelcastInstance = Hazelcast.newHazelcastInstance(getDefaultConfig());
+      hazelcastInstance = Hazelcast.getOrCreateHazelcastInstance(getDefaultConfig());
       properties = hazelcastInstance.getReplicatedMap(getMapName());
     } else {
       properties = new HashMap<>();

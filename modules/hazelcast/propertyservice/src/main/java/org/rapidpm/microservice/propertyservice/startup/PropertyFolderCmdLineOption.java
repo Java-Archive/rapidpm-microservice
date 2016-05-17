@@ -5,6 +5,7 @@ import org.apache.commons.cli.Option;
 import org.rapidpm.microservice.optionals.cli.CmdLineStartupAction;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class PropertyFolderCmdLineOption implements CmdLineStartupAction {
@@ -13,7 +14,7 @@ public class PropertyFolderCmdLineOption implements CmdLineStartupAction {
 
   @Override
   public List<Option> getOptions() {
-    return Arrays.asList(new Option(OPT, "propertyfolder", true, "folder with property files"));
+    return Collections.singletonList(new Option(OPT, "propertyfolder", true, "folder with property files"));
   }
 
   @Override

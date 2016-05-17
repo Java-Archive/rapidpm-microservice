@@ -5,6 +5,7 @@ import org.apache.commons.cli.Option;
 import org.rapidpm.microservice.optionals.cli.CmdLineStartupAction;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class DedicatedMapNameCmdLineOption implements CmdLineStartupAction {
@@ -13,7 +14,7 @@ public class DedicatedMapNameCmdLineOption implements CmdLineStartupAction {
 
   @Override
   public List<Option> getOptions() {
-    return Arrays.asList(new Option(OPT, "mapname", true, "set a specific name for the distributed map"));
+    return Collections.singletonList(new Option(OPT, "mapname", true, "set a specific name for the distributed map"));
   }
 
   @Override

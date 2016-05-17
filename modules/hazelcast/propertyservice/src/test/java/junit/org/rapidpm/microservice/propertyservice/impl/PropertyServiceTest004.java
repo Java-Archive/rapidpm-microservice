@@ -27,12 +27,12 @@ public class PropertyServiceTest004 {
 
   @Test
   public void test002() throws Exception {
-    System.setProperty("mapname", "PropertyServiceTest004");
+    System.setProperty("mapname", PropertyServiceTest004.class.getSimpleName());
 
     Method method = PropertyServiceImpl.class.getDeclaredMethod("getMapName");
     method.setAccessible(true);
     final String result = (String) method.invoke(service);
-    Assert.assertEquals("PropertyServiceTest004", result);
+    Assert.assertEquals(PropertyServiceTest004.class.getSimpleName(), result);
 
 
   }

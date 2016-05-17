@@ -5,6 +5,7 @@ import org.apache.commons.cli.Option;
 import org.rapidpm.microservice.optionals.cli.CmdLineStartupAction;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class DistributedMapCmdLineOption implements CmdLineStartupAction {
@@ -13,7 +14,7 @@ public class DistributedMapCmdLineOption implements CmdLineStartupAction {
 
   @Override
   public List<Option> getOptions() {
-    return Arrays.asList(new Option(OPT, "distributedmap", false, "enable a shared map of properties"));
+    return Collections.singletonList(new Option(OPT, "distributedmap", false, "enable a shared map of properties"));
   }
 
   @Override
