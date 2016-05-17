@@ -15,7 +15,7 @@ import javax.ws.rs.QueryParam;
 @Path("/propertyservice")
 public class PropertyServiceRest {
 
-  private @Inject PropertyService propertyService;
+  @Inject private PropertyService propertyService;
   private final Gson gson = new Gson();
 
   public PropertyServiceRest() {

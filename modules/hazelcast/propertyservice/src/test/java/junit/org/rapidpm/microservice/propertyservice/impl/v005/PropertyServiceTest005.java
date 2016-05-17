@@ -1,5 +1,6 @@
-package junit.org.rapidpm.microservice.propertyservice.impl;
+package junit.org.rapidpm.microservice.propertyservice.impl.v005;
 
+import junit.org.rapidpm.microservice.propertyservice.BaseDITest;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -11,30 +12,13 @@ import org.rapidpm.microservice.propertyservice.impl.PropertyServiceImpl;
 import java.util.Map;
 import java.util.Set;
 
-public class PropertyServiceTest005 {
+public class PropertyServiceTest005 extends BaseDITest {
 
-  private static PropertyService service;
 
-  @Before
-  public void setUp() throws Exception {
-    DI.clearReflectionModel();
-    DI.activatePackages("org.rapidpm");
-    DI.activatePackages(this.getClass());
-
-    service = DI.activateDI(new PropertyServiceImpl());
-
-    System.setProperty("mapname", this.getClass().getSimpleName());
-    service.init(PropertyServiceTest005.class.getResource("example.properties").getPath());
-  }
-
-  @After
-  public void tearDown() throws Exception {
-    service.forget();
-  }
 
   @Test
   public void test001() throws Exception {
-    final String singleProperty = service.getSingleProperty("example.part01.002");
+    final String singleProperty = propertyService.getSingleProperty("example.part01.002");
 
     Assert.assertNotNull(singleProperty);
     Assert.assertFalse(singleProperty.isEmpty());
@@ -43,13 +27,13 @@ public class PropertyServiceTest005 {
 
   @Test
   public void test002() throws Exception {
-    final String singleProperty = service.getSingleProperty("example.invalid");
+    final String singleProperty = propertyService.getSingleProperty("example.invalid");
     Assert.assertTrue(singleProperty.isEmpty());
   }
 
   @Test
   public void test003() throws Exception {
-    final Set<String> index = service.getIndexOfLoadedProperties();
+    final Set<String> index = propertyService.getIndexOfLoadedProperties();
     System.out.println("index = " + index);
     Assert.assertNotNull(index);
     Assert.assertFalse(index.isEmpty());
@@ -59,7 +43,7 @@ public class PropertyServiceTest005 {
 
   @Test
   public void test004() throws Exception {
-    final Set<String> indexToDomain = service.getIndexOfScope("single");
+    final Set<String> indexToDomain = propertyService.getIndexOfScope("single");
 
     Assert.assertNotNull(indexToDomain);
     Assert.assertEquals(1, indexToDomain.size());
@@ -68,7 +52,7 @@ public class PropertyServiceTest005 {
 
   @Test
   public void test005() throws Exception {
-    final Map<String, String> propertiesOfDomain = service.getPropertiesOfScope("single");
+    final Map<String, String> propertiesOfDomain = propertyService.getPropertiesOfScope("single");
 
     Assert.assertNotNull(propertiesOfDomain);
     Assert.assertEquals(1, propertiesOfDomain.size());

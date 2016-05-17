@@ -1,6 +1,5 @@
-package junit.org.rapidpm.microservice.propertyservice.impl;
+package junit.org.rapidpm.microservice.propertyservice.impl.v003;
 
-import junit.org.rapidpm.microservice.propertyservice.BaseDITest;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -11,35 +10,32 @@ import org.rapidpm.microservice.propertyservice.impl.PropertyServiceImpl;
 
 import java.util.Set;
 
-public class PropertyServiceTest003 extends BaseDITest {
-
-  /*@Inject
-  PropertyService service01;
-  @Inject
-  PropertyService service02;
-*/
+public class PropertyServiceTest003 /* extends BaseDITest */ {
 
   private PropertyService service01;
   private PropertyService service02;
 
-  @Override
   @Before
   public void setUp() throws Exception {
-    service01 = new PropertyServiceImpl();
-    service02 = new PropertyServiceImpl();
-    super.setUp();
-    DI.activateDI(service01);
-    DI.activateDI(service02);
+
     System.setProperty("file", this.getClass().getResource("").getPath());
     System.setProperty("distributed", "true");
+
+    DI.clearReflectionModel();
+    DI.activatePackages(this.getClass());
+    DI.activatePackages("org.rapidpm");
+
+    service01 = DI.activateDI(new PropertyServiceImpl());
+    service02 = DI.activateDI(new PropertyServiceImpl());
+
   }
 
-  @Override
   @After
   public void tearDown() throws Exception {
-    super.tearDown();
     service01.shutdown();
     service02.shutdown();
+
+    DI.clearReflectionModel();
   }
 
   @Test

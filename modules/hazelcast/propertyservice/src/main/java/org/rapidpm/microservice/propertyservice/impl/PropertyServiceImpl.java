@@ -18,6 +18,7 @@ public class PropertyServiceImpl implements PropertyService {
 
   public static final String DEFAULT_MAPNAME = "properties";
   public static final String MAPNAME = "mapname";
+  public static final String RAPID_PM_PROPERTY_SERVICE = "RapidPMPropertyService";
   private HazelcastInstance hazelcastInstance;
   private Map<String, String> properties;
   private boolean isRunning = false;
@@ -51,6 +52,7 @@ public class PropertyServiceImpl implements PropertyService {
 
   private Config getDefaultConfig() {
     final Config config = new Config();
+    config.setInstanceName(RAPID_PM_PROPERTY_SERVICE);
     config.setProperty("hazelcast.network.tcpip", "true");
     config.setProperty("hazelcast.network.multicast", "false");
     return config;
@@ -110,7 +112,8 @@ public class PropertyServiceImpl implements PropertyService {
 
   @Override
   public void shutdown() {
-    hazelcastInstance.shutdown();
+    if (hazelcastInstance != null)
+      hazelcastInstance.shutdown();
   }
 
   private String getMapName() {

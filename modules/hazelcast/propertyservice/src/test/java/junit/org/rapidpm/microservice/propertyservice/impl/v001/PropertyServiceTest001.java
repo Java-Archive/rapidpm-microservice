@@ -1,42 +1,33 @@
-package junit.org.rapidpm.microservice.propertyservice.impl;
+package junit.org.rapidpm.microservice.propertyservice.impl.v001;
 
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import junit.org.rapidpm.microservice.propertyservice.BaseDITest;
+import org.junit.*;
+import org.junit.rules.TemporaryFolder;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.propertyservice.api.PropertyService;
 import org.rapidpm.microservice.propertyservice.impl.PropertyServiceImpl;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
-public class PropertyServiceTest002 {
+@Ignore
+public class PropertyServiceTest001 extends BaseDITest {
 
-  private static PropertyService service;
+  @Rule
+  public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
   private static final String PROPERTY_KEY = "example.part01.001";
   private static final String PROPERTY_VALUE = "test001";
 
-  @Before
-  public void setUp() {
-    service = new PropertyServiceImpl();
-    DI.activateDI(service);
-    System.setProperty("mapname", this.getClass().getSimpleName());
-    System.setProperty("file", PropertyServiceTest002.class.getResource("").getPath());
-    service.initFromCmd();
-    service.loadProperties("example");
-  }
-
-  @After
-  public void tearDown() throws Exception {
-    service.forget();
-  }
 
   @Test
   public void test001() throws Exception {
-    final String singleProperty = service.getSingleProperty(PROPERTY_KEY);
+    final String singleProperty = propertyService.getSingleProperty(PROPERTY_KEY);
 
     Assert.assertNotNull(singleProperty);
     Assert.assertFalse(singleProperty.isEmpty());
@@ -45,23 +36,23 @@ public class PropertyServiceTest002 {
 
   @Test
   public void test002() throws Exception {
-    final String singleProperty = service.getSingleProperty("example.invalid");
+    final String singleProperty = propertyService.getSingleProperty("example.invalid");
     Assert.assertTrue(singleProperty.isEmpty());
   }
 
   @Test
   public void test003() throws Exception {
-    final Set<String> index = service.getIndexOfLoadedProperties();
-
+    final Set<String> index = propertyService.getIndexOfLoadedProperties();
+    System.out.println("index = " + index);
     Assert.assertNotNull(index);
-    Assert.assertTrue(index.size() > 0);
+    Assert.assertFalse(index.isEmpty());
     Assert.assertTrue(index.contains("example.part01.001"));
     Assert.assertTrue(index.contains("example.part01.002"));
   }
 
   @Test
   public void test004() throws Exception {
-    final Set<String> indexToDomain = service.getIndexOfScope("single");
+    final Set<String> indexToDomain = propertyService.getIndexOfScope("single");
 
     Assert.assertNotNull(indexToDomain);
     Assert.assertEquals(1, indexToDomain.size());
@@ -70,11 +61,12 @@ public class PropertyServiceTest002 {
 
   @Test
   public void test005() throws Exception {
-    final Map<String, String> propertiesOfDomain = service.getPropertiesOfScope("single");
+    final Map<String, String> propertiesOfDomain = propertyService.getPropertiesOfScope("single");
 
     Assert.assertNotNull(propertiesOfDomain);
     Assert.assertEquals(1, propertiesOfDomain.size());
     Assert.assertTrue(propertiesOfDomain.keySet().contains("single.theonlykey"));
     Assert.assertEquals("theonlyvalue", propertiesOfDomain.get("single.theonlykey"));
   }
+
 }

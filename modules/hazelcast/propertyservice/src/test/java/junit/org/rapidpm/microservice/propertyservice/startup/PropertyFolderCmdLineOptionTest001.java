@@ -23,27 +23,18 @@ import junit.org.rapidpm.microservice.BasicRestTest;
 import org.apache.commons.cli.Option;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.optionals.cli.CmdLineStartupAction;
 import org.rapidpm.microservice.propertyservice.startup.PropertyFolderCmdLineOption;
 
 import java.util.List;
-import java.util.Optional;
 
 public class PropertyFolderCmdLineOptionTest001 extends BasicRestTest {
 
-  private CmdLineStartupAction lineOptions;
-
-  @Before
-  public void setUp() throws Exception {
-    lineOptions = new PropertyFolderCmdLineOption();
-  }
 
   @Test
   public void test001() throws Exception {
-    final List<Option> options = lineOptions.getOptions();
+    final List<Option> options = new PropertyFolderCmdLineOption().getOptions();
     Assert.assertNotNull(options);
     Assert.assertFalse(options.isEmpty());
     Assert.assertEquals("pf", options.get(0).getOpt());

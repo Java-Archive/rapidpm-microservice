@@ -1,28 +1,24 @@
-package junit.org.rapidpm.microservice.propertyservice.impl;
+package junit.org.rapidpm.microservice.propertyservice.impl.v004;
 
+import junit.org.rapidpm.microservice.propertyservice.BaseDITest;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.rapidpm.microservice.propertyservice.api.PropertyService;
 import org.rapidpm.microservice.propertyservice.impl.PropertyServiceImpl;
 
 import java.lang.reflect.Method;
 
-public class PropertyServiceTest004 {
+public class PropertyServiceTest004 extends BaseDITest {
 
-  private PropertyService service;
 
-  @Before
-  public void setUp() throws Exception {
-    service = new PropertyServiceImpl();
-  }
-
-  @Test
+  @Test @Ignore
   public void test001() throws Exception {
     Method method = PropertyServiceImpl.class.getDeclaredMethod("getMapName");
     method.setAccessible(true);
-    final String result = (String) method.invoke(service);
-    Assert.assertEquals("properties", result);
+    final String result = (String) method.invoke(propertyService);
+    Assert.assertEquals("properties", result); // default ??
   }
 
   @Test
@@ -31,7 +27,7 @@ public class PropertyServiceTest004 {
 
     Method method = PropertyServiceImpl.class.getDeclaredMethod("getMapName");
     method.setAccessible(true);
-    final String result = (String) method.invoke(service);
+    final String result = (String) method.invoke(propertyService);
     Assert.assertEquals(PropertyServiceTest004.class.getSimpleName(), result);
 
 

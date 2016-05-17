@@ -240,7 +240,7 @@ public class Main {
 
     if (jaxrsServer != null) {
       if (new JaxRsActivator().somethingToDeploy())
-      jaxrsServer.stop();
+        jaxrsServer.stop();
     } else if (undertowServer != null) {
       undertowServer.stop();
     }

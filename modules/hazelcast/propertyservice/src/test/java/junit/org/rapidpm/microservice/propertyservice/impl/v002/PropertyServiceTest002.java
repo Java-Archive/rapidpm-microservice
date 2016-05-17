@@ -1,64 +1,48 @@
-package junit.org.rapidpm.microservice.propertyservice.impl;
+package junit.org.rapidpm.microservice.propertyservice.impl.v002;
 
 
-import junit.org.rapidpm.microservice.propertyservice.BaseDITest;
-import org.junit.*;
-import org.junit.rules.TemporaryFolder;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.propertyservice.api.PropertyService;
-import org.rapidpm.microservice.propertyservice.impl.PropertyServiceImpl;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import javax.inject.Inject;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 
-@Ignore
-public class PropertyServiceTest001 extends BaseDITest{
+public class PropertyServiceTest002 /*extends BaseDITest*/ {
 
-  @Rule
-  public TemporaryFolder temporaryFolder = new TemporaryFolder();
-
-  private static PropertyService service;
 
   private static final String PROPERTY_KEY = "example.part01.001";
   private static final String PROPERTY_VALUE = "test001";
 
-  @BeforeClass
-  public static void beforeClass() {
-    System.setProperty("mapname", PropertyServiceTest001.class.getSimpleName());
-    service = new PropertyServiceImpl();
-    DI.activateDI(service);
-    service.init(PropertyServiceTest001.class.getResource("example.properties").getPath());
-  }
+  @Inject PropertyService service;
 
-  @AfterClass
-  public static void afterClass() {
-    service.forget();
-    service.shutdown();
-  }
-
-  @Override
   @Before
-  public void setUp() throws Exception {
-    super.setUp();
-    System.setProperty("mapname", PropertyServiceTest001.class.getSimpleName());
+  public void setUp() {
+
+    System.setProperty("mapname", this.getClass().getSimpleName());
+    System.setProperty("file", PropertyServiceTest002.class.getResource("").getPath());
+
+    DI.clearReflectionModel();
+    DI.activatePackages(this.getClass());
+    DI.activatePackages("org.rapidpm");
+    DI.activateDI(this);
+
+    service.initFromCmd();
     service.loadProperties("example");
   }
 
-  @Override
   @After
   public void tearDown() throws Exception {
-    super.tearDown();
     service.forget();
   }
 
   @Test
   public void test001() throws Exception {
     final String singleProperty = service.getSingleProperty(PROPERTY_KEY);
-
     Assert.assertNotNull(singleProperty);
     Assert.assertFalse(singleProperty.isEmpty());
     Assert.assertEquals(PROPERTY_VALUE, singleProperty);
@@ -73,9 +57,9 @@ public class PropertyServiceTest001 extends BaseDITest{
   @Test
   public void test003() throws Exception {
     final Set<String> index = service.getIndexOfLoadedProperties();
-    System.out.println("index = " + index);
+
     Assert.assertNotNull(index);
-    Assert.assertFalse(index.isEmpty());
+    Assert.assertTrue(index.size() > 0);
     Assert.assertTrue(index.contains("example.part01.001"));
     Assert.assertTrue(index.contains("example.part01.002"));
   }
@@ -97,14 +81,5 @@ public class PropertyServiceTest001 extends BaseDITest{
     Assert.assertEquals(1, propertiesOfDomain.size());
     Assert.assertTrue(propertiesOfDomain.keySet().contains("single.theonlykey"));
     Assert.assertEquals("theonlyvalue", propertiesOfDomain.get("single.theonlykey"));
-  }
-
-
-  private void createPropertiesFile() throws IOException {
-    Properties props = new Properties();
-    final File file = temporaryFolder.newFile("example.properties");
-    FileOutputStream fos = new FileOutputStream(file);
-    props.setProperty(PROPERTY_KEY, PROPERTY_VALUE);
-    props.store(fos, "JUnit Test Properties");
   }
 }
