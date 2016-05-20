@@ -33,7 +33,7 @@
   <modules>
     <!--<module>jdbc</module>-->
     <!--<module>jdbc-dao</module>-->
-    <module>jdbc-speedment</module>
+    <!--<module>jdbc-speedment</module>-->
     <!--<module>local</module>-->
     <!--<module>distributed-filesystem</module>-->
   </modules>

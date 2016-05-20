@@ -32,7 +32,7 @@
   <modules>
     <module>base</module>
     <module>memory</module>
-    <module>os</module>
-    <module>hazelcast</module>
+    <!--<module>os</module>-->
+    <!--<module>hazelcast</module>-->
   </modules>
 </project>
