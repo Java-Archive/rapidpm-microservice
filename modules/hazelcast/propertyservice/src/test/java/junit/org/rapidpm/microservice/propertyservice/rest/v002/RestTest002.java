@@ -1,4 +1,4 @@
-package junit.org.rapidpm.microservice.propertyservice.rest;
+package junit.org.rapidpm.microservice.propertyservice.rest.v002;
 
 
 import junit.org.rapidpm.microservice.BasicRestTest;
