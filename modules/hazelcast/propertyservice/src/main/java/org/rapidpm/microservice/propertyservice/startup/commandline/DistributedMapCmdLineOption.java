@@ -1,4 +1,4 @@
-package org.rapidpm.microservice.propertyservice.startup;
+package org.rapidpm.microservice.propertyservice.startup.commandline;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
