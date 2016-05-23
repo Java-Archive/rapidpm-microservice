@@ -8,12 +8,9 @@ import org.rapidpm.microservice.propertyservice.persistence.file.ConfigurationFi
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.nio.file.Files;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 public class ConfigurationFileLoaderTest001 {
 
@@ -21,7 +18,8 @@ public class ConfigurationFileLoaderTest001 {
 
   @Before
   public void setUp() throws Exception {
-    System.setProperty("basepath", this.getClass().getResource("").getPath().substring(1));
+    final File file = new File(this.getClass().getResource("test.xml").getFile());
+    System.setProperty("basepath", file.getParentFile().getAbsolutePath());
     configurationLoader = new ConfigurationFileLoader();
   }
 
