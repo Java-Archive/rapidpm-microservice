@@ -67,9 +67,8 @@ public class PropertyServiceRest {
           .header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"")
           .build();
     } catch (IOException e) {
-      e.printStackTrace();
+      return Response.status(Response.Status.NOT_FOUND).build();
     }
-    return Response.status(Response.Status.NOT_FOUND).build();
   }
 
 }
