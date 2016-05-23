@@ -20,7 +20,7 @@ public class DedicatedMapNameCmdLineOption implements CmdLineStartupAction {
   public void execute(CommandLine commandLine) {
     String optionValue = commandLine.getOptionValue(OPT);
     if (commandLine.hasOption(OPT) && !optionValue.isEmpty()) {
-      System.setProperty("mapnam", optionValue);
+      System.setProperty("mapname", optionValue);
     }
   }
 
