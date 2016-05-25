@@ -33,7 +33,7 @@ public class PropertyServiceImpl implements PropertyService {
 
   @Override
   public void init(@Nullable String source) {
-    if (System.getProperty("distributed", "") == "true") {
+    if (System.getProperty("propertyservice.distributed", "") == "true") {
       hazelcastInstance = Hazelcast.getOrCreateHazelcastInstance(getDefaultConfig());
       properties = hazelcastInstance.getReplicatedMap(getMapName());
     } else {
@@ -69,7 +69,7 @@ public class PropertyServiceImpl implements PropertyService {
     if (!isRunning) {
       initFromCmd();
     }
-    properties.putAll(propertiesLoader.load(System.getProperty("file"), scope));
+    properties.putAll(propertiesLoader.load(System.getProperty("propertyservice.propertyfolder"), scope));
 
     return "success";
   }
@@ -129,7 +129,7 @@ public class PropertyServiceImpl implements PropertyService {
 
   private String getMapName() {
     if (System.getProperty(MAPNAME) != null)
-      return System.getProperty("mapname");
+      return System.getProperty("propertyservice.mapname");
     else
       return DEFAULT_MAPNAME;
   }

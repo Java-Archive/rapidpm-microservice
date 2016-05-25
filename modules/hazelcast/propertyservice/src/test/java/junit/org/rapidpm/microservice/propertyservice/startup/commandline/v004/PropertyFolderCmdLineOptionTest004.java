@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package junit.org.rapidpm.microservice.propertyservice.startup.commandline;
+package junit.org.rapidpm.microservice.propertyservice.startup.commandline.v004;
 
 import junit.org.rapidpm.microservice.BasicRestTest;
 import org.apache.commons.cli.Option;
@@ -27,7 +27,7 @@ import org.rapidpm.microservice.propertyservice.startup.commandline.PropertyFold
 
 import java.util.List;
 
-public class PropertyFolderCmdLineOptionTest001 extends BasicRestTest {
+public class PropertyFolderCmdLineOptionTest004 extends BasicRestTest {
 
 
   @Test

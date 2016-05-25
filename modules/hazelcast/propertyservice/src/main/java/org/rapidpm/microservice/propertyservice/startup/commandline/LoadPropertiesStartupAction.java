@@ -1,10 +1,19 @@
+/*
+ * Copyright (C) 2015 Macros reply GmbH
+ * Created by Macros reply GmbH - Team.
+ *
+ */
+
 package org.rapidpm.microservice.propertyservice.startup.commandline;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.rapidpm.microservice.optionals.cli.CmdLineStartupAction;
 
-import java.util.Collections;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -21,18 +30,33 @@ import java.util.List;
  *
  * Created by RapidPM - Team on 17.05.16.
  */
-public class DistributedMapCmdLineOption implements CmdLineStartupAction {
+public class LoadPropertiesStartupAction implements CmdLineStartupAction {
 
-  public static final String OPT = "dm";
+  public static final String OPT = "i";
 
   @Override
   public List<Option> getOptions() {
-    return Collections.singletonList(new Option(OPT, "distributedmap", false, "enable a shared map of properties"));
+    return Arrays.asList(new Option(OPT, true, "path to properties"));
   }
 
   @Override
   public void execute(CommandLine commandLine) {
-    System.setProperty("propertyservice.distributed", "true");
+    String optionValue = commandLine.getOptionValue(OPT);
+    if (commandLine.hasOption(OPT) && !optionValue.isEmpty()) {
+      System.out.println("read properties from file: " + optionValue);
+      readProperties(optionValue);
+    }
   }
 
+  private void readProperties(String optionValue) {
+    final File file = new File(optionValue);
+    if (file.exists() && file.canRead()) {
+      try (final FileInputStream fileInputStream = new FileInputStream(file)) {
+        System.getProperties().load(fileInputStream);
+      } catch (IOException e) {
+        e.printStackTrace();
+        System.exit(1);
+      }
+    }
+  }
 }

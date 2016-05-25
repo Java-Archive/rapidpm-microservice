@@ -1,4 +1,4 @@
-package junit.org.rapidpm.microservice.propertyservice.startup.commandline;
+package junit.org.rapidpm.microservice.propertyservice.startup.commandline.v001;
 
 import junit.org.rapidpm.microservice.BasicRestTest;
 import org.apache.commons.cli.Option;

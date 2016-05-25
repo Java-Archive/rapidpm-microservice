@@ -1,4 +1,4 @@
-package junit.org.rapidpm.microservice.propertyservice.startup.commandline;
+package junit.org.rapidpm.microservice.propertyservice.startup.commandline.v002;
 
 import junit.org.rapidpm.microservice.BasicRestTest;
 import org.apache.commons.cli.Option;
@@ -8,7 +8,7 @@ import org.rapidpm.microservice.propertyservice.startup.commandline.DistributedM
 
 import java.util.List;
 
-public class DistributedMapCmdLineOptionTest001  extends BasicRestTest {
+public class DistributedMapCmdLineOptionTest002 extends BasicRestTest {
 
 
   @Test

@@ -12,7 +12,7 @@ public class ConfigurationFileLoader implements ConfigurationLoader {
 
   @Override
   public File loadConfigurationFile(String filename) throws IOException {
-    final String basepath = System.getProperty("basepath");
+    final String basepath = System.getProperty("propertyservice.configfolder");
     Path path = Paths.get(basepath + "/" + filename);
     return path.toFile();
   }

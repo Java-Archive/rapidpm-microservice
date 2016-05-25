@@ -19,7 +19,7 @@ public class ConfigurationFileLoaderTest001 {
   @Before
   public void setUp() throws Exception {
     final File file = new File(this.getClass().getResource("test.xml").getFile());
-    System.setProperty("basepath", file.getParentFile().getAbsolutePath());
+    System.setProperty("propertyservice.configfolder", file.getParentFile().getAbsolutePath());
     configurationLoader = new ConfigurationFileLoader();
   }
 

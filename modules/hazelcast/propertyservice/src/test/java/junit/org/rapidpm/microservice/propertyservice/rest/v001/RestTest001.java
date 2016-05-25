@@ -23,8 +23,8 @@ public class RestTest001 extends BasicRestTest {
     super.setUp();
     DI.activateDI(new PropertiesFileLoader());
     DI.registerClassForScope(PropertyServiceImpl.class, JVMSingletonInjectionScope.class.getSimpleName());
-    System.setProperty("mapname", RestTest001.class.getSimpleName());
-    System.setProperty("file", this.getClass().getResource("").getPath());
+    System.setProperty("propertyservice.mapname", RestTest001.class.getSimpleName());
+    System.setProperty("propertyservice.propertyfolder", this.getClass().getResource("").getPath());
   }
 
   @Override
