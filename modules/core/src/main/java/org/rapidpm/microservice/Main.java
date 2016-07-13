@@ -231,7 +231,7 @@ public class Main {
     TIMER.schedule(new TimerTask() {
       @Override
       public void run() {
-        LOGGER.warn("delayed shutdown  now = " + LocalDateTime.now() );
+        LOGGER.warn("delayed shutdown  now = " + LocalDateTime.now());
         stop();
       }
     }, delayMS);
