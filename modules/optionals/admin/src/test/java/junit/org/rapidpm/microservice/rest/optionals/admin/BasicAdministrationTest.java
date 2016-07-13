@@ -54,7 +54,7 @@ public class BasicAdministrationTest extends BasicRestTest {
     System.out.println("generateBasicReqURL = " + generateBasicReqURL);
     final Builder authcode = client
         .target(generateBasicReqURL)
-        .path("100")
+        .path("10")
         .request();
     final Response response = authcode.get();
 

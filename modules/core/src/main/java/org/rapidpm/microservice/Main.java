@@ -36,6 +36,8 @@ import org.rapidpm.microservice.optionals.header.HeaderScreenPrinter;
 import org.rapidpm.microservice.rest.JaxRsActivator;
 import org.rapidpm.microservice.rest.ddi.DdiInjectorFactory;
 import org.rapidpm.microservice.servlet.ServletInstanceFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
@@ -51,6 +53,7 @@ import static io.undertow.servlet.Servlets.*;
 
 public class Main {
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
   public static final String MYAPP = "/microservice"; //TODO extract to Optional - Servlet
   public static final String CONTEXT_PATH_REST = "/rest"; //TODO extract to Optional - REST
@@ -96,7 +99,7 @@ public class Main {
         deployServlets(builder, deploymentInfo);
       } catch (ServletException e) {
         e.printStackTrace();
-        //TODO logging message
+        LOGGER.error("deploy Servlets ", e);
       }
     }
 
@@ -159,11 +162,8 @@ public class Main {
 
     final Set<Class<?>> weblisteners = DI.getTypesAnnotatedWith(WebListener.class);
     final List<ListenerInfo> listenerInfos = weblisteners.stream()
-        .map(c -> {
-          return new ListenerInfo((Class<? extends EventListener>) c);
-        })
+        .map(c -> new ListenerInfo((Class<? extends EventListener>) c))
         .collect(Collectors.toList());
-
 
     return deployment()
         .setClassLoader(Main.class.getClassLoader())
@@ -226,10 +226,12 @@ public class Main {
   }
 
   public static void stop(long delayMS) {
-    System.out.println("shutdown delay [ms] = " + delayMS);
+    LOGGER.warn("shutdown delay [ms] = " + delayMS);
+
     TIMER.schedule(new TimerTask() {
       @Override
       public void run() {
+        LOGGER.warn("delayed shutdown  now = " + LocalDateTime.now() );
         stop();
       }
     }, delayMS);
@@ -237,19 +239,18 @@ public class Main {
 
   public static void stop() {
     executeShutdownActions(cliArguments);
-
     if (jaxrsServer != null) {
       if (new JaxRsActivator().somethingToDeploy())
         try {
           jaxrsServer.stop();
         } catch (Exception e) {
-          e.printStackTrace();
+          LOGGER.error("jaxrsServer.stop()", e);
         }
     } else if (undertowServer != null) {
       try {
         undertowServer.stop();
       } catch (Exception e) {
-        e.printStackTrace();
+        LOGGER.error("undertowServer.stop()", e);
       }
     }
   }
