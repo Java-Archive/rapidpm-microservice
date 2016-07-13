@@ -240,9 +240,17 @@ public class Main {
 
     if (jaxrsServer != null) {
       if (new JaxRsActivator().somethingToDeploy())
-        jaxrsServer.stop();
+        try {
+          jaxrsServer.stop();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
     } else if (undertowServer != null) {
-      undertowServer.stop();
+      try {
+        undertowServer.stop();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
   }
 

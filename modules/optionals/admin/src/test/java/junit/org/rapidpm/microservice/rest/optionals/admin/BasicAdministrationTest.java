@@ -62,7 +62,7 @@ public class BasicAdministrationTest extends BasicRestTest {
     String val = response.getStatusInfo().toString();
     System.out.println("response status info = " + val);
     client.close();
-    Thread.sleep(1_000);
+    Thread.sleep(3_000);
   }
 
 } 
