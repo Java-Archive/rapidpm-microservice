@@ -25,12 +25,10 @@ import org.rapidpm.ddi.DI;
 import org.rapidpm.dependencies.core.net.PortUtils;
 import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.optionals.service.ServiceWrapper;
+import org.rapidpm.microservice.test.system.JunitExitRuntimeException;
 
 import java.util.Arrays;
 
-/**
- * Created by benjamin-bosch on 14.07.16.
- */
 public class ServiceWrapperTest {
 
   @Test
@@ -38,8 +36,16 @@ public class ServiceWrapperTest {
     DI.clearReflectionModel();
     DI.activatePackages("org.rapidpm");
 
-    ServiceWrapper.main(Arrays.asList(ServiceWrapper.SHUTDOWN).toArray(new String[1]));
-    Thread.sleep(1000);
+
+    try {
+      ServiceWrapper.main(Arrays.asList(ServiceWrapper.SHUTDOWN).toArray(new String[1]));
+    } catch (JunitExitRuntimeException e){
+      Assert.assertEquals(1, e.exitCode);
+      return;
+    }
+    Assert.fail("exception should have been thrown");
+
+
 
 
   }

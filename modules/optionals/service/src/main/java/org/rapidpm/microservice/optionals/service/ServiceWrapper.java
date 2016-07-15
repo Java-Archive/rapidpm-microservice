@@ -1,5 +1,3 @@
-package org.rapidpm.microservice.optionals.service;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,12 +17,16 @@ package org.rapidpm.microservice.optionals.service;
  * under the License.
  */
 
+package org.rapidpm.microservice.optionals.service;
 
 import com.google.common.io.Files;
 import org.jetbrains.annotations.NotNull;
+import org.rapidpm.ddi.DI;
+import org.rapidpm.dependencies.core.system.ExitHandler;
 import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.rest.optionals.admin.BasicAdministration;
 
+import javax.inject.Inject;
 import javax.ws.rs.Path;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -47,6 +49,9 @@ public class ServiceWrapper {
   public static final String SHUTDOWN = "SHUTDOWN";
   public static final int DELAY = 100;
   public static final String MICROSERVICE_REST_FILE = "microservice.rest";
+
+  @Inject
+  public static ExitHandler exitHandler = DI.activateDI(ExitHandler.class);
 
   private ServiceWrapper() {
   }
@@ -80,8 +85,11 @@ public class ServiceWrapper {
       sendShutdownToService(restBaseUrl, pathAnnotation);
     } else {
       System.err.print("Could not locate Path of rest service. Could it be you forgot to add the admin optional?");
-      System.exit(1);
+      exitHandler.exit(1);
     }
+
+    new File(MICROSERVICE_REST_FILE).delete();
+
   }
 
   private static void sendShutdownToService(String restBaseUrl, Optional<Annotation> pathAnnotation) {
@@ -95,7 +103,7 @@ public class ServiceWrapper {
     if (!returnedValue.toLowerCase().contains("ok")) {
       System.err.println("Service returned <" + returnedValue + ">");
       System.err.println("Something went wrong, exiting");
-      System.exit(1);
+      exitHandler.exit(1);
     }
   }
 
@@ -106,10 +114,10 @@ public class ServiceWrapper {
 
     } catch (FileNotFoundException e) {
       System.err.println("The file " + MICROSERVICE_REST_FILE + " was not found. \n It seems like your service wasn't started");
-      System.exit(1);
+      exitHandler.exit(1);
     } catch (IOException e) {
       System.err.println("The file " + MICROSERVICE_REST_FILE + " wasn't read/writeable. \n" + e.getMessage());
-      System.exit(1);
+      exitHandler.exit(1);
     }
 
     return null; //never reached

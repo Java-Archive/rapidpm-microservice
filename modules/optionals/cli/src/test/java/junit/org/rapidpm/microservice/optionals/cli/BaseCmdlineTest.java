@@ -24,11 +24,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.rapidpm.ddi.DI;
-import org.rapidpm.ddi.ResponsibleFor;
-import org.rapidpm.ddi.implresolver.ClassResolver;
 import org.rapidpm.dependencies.core.net.PortUtils;
 import org.rapidpm.microservice.Main;
-import org.rapidpm.microservice.optionals.cli.helper.ExitHelper;
+import org.rapidpm.microservice.test.system.JunitExitRuntimeException;
 
 import java.util.Optional;
 
@@ -60,39 +58,15 @@ public class BaseCmdlineTest {
 
 
   protected int startAndGetExit(String[] args) throws Throwable {
-    JunitExitHelper.reset();
-    Main.deploy(Optional.of(args));
-    Main.stop();
-    if (JunitExitHelper.exitCalled) {
-      return JunitExitHelper.exitCode;
+    try {
+      Main.deploy(Optional.of(args));
+      Main.stop();
+    } catch (JunitExitRuntimeException e){
+      return e.exitCode;
     }
     Assert.fail("Exit not called");
     return -1;
   }
 
-  @ResponsibleFor(ExitHelper.class)
-  public static class ExitHelperResolver implements ClassResolver<ExitHelper> {
 
-    @Override
-    public Class<? extends ExitHelper> resolve(Class<ExitHelper> interf) {
-      return JunitExitHelper.class;
-    }
-  }
-
-  public static class JunitExitHelper implements ExitHelper {
-
-    public static int exitCode = -1;
-    public static boolean exitCalled;
-
-    public static void reset() {
-      exitCode = -1;
-      exitCalled = false;
-    }
-
-    @Override
-    public void exit(int exitCode) {
-      JunitExitHelper.exitCode = exitCode;
-      exitCalled = true;
-    }
-  }
 }
