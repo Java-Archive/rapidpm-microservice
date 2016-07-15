@@ -27,6 +27,8 @@ import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.optionals.service.ServiceWrapper;
 import org.rapidpm.microservice.test.system.JunitExitRuntimeException;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.util.Arrays;
 
 public class ServiceWrapperTest {
@@ -39,14 +41,11 @@ public class ServiceWrapperTest {
 
     try {
       ServiceWrapper.main(Arrays.asList(ServiceWrapper.SHUTDOWN).toArray(new String[1]));
-    } catch (JunitExitRuntimeException e){
+    } catch (JunitExitRuntimeException e) {
       Assert.assertEquals(1, e.exitCode);
       return;
     }
     Assert.fail("exception should have been thrown");
-
-
-
 
   }
 
@@ -83,7 +82,6 @@ public class ServiceWrapperTest {
     ServiceWrapper.main(new String[0]);
 
 
-
     // is running
     Assert.assertFalse(portUtils.isPortAvailable(portForTest));
 
@@ -93,6 +91,55 @@ public class ServiceWrapperTest {
     Assert.assertTrue(portUtils.isPortAvailable(portForTest));
 
     System.setProperty(Main.REST_PORT_PROPERTY, oldProperty);
+
+  }
+
+  @Test
+  public void test004() throws Exception {
+    DI.clearReflectionModel();
+    DI.activatePackages("org.rapidpm");
+
+
+    File file = new File(ServiceWrapper.MICROSERVICE_REST_FILE);
+
+    try {
+      file.createNewFile();
+      ServiceWrapper.main(Arrays.asList(ServiceWrapper.SHUTDOWN).toArray(new String[1]));
+    } catch (JunitExitRuntimeException e) {
+      Assert.assertEquals(1, e.exitCode);
+      return;
+    } finally {
+      file.delete();
+    }
+    Assert.fail("exception should have been thrown");
+
+  }
+
+  @Test
+  public void test005() throws Exception {
+    DI.clearReflectionModel();
+    DI.activatePackages("org.rapidpm");
+    final PortUtils portUtils = new PortUtils();
+    int portForTest = portUtils.nextFreePortForTest();
+
+    ServiceWrapper.main(Arrays.asList("-restPort=" + portForTest).toArray(new String[1]));
+    boolean serviceExitedWithError = false;
+    try {
+      ServiceWrapper.main(Arrays.asList("-restPort=" + portForTest).toArray(new String[1]));
+    } catch (JunitExitRuntimeException e) {
+      Assert.assertEquals(1, e.exitCode);
+      serviceExitedWithError = true;
+    }
+    // is running
+    Assert.assertFalse(portUtils.isPortAvailable(portForTest));
+
+    ServiceWrapper.main(Arrays.asList(ServiceWrapper.SHUTDOWN).toArray(new String[1]));
+
+    // wait for shutdown
+    Thread.sleep(1000);
+
+    Assert.assertTrue(portUtils.isPortAvailable(portForTest));
+    Assert.assertTrue(serviceExitedWithError);
 
   }
 

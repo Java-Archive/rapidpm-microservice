@@ -66,6 +66,12 @@ public class ServiceWrapper {
   }
 
   private static void startMicroservice(String[] args) {
+    if (new File(MICROSERVICE_REST_FILE).exists()) {
+      System.err.println("File " + MICROSERVICE_REST_FILE + "already exist.");
+      System.err.println("Service seems to be running. Make sure the service terminated and remove the file.");
+      System.err.println("Then restart the service");
+      exitHandler.exit(1);
+    }
     deploy(Optional.ofNullable(args));
     String restPort = System.getProperty(Main.REST_PORT_PROPERTY);
     try (PrintWriter printWriter = new PrintWriter(MICROSERVICE_REST_FILE)) {
@@ -117,6 +123,10 @@ public class ServiceWrapper {
       exitHandler.exit(1);
     } catch (IOException e) {
       System.err.println("The file " + MICROSERVICE_REST_FILE + " wasn't read/writeable. \n" + e.getMessage());
+      exitHandler.exit(1);
+    } catch (NumberFormatException e) {
+      System.err.println("The file " + MICROSERVICE_REST_FILE + " contained no readable port. \n" + e.getMessage());
+      System.err.println("Remove the file and start the service again");
       exitHandler.exit(1);
     }
 
