@@ -22,6 +22,7 @@ package org.rapidpm.microservice.optionals.service;
 
 import com.google.common.io.Files;
 import org.jetbrains.annotations.NotNull;
+import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.rest.optionals.admin.BasicAdministration;
 
 import javax.ws.rs.Path;
@@ -46,7 +47,6 @@ public class ServiceWrapper {
   public static final String SHUTDOWN = "SHUTDOWN";
   public static final int DELAY = 100;
   public static final String MICROSERVICE_REST_FILE = "microservice.rest";
-  public static final String MICROSERVICE_REST_PORT_SYSTEM_PROPERTY = "org.jboss.resteasy.port";
 
   private ServiceWrapper() {
   }
@@ -62,7 +62,7 @@ public class ServiceWrapper {
 
   private static void startMicroservice(String[] args) {
     deploy(Optional.ofNullable(args));
-    String restPort = System.getProperty(MICROSERVICE_REST_PORT_SYSTEM_PROPERTY);
+    String restPort = System.getProperty(Main.REST_PORT_PROPERTY);
     try (PrintWriter printWriter = new PrintWriter(MICROSERVICE_REST_FILE)) {
       printWriter.write(restPort);
     } catch (FileNotFoundException e) {
