@@ -26,8 +26,11 @@
             <artifactId>rapidpm-microservice-modules-optionals-cli</artifactId>
             <scope>test</scope>
         </dependency>
-
-
+        <dependency>
+            <groupId>org.rapidpm.microservice</groupId>
+            <artifactId>rapidpm-microservice-modules-core-testutils</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 

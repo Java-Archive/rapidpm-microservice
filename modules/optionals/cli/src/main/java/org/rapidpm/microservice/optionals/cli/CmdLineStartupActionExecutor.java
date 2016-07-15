@@ -22,8 +22,8 @@ package org.rapidpm.microservice.optionals.cli;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.rapidpm.ddi.DI;
+import org.rapidpm.dependencies.core.system.ExitHandler;
 import org.rapidpm.microservice.Main.MainStartupAction;
-import org.rapidpm.microservice.optionals.cli.helper.ExitHelper;
 
 import javax.inject.Inject;
 import java.util.Collection;
@@ -36,7 +36,7 @@ public class CmdLineStartupActionExecutor implements MainStartupAction {
   public static final String CMD_HELP = "h";
   private final CmdLineParser cmdLineParser = new CmdLineParser();
   @Inject
-  private ExitHelper exitHelper;
+  private ExitHandler exitHelper;
 
   @Override
   public void execute(Optional<String[]> args) {
