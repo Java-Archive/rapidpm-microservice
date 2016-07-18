@@ -47,10 +47,9 @@ import static org.rapidpm.microservice.Main.deploy;
 public class ServiceWrapper {
 
   public static final String SHUTDOWN = "SHUTDOWN";
-  public static final int DELAY = 100;
+  public static final int DELAY = 1000;
   public static final String MICROSERVICE_REST_FILE = "microservice.rest";
 
-  @Inject
   public static ExitHandler exitHandler = DI.activateDI(ExitHandler.class);
 
   private ServiceWrapper() {
@@ -76,6 +75,7 @@ public class ServiceWrapper {
     String restPort = System.getProperty(Main.REST_PORT_PROPERTY);
     try (PrintWriter printWriter = new PrintWriter(MICROSERVICE_REST_FILE)) {
       printWriter.write(restPort);
+      printWriter.flush();
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
@@ -116,7 +116,7 @@ public class ServiceWrapper {
   private static String buildBaseUrl() {
     try {
       String restPortFromFile = Files.readFirstLine(new File(MICROSERVICE_REST_FILE), Charset.defaultCharset());
-      return String.format("http://localhost:%d/%s", Integer.valueOf(restPortFromFile), CONTEXT_PATH_REST);
+      return String.format("http://127.0.0.1:%d/%s", Integer.valueOf(restPortFromFile), CONTEXT_PATH_REST);
 
     } catch (FileNotFoundException e) {
       System.err.println("The file " + MICROSERVICE_REST_FILE + " was not found. \n It seems like your service wasn't started");
