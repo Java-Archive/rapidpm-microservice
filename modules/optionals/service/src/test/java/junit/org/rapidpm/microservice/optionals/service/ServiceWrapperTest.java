@@ -28,7 +28,6 @@ import org.rapidpm.microservice.optionals.service.ServiceWrapper;
 import org.rapidpm.microservice.test.system.JunitExitRuntimeException;
 
 import java.io.File;
-import java.nio.file.Files;
 import java.util.Arrays;
 
 public class ServiceWrapperTest {
