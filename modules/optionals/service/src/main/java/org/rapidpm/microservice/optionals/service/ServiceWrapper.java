@@ -26,7 +26,6 @@ import org.rapidpm.dependencies.core.system.ExitHandler;
 import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.rest.optionals.admin.BasicAdministration;
 
-import javax.inject.Inject;
 import javax.ws.rs.Path;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
