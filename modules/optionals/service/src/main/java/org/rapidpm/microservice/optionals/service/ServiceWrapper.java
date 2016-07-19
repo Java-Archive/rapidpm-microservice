@@ -64,13 +64,21 @@ public class ServiceWrapper {
   }
 
   private static void startMicroservice(String[] args) {
+    checkPortFileExists();
+    deploy(Optional.ofNullable(args));
+    writeRestPortToFile();
+  }
+
+  private static void checkPortFileExists() {
     if (new File(MICROSERVICE_REST_FILE).exists()) {
       System.err.println("File " + MICROSERVICE_REST_FILE + "already exist.");
       System.err.println("Service seems to be running. Make sure the service terminated and remove the file.");
       System.err.println("Then restart the service");
       exitHandler.exit(1);
     }
-    deploy(Optional.ofNullable(args));
+  }
+
+  private static void writeRestPortToFile() {
     String restPort = System.getProperty(Main.REST_PORT_PROPERTY);
     try (PrintWriter printWriter = new PrintWriter(MICROSERVICE_REST_FILE)) {
       printWriter.write(restPort);
