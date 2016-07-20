@@ -109,6 +109,7 @@ public class SessionHealthTest {
   }
 
   @Test
+  @Ignore
   public void heathTest003() throws IOException {
     generateSession();
     generateSession();
