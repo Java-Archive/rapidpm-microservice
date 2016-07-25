@@ -106,7 +106,8 @@ public class ServiceWrapper {
     try {
       Files.delete(MICROSERVICE_REST_FILE);
     } catch (IOException e) {
-      e.printStackTrace();
+      System.err.print("Could not delete file " + MICROSERVICE_REST_FILE + "Cleanup file before restart");
+      exitHandler.exit(1);
     }
 
   }
