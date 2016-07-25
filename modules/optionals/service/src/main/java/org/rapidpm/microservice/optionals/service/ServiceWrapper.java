@@ -85,7 +85,8 @@ public class ServiceWrapper {
     try {
       Files.write(MICROSERVICE_REST_FILE, Arrays.asList(restPort));
     } catch (IOException e) {
-      e.printStackTrace();
+      System.err.println("Can not write to File " + MICROSERVICE_REST_FILE + "check permissions and restart the service");
+      exitHandler.exit(1);
     }
 
   }
