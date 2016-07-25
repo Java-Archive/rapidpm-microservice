@@ -84,8 +84,8 @@ public class Main {
   public static void deploy(Optional<String[]> args) {
     cliArguments = args;
     deployStart = LocalDateTime.now();
-    executeStartupActions(args);
     DI.bootstrap(); // per config steuern
+    executeStartupActions(args);
 
     final Builder builder = Undertow.builder() //TODO
         .setDirectBuffers(true)
