@@ -19,7 +19,7 @@
 
 package org.rapidpm.microservice.optionals.service;
 
-import com.google.common.io.Files;
+
 import org.jetbrains.annotations.NotNull;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.dependencies.core.system.ExitHandler;
@@ -31,13 +31,14 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.lang.annotation.Annotation;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.rapidpm.microservice.Main.CONTEXT_PATH_REST;
@@ -47,7 +48,7 @@ public class ServiceWrapper {
 
   public static final String SHUTDOWN = "SHUTDOWN";
   public static final int DELAY = 1000;
-  public static final String MICROSERVICE_REST_FILE = "microservice.rest";
+  public static final java.nio.file.Path MICROSERVICE_REST_FILE = Paths.get("microservice.rest");
 
   public static ExitHandler exitHandler = DI.activateDI(ExitHandler.class);
 
@@ -70,8 +71,9 @@ public class ServiceWrapper {
   }
 
   private static void checkPortFileExists() {
-    if (new File(MICROSERVICE_REST_FILE).exists()) {
-      System.err.println("File " + MICROSERVICE_REST_FILE + "already exist.");
+
+    if (Files.exists(MICROSERVICE_REST_FILE)) {
+      System.err.println("File " + MICROSERVICE_REST_FILE + "already exists.");
       System.err.println("Service seems to be running. Make sure the service terminated and remove the file.");
       System.err.println("Then restart the service");
       exitHandler.exit(1);
@@ -80,12 +82,12 @@ public class ServiceWrapper {
 
   private static void writeRestPortToFile() {
     String restPort = System.getProperty(Main.REST_PORT_PROPERTY);
-    try (PrintWriter printWriter = new PrintWriter(MICROSERVICE_REST_FILE)) {
-      printWriter.write(restPort);
-      printWriter.flush();
-    } catch (FileNotFoundException e) {
+    try {
+      Files.write(MICROSERVICE_REST_FILE, Arrays.asList(restPort));
+    } catch (IOException e) {
       e.printStackTrace();
     }
+
   }
 
   private static void shutdownMicroservice() {
@@ -101,7 +103,11 @@ public class ServiceWrapper {
       exitHandler.exit(1);
     }
 
-    new File(MICROSERVICE_REST_FILE).delete();
+    try {
+      Files.delete(MICROSERVICE_REST_FILE);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
   }
 
@@ -122,7 +128,7 @@ public class ServiceWrapper {
 
   private static String buildBaseUrl() {
     try {
-      String restPortFromFile = Files.readFirstLine(new File(MICROSERVICE_REST_FILE), Charset.defaultCharset());
+      String restPortFromFile = getRestPortFromFile();
       return String.format("http://127.0.0.1:%d/%s", Integer.valueOf(restPortFromFile), CONTEXT_PATH_REST);
 
     } catch (FileNotFoundException e) {
@@ -138,6 +144,14 @@ public class ServiceWrapper {
     }
 
     return null; //never reached
+  }
+
+  private static String getRestPortFromFile() throws IOException {
+    List<String> lines = Files.readAllLines(MICROSERVICE_REST_FILE, Charset.defaultCharset());
+    if (lines.size() != 1) {
+      throw new NumberFormatException("File does not contain a number. It is empty");
+    }
+    return lines.get(0);
   }
 
   private static Optional<Annotation> getAnnotation() {

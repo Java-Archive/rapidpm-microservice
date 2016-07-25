@@ -27,7 +27,7 @@ import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.optionals.service.ServiceWrapper;
 import org.rapidpm.microservice.test.system.JunitExitRuntimeException;
 
-import java.io.File;
+import java.nio.file.Files;
 import java.util.Arrays;
 
 public class ServiceWrapperTest {
@@ -99,16 +99,16 @@ public class ServiceWrapperTest {
     DI.activatePackages("org.rapidpm");
 
 
-    File file = new File(ServiceWrapper.MICROSERVICE_REST_FILE);
+
 
     try {
-      file.createNewFile();
+      Files.createFile(ServiceWrapper.MICROSERVICE_REST_FILE);
       ServiceWrapper.main(Arrays.asList(ServiceWrapper.SHUTDOWN).toArray(new String[1]));
     } catch (JunitExitRuntimeException e) {
       Assert.assertEquals(1, e.exitCode);
       return;
     } finally {
-      file.delete();
+      Files.delete(ServiceWrapper.MICROSERVICE_REST_FILE);
     }
     Assert.fail("exception should have been thrown");
 

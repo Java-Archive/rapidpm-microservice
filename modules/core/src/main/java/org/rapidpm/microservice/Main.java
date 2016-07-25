@@ -196,7 +196,7 @@ public class Main {
 
     // ensure rest properties are set properly
     System.setProperty(REST_PORT_PROPERTY, realRestPort);
-    System.getProperty(REST_HOST_PROPERTY, realRestHost);
+    System.setProperty(REST_HOST_PROPERTY, realRestHost);
 
     System.setProperty(RESTEASY_PORT_PROPERTY, realRestPort);
     System.setProperty(RESTEASY_HOST_PROPERTY, realRestHost);
