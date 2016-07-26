@@ -194,6 +194,10 @@ public class Main {
     final String realRestPort = System.getProperty(REST_PORT_PROPERTY, DEFAULT_REST_PORT + "");
     final String realRestHost = System.getProperty(REST_HOST_PROPERTY, DEFAULT_HOST);
 
+    // ensure rest properties are set properly
+    System.setProperty(REST_PORT_PROPERTY, realRestPort);
+    System.setProperty(REST_HOST_PROPERTY, realRestHost);
+
     System.setProperty(RESTEASY_PORT_PROPERTY, realRestPort);
     System.setProperty(RESTEASY_HOST_PROPERTY, realRestHost);
 
