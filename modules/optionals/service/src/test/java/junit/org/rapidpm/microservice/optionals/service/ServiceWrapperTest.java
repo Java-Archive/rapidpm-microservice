@@ -32,6 +32,8 @@ import java.util.Arrays;
 
 public class ServiceWrapperTest {
 
+  public static final int DELAY_WAIT_FOR_SHUTDOWN = 1000 + ServiceWrapper.DELAY;
+
   @Test
   public void test001() throws Exception {
     DI.clearReflectionModel();
@@ -63,7 +65,7 @@ public class ServiceWrapperTest {
     ServiceWrapper.main(Arrays.asList(ServiceWrapper.SHUTDOWN).toArray(new String[1]));
 
     // wait for shutdown
-    Thread.sleep(1000);
+    Thread.sleep(DELAY_WAIT_FOR_SHUTDOWN);
 
     Assert.assertTrue(portUtils.isPortAvailable(portForTest));
 
@@ -97,8 +99,6 @@ public class ServiceWrapperTest {
   public void test004() throws Exception {
     DI.clearReflectionModel();
     DI.activatePackages("org.rapidpm");
-
-
 
 
     try {
