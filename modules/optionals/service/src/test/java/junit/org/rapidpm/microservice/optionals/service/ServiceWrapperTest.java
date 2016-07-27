@@ -87,7 +87,7 @@ public class ServiceWrapperTest {
     Assert.assertFalse(portUtils.isPortAvailable(portForTest));
 
     ServiceWrapper.main(Arrays.asList(ServiceWrapper.SHUTDOWN).toArray(new String[1]));
-    Thread.sleep(1000);
+    Thread.sleep(DELAY_WAIT_FOR_SHUTDOWN);
 
     Assert.assertTrue(portUtils.isPortAvailable(portForTest));
 
@@ -135,7 +135,7 @@ public class ServiceWrapperTest {
     ServiceWrapper.main(Arrays.asList(ServiceWrapper.SHUTDOWN).toArray(new String[1]));
 
     // wait for shutdown
-    Thread.sleep(1000);
+    Thread.sleep(DELAY_WAIT_FOR_SHUTDOWN);
 
     Assert.assertTrue(portUtils.isPortAvailable(portForTest));
     Assert.assertTrue(serviceExitedWithError);
