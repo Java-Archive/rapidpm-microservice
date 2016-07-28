@@ -17,13 +17,14 @@
  * under the License.
  */
 
-package org.rapidpm.microservice.optionals.metrics.health.rest;
+package junit.org.rapidpm.microservice.optionals.metrics.health.rest;
 
 import com.google.gson.Gson;
 import org.junit.*;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.dependencies.core.net.PortUtils;
 import org.rapidpm.microservice.Main;
+import org.rapidpm.microservice.optionals.metrics.health.rest.SessionHealth;
 import org.rapidpm.microservice.optionals.metrics.health.rest.api.SessionHealthInfo;
 import org.rapidpm.microservice.optionals.metrics.health.rest.api.SessionHealthInfoJsonConverter;
 import org.rapidpm.microservice.test.RestUtils;
