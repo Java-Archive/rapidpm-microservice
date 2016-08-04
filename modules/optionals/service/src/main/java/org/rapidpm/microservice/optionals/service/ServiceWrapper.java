@@ -20,6 +20,11 @@
 package org.rapidpm.microservice.optionals.service;
 
 
+import org.apache.commons.io.IOUtils;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.jetbrains.annotations.NotNull;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.dependencies.core.system.ExitHandler;
@@ -27,10 +32,6 @@ import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.rest.optionals.admin.BasicAdministration;
 
 import javax.ws.rs.Path;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -118,7 +119,13 @@ public class ServiceWrapper {
 
     System.out.println("Sending SHUTDOWN message to microservice");
 
-    String returnedValue = callRest(restBaseUrl, adminRestPath);
+    String returnedValue = null;
+    try {
+      returnedValue = callRest(restBaseUrl, adminRestPath);
+    } catch (IOException e) {
+      System.err.println("Failed to call rest endpoint");
+      exitHandler.exit(1);
+    }
     System.out.println("Received answer, Server shutting down");
 
     if (!returnedValue.toLowerCase().contains("ok")) {
@@ -158,8 +165,8 @@ public class ServiceWrapper {
 
   private static Optional<Annotation> getAnnotation() {
     return Arrays.asList(BasicAdministration.class.getAnnotations()).stream()
-            .filter(a -> a.annotationType().equals(Path.class))
-            .findFirst();
+        .filter(a -> a.annotationType().equals(Path.class))
+        .findFirst();
   }
 
   @NotNull
@@ -169,10 +176,10 @@ public class ServiceWrapper {
   }
 
 
-  private static String callRest(String restBaseUrl, String adminRestPath) {
-    Client client = ClientBuilder.newClient();
-    WebTarget target = client.target(restBaseUrl + adminRestPath + "/" + DELAY);
-    Response response = target.request().get();
-    return response.readEntity(String.class);
+  private static String callRest(String restBaseUrl, String adminRestPath) throws IOException {
+    CloseableHttpClient httpClient = HttpClients.createMinimal();
+    HttpGet httpGet = new HttpGet(restBaseUrl + adminRestPath + "/" + DELAY);
+    final CloseableHttpResponse response = httpClient.execute(httpGet);
+    return IOUtils.toString(response.getEntity().getContent());
   }
 }

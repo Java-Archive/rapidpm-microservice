@@ -30,9 +30,11 @@ import org.rapidpm.microservice.test.system.JunitExitRuntimeException;
 import java.nio.file.Files;
 import java.util.Arrays;
 
+import static org.rapidpm.microservice.optionals.service.ServiceWrapper.DELAY;
+
 public class ServiceWrapperTest {
 
-  public static final int DELAY_WAIT_FOR_SHUTDOWN = 1000 + ServiceWrapper.DELAY;
+  public static final int DELAY_WAIT_FOR_SHUTDOWN = 1000 + DELAY;
 
   @Test
   public void test001() throws Exception {
@@ -139,7 +141,6 @@ public class ServiceWrapperTest {
 
     Assert.assertTrue(portUtils.isPortAvailable(portForTest));
     Assert.assertTrue(serviceExitedWithError);
-
   }
 
 }
