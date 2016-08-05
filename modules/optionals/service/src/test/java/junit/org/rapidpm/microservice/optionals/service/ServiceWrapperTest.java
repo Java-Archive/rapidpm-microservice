@@ -28,6 +28,7 @@ import org.rapidpm.microservice.optionals.service.ServiceWrapper;
 import org.rapidpm.microservice.test.system.JunitExitRuntimeException;
 
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 
 import static org.rapidpm.microservice.optionals.service.ServiceWrapper.DELAY;
@@ -141,6 +142,26 @@ public class ServiceWrapperTest {
 
     Assert.assertTrue(portUtils.isPortAvailable(portForTest));
     Assert.assertTrue(serviceExitedWithError);
+  }
+
+  @Test
+  public void test006() throws Exception {
+    DI.clearReflectionModel();
+    DI.activatePackages("org.rapidpm");
+
+    try {
+      final Path file = Files.createFile(ServiceWrapper.MICROSERVICE_REST_FILE);
+      final int freePortForTest = new PortUtils().nextFreePortForTest();
+      Files.write(file, Integer.toString(freePortForTest).getBytes());
+      ServiceWrapper.main(Arrays.asList(ServiceWrapper.SHUTDOWN).toArray(new String[1]));
+    } catch (JunitExitRuntimeException e) {
+      Assert.assertEquals(1, e.exitCode);
+      return;
+    } finally {
+      Files.delete(ServiceWrapper.MICROSERVICE_REST_FILE);
+    }
+    Assert.fail("exception should have been thrown");
+
   }
 
 }
