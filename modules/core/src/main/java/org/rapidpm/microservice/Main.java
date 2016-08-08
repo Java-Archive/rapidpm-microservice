@@ -231,6 +231,7 @@ public class Main {
 
   public static void stop(long delayMS) {
     LOGGER.warn("shutdown delay [ms] = " + delayMS);
+    if (delayMS < 1_000) delayMS = delayMS + 1_000;
 
     TIMER.schedule(new TimerTask() {
       @Override
