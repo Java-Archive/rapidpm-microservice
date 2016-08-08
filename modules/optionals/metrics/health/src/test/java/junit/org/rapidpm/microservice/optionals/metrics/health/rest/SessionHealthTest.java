@@ -17,13 +17,15 @@
  * under the License.
  */
 
-package org.rapidpm.microservice.optionals.metrics.health.rest;
+package junit.org.rapidpm.microservice.optionals.metrics.health.rest;
 
 import com.google.gson.Gson;
+import junit.org.rapidpm.microservice.BasicRestTest;
 import org.junit.*;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.dependencies.core.net.PortUtils;
 import org.rapidpm.microservice.Main;
+import org.rapidpm.microservice.optionals.metrics.health.rest.SessionHealth;
 import org.rapidpm.microservice.optionals.metrics.health.rest.api.SessionHealthInfo;
 import org.rapidpm.microservice.optionals.metrics.health.rest.api.SessionHealthInfoJsonConverter;
 import org.rapidpm.microservice.test.RestUtils;
@@ -40,33 +42,10 @@ import java.net.URL;
 import java.util.List;
 
 
-public class SessionHealthTest {
+public class SessionHealthTest extends BasicRestTest {
 
-  private static String url;
   private final String USER_AGENT = "Mozilla/5.0";
 
-  @BeforeClass
-  public static void setUpClass() {
-    final PortUtils portUtils = new PortUtils();
-    System.setProperty(Main.REST_PORT_PROPERTY, portUtils.nextFreePortForTest() + "");
-    System.setProperty(Main.SERVLET_PORT_PROPERTY, portUtils.nextFreePortForTest() + "");
-    url = "http://127.0.0.1:" + System.getProperty(Main.SERVLET_PORT_PROPERTY) + Main.MYAPP + "/test"; //from Annotation Servlet
-    System.out.println("url = " + url);
-  }
-
-  @Before
-  public void startUp() {
-    DI.clearReflectionModel();
-    DI.activatePackages("org.rapidpm");
-    DI.activatePackages("junit.org.rapidpm");
-    Main.deploy();
-  }
-
-  @After
-  public void tearDown() {
-    Main.stop();
-    DI.clearReflectionModel();
-  }
 
   @Test
   public void heathTest001() {
@@ -109,7 +88,6 @@ public class SessionHealthTest {
   }
 
   @Test
-  @Ignore
   public void heathTest003() throws IOException {
     generateSession();
     generateSession();
@@ -145,9 +123,15 @@ public class SessionHealthTest {
 
   public void generateSession() throws IOException {
 
-    URL obj = new URL(url);
-    System.out.println("\nSending 'GET' request to URL : " + url);
-    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+    String host = System.getProperty(Main.SERVLET_HOST_PROPERTY, "127.0.0.1");
+    String port = System.getProperty(Main.SERVLET_PORT_PROPERTY);
+    String microserviceContext = Main.MYAPP;
+
+
+    String urlString = String.format("http://%s:%s%s/%s", host, port, microserviceContext, "test");
+    URL testUrl = new URL(urlString);
+    System.out.println("\nSending 'GET' request to URL : " + urlString);
+    HttpURLConnection con = (HttpURLConnection) testUrl.openConnection();
     // optional default is GET
     con.setRequestMethod("GET");
     //add request header

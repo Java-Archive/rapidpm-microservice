@@ -84,8 +84,8 @@ public class Main {
   public static void deploy(Optional<String[]> args) {
     cliArguments = args;
     deployStart = LocalDateTime.now();
-    executeStartupActions(args);
     DI.bootstrap(); // per config steuern
+    executeStartupActions(args);
 
     final Builder builder = Undertow.builder() //TODO
         .setDirectBuffers(true)
@@ -193,6 +193,10 @@ public class Main {
   private static void deployRestRessources(final Builder builder, final JaxRsActivator jaxRsActivator) {
     final String realRestPort = System.getProperty(REST_PORT_PROPERTY, DEFAULT_REST_PORT + "");
     final String realRestHost = System.getProperty(REST_HOST_PROPERTY, DEFAULT_HOST);
+
+    // ensure rest properties are set properly
+    System.setProperty(REST_PORT_PROPERTY, realRestPort);
+    System.setProperty(REST_HOST_PROPERTY, realRestHost);
 
     System.setProperty(RESTEASY_PORT_PROPERTY, realRestPort);
     System.setProperty(RESTEASY_HOST_PROPERTY, realRestHost);
