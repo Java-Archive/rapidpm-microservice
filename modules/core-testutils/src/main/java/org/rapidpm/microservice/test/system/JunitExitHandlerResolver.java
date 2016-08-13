@@ -17,11 +17,18 @@
  * under the License.
  */
 
-package org.rapidpm.microservice.optionals.cli.helper;
+package org.rapidpm.microservice.test.system;
 
-public class SystemExitHelper implements ExitHelper {
-    @Override
-    public void exit(int exitcode) {
-        System.exit(exitcode);
-    }
+import org.rapidpm.ddi.ResponsibleFor;
+import org.rapidpm.ddi.implresolver.ClassResolver;
+import org.rapidpm.dependencies.core.system.ExitHandler;
+
+@ResponsibleFor(ExitHandler.class)
+public class JunitExitHandlerResolver implements ClassResolver<ExitHandler> {
+
+  @Override
+  public Class<? extends ExitHandler> resolve(Class<ExitHandler> interf) {
+    return JunitExitHandler.class;
+  }
+
 }

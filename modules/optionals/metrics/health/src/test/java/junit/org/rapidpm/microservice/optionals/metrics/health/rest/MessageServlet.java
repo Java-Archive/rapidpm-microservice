@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.rapidpm.microservice.optionals.metrics.health.rest;
+package junit.org.rapidpm.microservice.optionals.metrics.health.rest;
 
 
 import javax.servlet.ServletConfig;
