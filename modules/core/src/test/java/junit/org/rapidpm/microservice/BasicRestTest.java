@@ -25,6 +25,7 @@ import org.junit.BeforeClass;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.dependencies.core.net.PortUtils;
 import org.rapidpm.microservice.Main;
+import org.rapidpm.microservice.MainUndertow;
 import org.rapidpm.microservice.test.RestUtils;
 
 public class BasicRestTest {
@@ -35,11 +36,11 @@ public class BasicRestTest {
   public static void setUpClass() {
     final PortUtils portUtils = new PortUtils();
 
-    System.setProperty(Main.REST_HOST_PROPERTY, "127.0.0.1");
-    System.setProperty(Main.SERVLET_HOST_PROPERTY, "127.0.0.1");
+    System.setProperty(MainUndertow.REST_HOST_PROPERTY, "127.0.0.1");
+    System.setProperty(MainUndertow.SERVLET_HOST_PROPERTY, "127.0.0.1");
 
-    System.setProperty(Main.REST_PORT_PROPERTY, portUtils.nextFreePortForTest() + "");
-    System.setProperty(Main.SERVLET_PORT_PROPERTY, portUtils.nextFreePortForTest() + "");
+    System.setProperty(MainUndertow.REST_PORT_PROPERTY, portUtils.nextFreePortForTest() + "");
+    System.setProperty(MainUndertow.SERVLET_PORT_PROPERTY, portUtils.nextFreePortForTest() + "");
   }
 
   @Before
@@ -57,7 +58,7 @@ public class BasicRestTest {
   }
 
   public String generateBasicReqURL(Class restClass) {
-    final String restAppPath = Main.CONTEXT_PATH_REST;
+    final String restAppPath = MainUndertow.CONTEXT_PATH_REST;
     return restUtils.generateBasicReqURL(restClass, restAppPath);
   }
 

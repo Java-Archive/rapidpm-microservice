@@ -36,8 +36,6 @@
     <module>admin</module>
     <module>index</module>
     <module>filesystem</module>
-    <!--<module>vaadin</module>-->  <!-- moved to prj vaadin jumpstart-->
-    <!--<module>message-queues</module>-->
   </modules>
 
 

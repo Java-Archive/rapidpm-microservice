@@ -24,6 +24,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.rapidpm.dependencies.core.net.PortUtils;
 import org.rapidpm.microservice.Main;
+import org.rapidpm.microservice.MainUndertow;
 import org.rapidpm.microservice.test.RestUtils;
 
 import javax.ws.rs.GET;
@@ -44,7 +45,7 @@ public class MainTest004 extends BaseCmdlineTest{
   public void test001() throws Exception {
     Main.main(new String[]{"-" + CMD_REST_PORT + " " + PORT});
 
-    final String restAppPath = Main.CONTEXT_PATH_REST;
+    final String restAppPath = MainUndertow.CONTEXT_PATH_REST;
     final String generateBasicReqURL = new RestUtils().generateBasicReqURL(PortDemoRest.class, restAppPath);
 
     Client client = ClientBuilder.newClient();

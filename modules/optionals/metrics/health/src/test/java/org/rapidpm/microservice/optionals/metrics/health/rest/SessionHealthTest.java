@@ -24,6 +24,7 @@ import org.junit.*;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.dependencies.core.net.PortUtils;
 import org.rapidpm.microservice.Main;
+import org.rapidpm.microservice.MainUndertow;
 import org.rapidpm.microservice.optionals.metrics.health.rest.api.SessionHealthInfo;
 import org.rapidpm.microservice.optionals.metrics.health.rest.api.SessionHealthInfoJsonConverter;
 import org.rapidpm.microservice.test.RestUtils;
@@ -48,9 +49,9 @@ public class SessionHealthTest {
   @BeforeClass
   public static void setUpClass() {
     final PortUtils portUtils = new PortUtils();
-    System.setProperty(Main.REST_PORT_PROPERTY, portUtils.nextFreePortForTest() + "");
-    System.setProperty(Main.SERVLET_PORT_PROPERTY, portUtils.nextFreePortForTest() + "");
-    url = "http://127.0.0.1:" + System.getProperty(Main.SERVLET_PORT_PROPERTY) + Main.MYAPP + "/test"; //from Annotation Servlet
+    System.setProperty(MainUndertow.REST_PORT_PROPERTY, portUtils.nextFreePortForTest() + "");
+    System.setProperty(MainUndertow.SERVLET_PORT_PROPERTY, portUtils.nextFreePortForTest() + "");
+    url = "http://127.0.0.1:" + System.getProperty(MainUndertow.SERVLET_PORT_PROPERTY) + MainUndertow.MYAPP + "/test"; //from Annotation Servlet
     System.out.println("url = " + url);
   }
 
@@ -86,7 +87,7 @@ public class SessionHealthTest {
   }
 
   public String generateBasicReqURL(Class restClass) {
-    final String restAppPath = Main.CONTEXT_PATH_REST;
+    final String restAppPath = MainUndertow.CONTEXT_PATH_REST;
     return new RestUtils().generateBasicReqURL(restClass, restAppPath);
   }
 

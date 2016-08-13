@@ -24,6 +24,7 @@ import org.jboss.resteasy.test.TestPortProvider;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 import org.rapidpm.microservice.Main;
+import org.rapidpm.microservice.MainUndertow;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.client.Client;
@@ -81,7 +82,7 @@ public class FullPerfTest {
 
   @State(Scope.Thread)//einmal pro thread im TestDruchlauf
   public static class BenchmarkStateThread {
-    public final String restAppPath = Main.CONTEXT_PATH_REST;
+    public final String restAppPath = MainUndertow.CONTEXT_PATH_REST;
     public final String ressourcePath = Resource.class.getAnnotation(Path.class).value();
     public final String generateURL = TestPortProvider.generateURL(restAppPath + ressourcePath);
     public final Client client = ClientBuilder.newClient();

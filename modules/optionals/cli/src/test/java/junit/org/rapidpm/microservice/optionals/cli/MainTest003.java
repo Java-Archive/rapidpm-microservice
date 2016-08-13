@@ -24,6 +24,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.rapidpm.dependencies.core.net.PortUtils;
 import org.rapidpm.microservice.Main;
+import org.rapidpm.microservice.MainUndertow;
 
 import static org.rapidpm.microservice.optionals.cli.DefaultCmdLineOptions.CMD_REST_PORT;
 
@@ -42,7 +43,7 @@ public class MainTest003 extends BaseCmdlineTest {
 
 
     Main.main(new String[]{"-" + CMD_REST_PORT + " " + PORT});
-    String restPort = (String) System.getProperties().get(Main.REST_PORT_PROPERTY);
+    String restPort = (String) System.getProperties().get(MainUndertow.REST_PORT_PROPERTY);
     Assert.assertEquals(PORT + "", restPort);
 
   }

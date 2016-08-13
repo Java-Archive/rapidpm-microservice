@@ -22,6 +22,7 @@ package org.rapidpm.microservice.optionals;
 
 import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.Main;
+import org.rapidpm.microservice.MainUndertow;
 import org.rapidpm.microservice.optionals.header.ActiveUrlsHolder;
 import org.rapidpm.microservice.rest.JaxRsActivator;
 
@@ -55,8 +56,8 @@ public class ActiveUrlsDetector {
 //
     final Set<Object> singletonClasses = jaxRsActivator.getSingletons();
 
-    final String realServletPort = System.getProperty(Main.SERVLET_PORT_PROPERTY, Main.DEFAULT_SERVLET_PORT + "");
-    final String realServletHost = System.getProperty(Main.SERVLET_HOST_PROPERTY, Main.DEFAULT_HOST);
+    final String realServletPort = System.getProperty(MainUndertow.SERVLET_PORT_PROPERTY, MainUndertow.DEFAULT_SERVLET_PORT + "");
+    final String realServletHost = System.getProperty(MainUndertow.SERVLET_HOST_PROPERTY, Main.DEFAULT_HOST);
 
     typesAnnotatedWith
         .stream()
@@ -64,7 +65,7 @@ public class ActiveUrlsDetector {
         .map(WebServlet::urlPatterns)
         .map(Arrays::asList)
         .flatMap(Collection::stream)
-        .forEach(url -> activeUrlsHolder.addServletUrl("http://" + realServletHost + ":" + realServletPort + Main.MYAPP + url));
+        .forEach(url -> activeUrlsHolder.addServletUrl("http://" + realServletHost + ":" + realServletPort + MainUndertow.MYAPP + url));
 
     final Executor executorREST = activeUrlsHolder::addRestUrl;
     jaxRsActivator
@@ -80,14 +81,14 @@ public class ActiveUrlsDetector {
 
   @FunctionalInterface
   private interface Executor {
-    String REAL_REST_PORT = System.getProperty(Main.REST_PORT_PROPERTY, Main.DEFAULT_REST_PORT + "");
-    String REAL_REST_HOST = System.getProperty(Main.REST_HOST_PROPERTY, Main.DEFAULT_HOST);
+    String REAL_REST_PORT = System.getProperty(MainUndertow.REST_PORT_PROPERTY, MainUndertow.DEFAULT_REST_PORT + "");
+    String REAL_REST_HOST = System.getProperty(MainUndertow.REST_HOST_PROPERTY, Main.DEFAULT_HOST);
 
     default void checkClass(final Class<?> aClass) {
       System.out.println("aClass = " + aClass);
       final Path annotation = aClass.getAnnotation(Path.class);
       final String urlPattern = annotation.value();
-      String url = "http://" + REAL_REST_HOST + ":" + REAL_REST_PORT + Main.CONTEXT_PATH_REST + urlPattern;
+      String url = "http://" + REAL_REST_HOST + ":" + REAL_REST_PORT + MainUndertow.CONTEXT_PATH_REST + urlPattern;
 
       boolean foundNoPath = true;
       final Method[] declaredMethods = aClass.getDeclaredMethods();
