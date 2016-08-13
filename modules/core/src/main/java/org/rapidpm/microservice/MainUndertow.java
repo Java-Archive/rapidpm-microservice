@@ -56,18 +56,18 @@ public class MainUndertow {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(MainUndertow.class);
 
-  public static final String MYAPP = "/microservice"; //TODO extract to Optional - Servlet
-  public static final String CONTEXT_PATH_REST = "/rest"; //TODO extract to Optional - REST
-  public static final int DEFAULT_REST_PORT = 7081; //TODO extract to Optional - REST
-  public static final int DEFAULT_SERVLET_PORT = 7080; //TODO extract to Optional - Servlet
-  public static final String REST_PORT_PROPERTY = "org.rapidpm.microservice.rest.port"; //TODO extract to Optional - REST
-  public static final String REST_HOST_PROPERTY = "org.rapidpm.microservice.rest.host"; //TODO extract to Optional - REST
-  public static final String SERVLET_PORT_PROPERTY = "org.rapidpm.microservice.servlet.port"; //TODO extract to Optional - Servlet
-  public static final String SERVLET_HOST_PROPERTY = "org.rapidpm.microservice.servlet.host"; //TODO extract to Optional - Servlet
-  private static final String RESTEASY_PORT_PROPERTY = "org.jboss.resteasy.port"; //TODO extract to Optional - REST
-  private static final String RESTEASY_HOST_PROPERTY = "org.jboss.resteasy.host"; //TODO extract to Optional - REST
-  private static UndertowJaxrsServer jaxrsServer; //TODO extract to Optional - REST
-  private static Undertow undertowServer; //TODO extract to Optional - Servlet
+  public static final String MYAPP = "/microservice";
+  public static final String CONTEXT_PATH_REST = "/rest";
+  public static final int DEFAULT_REST_PORT = 7081;
+  public static final int DEFAULT_SERVLET_PORT = 7080;
+  public static final String REST_PORT_PROPERTY = "org.rapidpm.microservice.rest.port";
+  public static final String REST_HOST_PROPERTY = "org.rapidpm.microservice.rest.host";
+  public static final String SERVLET_PORT_PROPERTY = "org.rapidpm.microservice.servlet.port";
+  public static final String SERVLET_HOST_PROPERTY = "org.rapidpm.microservice.servlet.host";
+  private static final String RESTEASY_PORT_PROPERTY = "org.jboss.resteasy.port";
+  private static final String RESTEASY_HOST_PROPERTY = "org.jboss.resteasy.host";
+  private static UndertowJaxrsServer jaxrsServer;
+  private static Undertow undertowServer;
 
   private static LocalDateTime deployStart;
   private static Optional<String[]> cliArguments;

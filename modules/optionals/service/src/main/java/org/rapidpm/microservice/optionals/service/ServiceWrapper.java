@@ -28,7 +28,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.jetbrains.annotations.NotNull;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.dependencies.core.system.ExitHandler;
-import org.rapidpm.microservice.Main;
+import org.rapidpm.microservice.MainUndertow;
 import org.rapidpm.microservice.rest.optionals.admin.BasicAdministration;
 
 import javax.ws.rs.Path;
@@ -42,8 +42,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.rapidpm.microservice.Main.CONTEXT_PATH_REST;
 import static org.rapidpm.microservice.Main.deploy;
+import static org.rapidpm.microservice.MainUndertow.CONTEXT_PATH_REST;
 
 public class ServiceWrapper {
 
@@ -82,7 +82,7 @@ public class ServiceWrapper {
   }
 
   private static void writeRestPortToFile() {
-    String restPort = System.getProperty(Main.REST_PORT_PROPERTY);
+    String restPort = System.getProperty(MainUndertow.REST_PORT_PROPERTY);
     try {
       Files.write(MICROSERVICE_REST_FILE, Arrays.asList(restPort));
     } catch (IOException e) {

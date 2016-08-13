@@ -24,6 +24,7 @@ import org.junit.Test;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.dependencies.core.net.PortUtils;
 import org.rapidpm.microservice.Main;
+import org.rapidpm.microservice.MainUndertow;
 import org.rapidpm.microservice.optionals.service.ServiceWrapper;
 import org.rapidpm.microservice.test.system.JunitExitRuntimeException;
 
@@ -78,11 +79,11 @@ public class ServiceWrapperTest {
   public void test003() throws Exception {
     DI.clearReflectionModel();
     DI.activatePackages("org.rapidpm");
-    String oldProperty = System.getProperty(Main.REST_PORT_PROPERTY);
+    String oldProperty = System.getProperty(MainUndertow.REST_PORT_PROPERTY);
     final PortUtils portUtils = new PortUtils();
     int portForTest = portUtils.nextFreePortForTest();
 
-    System.setProperty(Main.REST_PORT_PROPERTY, String.valueOf(portForTest));
+    System.setProperty(MainUndertow.REST_PORT_PROPERTY, String.valueOf(portForTest));
     ServiceWrapper.main(new String[0]);
 
 
@@ -94,7 +95,7 @@ public class ServiceWrapperTest {
 
     Assert.assertTrue(portUtils.isPortAvailable(portForTest));
 
-    System.setProperty(Main.REST_PORT_PROPERTY, oldProperty);
+    System.setProperty(MainUndertow.REST_PORT_PROPERTY, oldProperty);
 
   }
 
