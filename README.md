@@ -1,6 +1,7 @@
 # rapidpm-microservice
 
 [![Join the chat at https://gitter.im/RapidPM/rapidpm-microservice](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/RapidPM/rapidpm-microservice?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![](https://build.rapidpm.org/app/rest/builds/buildType:id:RapidPM_Develop_Microservice_Snapshot/statusIcon)](https://build.rapidpm.org/viewType.html?buildTypeId=RapidPM_Develop_Microservice_Snapshot&guest=1)
 A base implementation for a microservice.
 
 The Core Service will listen on IP 0.0.0.0
