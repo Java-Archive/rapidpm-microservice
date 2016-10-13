@@ -23,7 +23,6 @@ package org.rapidpm.microservice.optionals;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.MainUndertow;
-import org.rapidpm.microservice.optionals.header.ActiveUrlsHolder;
 import org.rapidpm.microservice.rest.JaxRsActivator;
 
 import javax.servlet.annotation.WebServlet;

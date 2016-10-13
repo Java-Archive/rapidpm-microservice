@@ -21,6 +21,8 @@ package org.rapidpm.microservice.optionals.header;
 
 import org.rapidpm.ddi.DI;
 
+import java.util.Comparator;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -47,12 +49,9 @@ public class HeaderScreenPrinter {
       typesAnnotatedWith
           .stream()
           .filter(c -> c.isAnnotationPresent(Header.class))
-          .sorted((c1, c2) -> Integer
-              .compare(
-                  c1.getAnnotation(Header.class).order(),
-                  c2.getAnnotation(Header.class).order()))
+          .sorted(Comparator.comparingInt(c2 -> c2.getAnnotation(Header.class).order()))
           .map((Function<Class<? extends HeaderInfo>, HeaderInfo>) DI::activateDI)
-          .filter(h -> h != null)
+          .filter(Objects::nonNull)
           .map(HeaderInfo::createHeaderInfo)
           .forEach(System.out::println);
     }

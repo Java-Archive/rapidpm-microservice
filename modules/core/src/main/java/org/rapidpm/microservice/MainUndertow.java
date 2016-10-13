@@ -66,6 +66,7 @@ public class MainUndertow {
   public static final String SERVLET_HOST_PROPERTY = "org.rapidpm.microservice.servlet.host";
   private static final String RESTEASY_PORT_PROPERTY = "org.jboss.resteasy.port";
   private static final String RESTEASY_HOST_PROPERTY = "org.jboss.resteasy.host";
+
   private static UndertowJaxrsServer jaxrsServer;
   private static Undertow undertowServer;
 

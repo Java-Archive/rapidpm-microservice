@@ -71,7 +71,7 @@
   </issueManagement>
   <ciManagement>
     <system>TeamCity</system>
-    <url>https://build.rapidpm.org/project.html?projectId=RapidPM_Develop_Microservice</url>
+    <url>https://build.rapidpm.org/</url>
   </ciManagement>
   <licenses>
     <license>

@@ -20,12 +20,15 @@
 package org.rapidpm.microservice;
 
 import org.rapidpm.ddi.DI;
+import org.rapidpm.dependencies.core.reflections.NewInstances;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Optional;
+import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class Main {
@@ -58,7 +61,7 @@ public class Main {
 
   private static void executeStartupActions(final Optional<String[]> args) {
     final Set<Class<? extends MainStartupAction>> classes = DI.getSubTypesOf(MainStartupAction.class);
-    createInstances(classes)
+    NewInstances.createInstances(classes)
         .stream()
         .map(DI::activateDI)
         .forEach((mainStartupAction) -> mainStartupAction.execute(args));
@@ -83,28 +86,12 @@ public class Main {
 
   private static void executeShutdownActions(Optional<String[]> args) {
     final Set<Class<? extends MainShutdownAction>> classes = DI.getSubTypesOf(MainShutdownAction.class);
-    createInstances(classes)
+    NewInstances.createInstances(classes)
         .stream()
         .map(DI::activateDI)
         .forEach((mainShutdownAction) -> mainShutdownAction.execute(args));
   }
 
-
-  public static <T> List<T> createInstances(final Set<Class<? extends T>> classes) {
-    return classes
-        .stream()
-        .map(c -> {
-          try {
-            return Optional.of(c.newInstance());
-          } catch (InstantiationException | IllegalAccessException e) {
-            LOGGER.error("failed to create new instance ", e);
-          }
-          return Optional.<T>empty();
-        })
-        .filter(Optional::isPresent)
-        .map(Optional::get)
-        .collect(Collectors.<T>toList());
-  }
 
   @FunctionalInterface
   public interface MainStartupAction {
