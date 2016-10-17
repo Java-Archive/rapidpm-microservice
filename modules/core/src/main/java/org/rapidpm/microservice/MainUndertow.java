@@ -7,6 +7,7 @@ import io.undertow.UndertowOptions;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.handlers.PathHandler;
 import io.undertow.servlet.api.*;
+import io.undertow.websockets.jsr.WebSocketDeploymentInfo;
 import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
 import org.jboss.resteasy.spi.ResteasyDeployment;
 import org.rapidpm.ddi.DI;
@@ -161,6 +162,7 @@ public class MainUndertow {
         .setDeploymentName("ROOT" + ".war")
         .setDefaultEncoding("UTF-8")
         .addListeners(listenerInfos)
+        .addServletContextAttribute(WebSocketDeploymentInfo.ATTRIBUTE_NAME, new WebSocketDeploymentInfo())
         .addServlets(servletInfos);
   }
 
