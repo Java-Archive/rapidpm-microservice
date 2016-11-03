@@ -82,7 +82,7 @@ public class ServiceWrapper {
   }
 
   private static void writeRestPortToFile() {
-    String restPort = System.getProperty(MainUndertow.REST_PORT_PROPERTY);
+    String restPort = System.getProperty(MainUndertow.REST_PORT_PROPERTY, MainUndertow.DEFAULT_REST_PORT + "");
     try {
       Files.write(MICROSERVICE_REST_FILE, Arrays.asList(restPort));
     } catch (IOException e) {
@@ -165,8 +165,8 @@ public class ServiceWrapper {
 
   private static Optional<Annotation> getAnnotation() {
     return Arrays.asList(BasicAdministration.class.getAnnotations()).stream()
-        .filter(a -> a.annotationType().equals(Path.class))
-        .findFirst();
+            .filter(a -> a.annotationType().equals(Path.class))
+            .findFirst();
   }
 
   @NotNull
