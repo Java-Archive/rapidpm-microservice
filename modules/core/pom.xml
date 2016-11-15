@@ -75,10 +75,7 @@
       <groupId>org.rapidpm.microservice</groupId>
       <artifactId>rapidpm-microservice-modules-core-testutils</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.jetbrains.kotlin</groupId>
-      <artifactId>kotlin-stdlib</artifactId>
-    </dependency>
+
     <!--TDD-->
   </dependencies>
 

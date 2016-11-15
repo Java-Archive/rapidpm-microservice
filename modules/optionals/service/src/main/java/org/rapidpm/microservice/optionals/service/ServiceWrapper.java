@@ -25,7 +25,6 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.jetbrains.annotations.NotNull;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.dependencies.core.system.ExitHandler;
 import org.rapidpm.microservice.MainUndertow;
@@ -165,11 +164,10 @@ public class ServiceWrapper {
 
   private static Optional<Annotation> getAnnotation() {
     return Arrays.asList(BasicAdministration.class.getAnnotations()).stream()
-            .filter(a -> a.annotationType().equals(Path.class))
-            .findFirst();
+        .filter(a -> a.annotationType().equals(Path.class))
+        .findFirst();
   }
 
-  @NotNull
   private static String getAdminRestPath(Optional<Annotation> pathAnnotation) {
     Path annotation = (Path) pathAnnotation.get();
     return annotation.value();

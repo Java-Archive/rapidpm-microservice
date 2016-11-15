@@ -33,7 +33,6 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopScoreDocCollector;
-import org.jetbrains.annotations.NotNull;
 import org.rapidpm.microservice.optionals.index.IndexManagement;
 import org.rapidpm.microservice.optionals.index.stores.indices.BasicLuceneIndexOfType;
 
@@ -97,7 +96,6 @@ public class LoggerEventIndex extends BasicLuceneIndexOfType<LoggerEvent> implem
   }
 
   @Override
-  @NotNull
   protected Document transform2Document(final LoggerEvent loggerEvent) {
     final Document doc = new Document();
     doc.add(new StringField(LEVEL, loggerEvent.getLevel(), Store.YES));
