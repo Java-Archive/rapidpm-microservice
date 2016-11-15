@@ -78,7 +78,6 @@ public class DefaultIndexStore implements IndexStore {
   public void shutdownAll() {
     indexOfTypeMap
         .values()
-        .stream()
         .forEach(IndexOfType::shutdown);
   }
 

@@ -25,15 +25,14 @@
   <parent>
     <groupId>org.rapidpm</groupId>
     <artifactId>rapidpm-dependencies</artifactId>
-    <version>3.1.0</version>
+    <version>3.2.0</version>
   </parent>
 
 
   <groupId>org.rapidpm.microservice</groupId>
   <artifactId>rapidpm-microservice</artifactId>
   <packaging>pom</packaging>
-  <version>0.5.0</version>
-
+  <version>0.6.0</version>
 
   <modules>
     <module>modules</module>
@@ -72,7 +71,7 @@
   </issueManagement>
   <ciManagement>
     <system>TeamCity</system>
-    <url>https://build.rapidpm.org/project.html?projectId=RapidPM_Develop_Microservice</url>
+    <url>https://build.rapidpm.org/</url>
   </ciManagement>
   <licenses>
     <license>
@@ -101,6 +100,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
+        <inherited>true</inherited>
         <executions>
           <execution>
             <phase>package</phase>
@@ -117,6 +117,7 @@
               </transformers>
               <minimizeJar>false</minimizeJar>
               <promoteTransitiveDependencies>true</promoteTransitiveDependencies>
+              <createSourcesJar>true</createSourcesJar>
               <shadeSourcesContent>false</shadeSourcesContent>
               <filters>
                 <filter>

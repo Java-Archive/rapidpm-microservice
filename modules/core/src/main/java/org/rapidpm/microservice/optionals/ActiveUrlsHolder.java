@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.rapidpm.microservice.optionals.header;
+package org.rapidpm.microservice.optionals;
 
 import java.util.ArrayList;
 import java.util.List;

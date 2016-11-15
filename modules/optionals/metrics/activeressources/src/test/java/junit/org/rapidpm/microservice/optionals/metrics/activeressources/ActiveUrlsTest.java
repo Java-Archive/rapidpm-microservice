@@ -23,7 +23,7 @@ import com.google.gson.Gson;
 import junit.org.rapidpm.microservice.BasicRestTest;
 import org.junit.Assert;
 import org.junit.Test;
-import org.rapidpm.microservice.optionals.header.ActiveUrlsHolder;
+import org.rapidpm.microservice.optionals.ActiveUrlsHolder;
 import org.rapidpm.microservice.optionals.metrics.activeressources.ActiveUrls;
 
 import javax.servlet.annotation.WebServlet;

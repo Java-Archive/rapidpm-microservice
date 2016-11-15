@@ -21,7 +21,7 @@ package org.rapidpm.microservice.optionals.cli;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
-import org.rapidpm.microservice.Main;
+import org.rapidpm.microservice.MainUndertow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,19 +49,19 @@ public class DefaultCmdLineOptions implements CmdLineStartupAction {
 
         if (cli.hasOption(CMD_SERVLET_PORT)) {
             final String optionValue = cli.getOptionValue(CMD_SERVLET_PORT).trim();
-            System.setProperty(Main.SERVLET_PORT_PROPERTY, optionValue);
+            System.setProperty(MainUndertow.SERVLET_PORT_PROPERTY, optionValue);
         }
         if (cli.hasOption(CMD_SERVLET_HOST)) {
             final String optionValue = cli.getOptionValue(CMD_SERVLET_HOST).trim();
-            System.setProperty(Main.SERVLET_HOST_PROPERTY, optionValue);
+            System.setProperty(MainUndertow.SERVLET_HOST_PROPERTY, optionValue);
         }
         if (cli.hasOption(CMD_REST_PORT)) {
             final String optionValue = cli.getOptionValue(CMD_REST_PORT).trim();
-            System.setProperty(Main.REST_PORT_PROPERTY, optionValue);
+            System.setProperty(MainUndertow.REST_PORT_PROPERTY, optionValue);
         }
         if (cli.hasOption(CMD_REST_HOST)) {
             final String optionValue = cli.getOptionValue(CMD_REST_HOST).trim();
-            System.setProperty(Main.REST_HOST_PROPERTY, optionValue);
+            System.setProperty(MainUndertow.REST_HOST_PROPERTY, optionValue);
         }
     }
 }

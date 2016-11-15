@@ -19,34 +19,26 @@
 
 package junit.org.rapidpm.microservice.optionals.cli;
 
-import org.junit.After;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Option;
 import org.junit.Assert;
 import org.junit.Test;
-import org.rapidpm.dependencies.core.net.PortUtils;
 import org.rapidpm.microservice.Main;
-import org.rapidpm.microservice.MainUndertow;
+import org.rapidpm.microservice.optionals.cli.CmdLineStartupAction;
 
-import static org.rapidpm.microservice.optionals.cli.DefaultCmdLineOptions.CMD_REST_PORT;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
-public class MainTest003 extends BaseCmdlineTest {
-
-  public static final int PORT = new PortUtils().nextFreePortForTest();
-
-
-  @After
-  public void tearDown() throws Exception {
-    Main.stop();
-  }
+public class MainTest007 {
 
   @Test
   public void test001() throws Exception {
 
-
-    Main.main(new String[]{"-" + CMD_REST_PORT + " " + PORT});
-    String restPort = (String) System.getProperties().get(MainUndertow.REST_PORT_PROPERTY);
-    Assert.assertEquals(PORT + "", restPort);
+    ArrayList<Integer> integers = new ArrayList<>();
 
   }
-
 
 }

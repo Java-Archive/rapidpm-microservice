@@ -5,12 +5,11 @@
     <parent>
         <artifactId>rapidpm-microservice-modules-optionals</artifactId>
         <groupId>org.rapidpm.microservice</groupId>
-        <version>0.5.0</version>
+        <version>0.6.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>rapidpm-microservice-modules-optionals-service</artifactId>
-
     <dependencies>
         <dependency>
             <groupId>org.rapidpm.microservice</groupId>

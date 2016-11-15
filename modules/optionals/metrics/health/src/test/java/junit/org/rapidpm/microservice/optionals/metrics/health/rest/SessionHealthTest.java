@@ -25,6 +25,7 @@ import org.junit.*;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.dependencies.core.net.PortUtils;
 import org.rapidpm.microservice.Main;
+import org.rapidpm.microservice.MainUndertow;
 import org.rapidpm.microservice.optionals.metrics.health.rest.SessionHealth;
 import org.rapidpm.microservice.optionals.metrics.health.rest.api.SessionHealthInfo;
 import org.rapidpm.microservice.optionals.metrics.health.rest.api.SessionHealthInfoJsonConverter;
@@ -47,6 +48,7 @@ public class SessionHealthTest extends BasicRestTest {
   private final String USER_AGENT = "Mozilla/5.0";
 
 
+
   @Test
   public void heathTest001() {
     final String generateBasicReqURL = generateBasicReqURL(SessionHealth.class);
@@ -65,7 +67,7 @@ public class SessionHealthTest extends BasicRestTest {
   }
 
   public String generateBasicReqURL(Class restClass) {
-    final String restAppPath = Main.CONTEXT_PATH_REST;
+    final String restAppPath = MainUndertow.CONTEXT_PATH_REST;
     return new RestUtils().generateBasicReqURL(restClass, restAppPath);
   }
 
@@ -123,9 +125,9 @@ public class SessionHealthTest extends BasicRestTest {
 
   public void generateSession() throws IOException {
 
-    String host = System.getProperty(Main.SERVLET_HOST_PROPERTY, "127.0.0.1");
-    String port = System.getProperty(Main.SERVLET_PORT_PROPERTY);
-    String microserviceContext = Main.MYAPP;
+    String host = System.getProperty(MainUndertow.SERVLET_HOST_PROPERTY, "127.0.0.1");
+    String port = System.getProperty(MainUndertow.SERVLET_PORT_PROPERTY);
+    String microserviceContext = MainUndertow.MYAPP;
 
 
     String urlString = String.format("http://%s:%s%s/%s", host, port, microserviceContext, "test");

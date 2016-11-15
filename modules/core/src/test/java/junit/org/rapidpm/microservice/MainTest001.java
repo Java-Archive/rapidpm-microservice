@@ -25,6 +25,7 @@ import org.rapidpm.dependencies.core.net.PortUtils;
 import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.Main.MainShutdownAction;
 import org.rapidpm.microservice.Main.MainStartupAction;
+import org.rapidpm.microservice.MainUndertow;
 
 import java.util.Optional;
 
@@ -36,8 +37,8 @@ public class MainTest001 {
 
   @BeforeClass
   public static void setUpClass() {
-    System.setProperty(Main.REST_PORT_PROPERTY, new PortUtils().nextFreePortForTest() + "");
-    System.setProperty(Main.SERVLET_PORT_PROPERTY, new PortUtils().nextFreePortForTest() + "");
+    System.setProperty(MainUndertow.REST_PORT_PROPERTY, new PortUtils().nextFreePortForTest() + "");
+    System.setProperty(MainUndertow.SERVLET_PORT_PROPERTY, new PortUtils().nextFreePortForTest() + "");
   }
   @Before
   public void setUp() throws Exception {

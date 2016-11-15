@@ -19,6 +19,8 @@
 
 package org.rapidpm.microservice.optionals.header;
 
+import org.rapidpm.microservice.optionals.ActiveUrlsHolder;
+
 public class ActiveUrlPrinter {
 
   public void printActiveURLs(ActiveUrlsHolder activeUrlsHolder) {
