@@ -45,7 +45,7 @@ public class SpecInfos {
   public String toString() {
     return "SpecInfos{" +
         "specName='" + name + '\'' +
-        ", specVebdor='" + vendor + '\'' +
+        ", specVendor='" + vendor + '\'' +
         ", specVersion='" + version + '\'' +
         '}';
   }
