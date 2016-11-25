@@ -22,13 +22,13 @@ package org.rapidpm.microservice.optionals.metrics.jvm.model.jvm;
 import java.util.Objects;
 
 public class SpecInfos {
-  private String n;
-  private String v;
-  private String ver;
+  private String name;
+  private String vendor;
+  private String version;
 
   @Override
   public int hashCode() {
-    return Objects.hash(n, v, ver);
+    return Objects.hash(name, vendor, version);
   }
 
   @Override
@@ -36,32 +36,32 @@ public class SpecInfos {
     if (this == o) return true;
     if (!(o instanceof SpecInfos)) return false;
     final SpecInfos specInfos = (SpecInfos) o;
-    return Objects.equals(n, specInfos.n) &&
-        Objects.equals(v, specInfos.v) &&
-        Objects.equals(ver, specInfos.ver);
+    return Objects.equals(name, specInfos.name) &&
+        Objects.equals(vendor, specInfos.vendor) &&
+        Objects.equals(version, specInfos.version);
   }
 
   @Override
   public String toString() {
     return "SpecInfos{" +
-        "specName='" + n + '\'' +
-        ", specVebdor='" + v + '\'' +
-        ", specVersion='" + ver + '\'' +
+        "specName='" + name + '\'' +
+        ", specVendor='" + vendor + '\'' +
+        ", specVersion='" + version + '\'' +
         '}';
   }
 
   public SpecInfos specName(final String specName) {
-    this.n = specName;
+    this.name = specName;
     return this;
   }
 
   public SpecInfos specVendor(final String specVendor) {
-    this.v = specVendor;
+    this.vendor = specVendor;
     return this;
   }
 
   public SpecInfos specVersion(final String specVersion) {
-    this.ver = specVersion;
+    this.version = specVersion;
     return this;
   }
 }

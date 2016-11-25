@@ -31,9 +31,9 @@ import static org.rapidpm.microservice.Main.stop;
 public class BasicAdministration {
 
   @GET()
-  @Path("{a}")
+  @Path("{timeout}")
   @Produces("text/plain")
-  public String shutdownNow(@PathParam("a") final String timeout) {
+  public String shutdownNow(@PathParam("timeout") final String timeout) {
     if (timeout == null || timeout.isEmpty()) {
       stop();
     } else {

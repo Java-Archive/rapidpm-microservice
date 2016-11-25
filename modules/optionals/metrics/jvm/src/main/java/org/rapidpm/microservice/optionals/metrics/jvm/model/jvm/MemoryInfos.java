@@ -25,16 +25,16 @@ import java.lang.management.MemoryUsage;
 import java.util.Objects;
 
 public class MemoryInfos implements Serializable {
-  private long f;
-  private long m;
-  private long t;
-  private int o;
+  private long freeMem;
+  private long maxMem;
+  private long totalMem;
+  private int objectPendingFinalizationCount;
   private MemoryUsage heapMemoryUsage;
   private MemoryUsage nonHeapMemoryUsage;
 
   @Override
   public int hashCode() {
-    return Objects.hash(f, m, o, t, heapMemoryUsage, nonHeapMemoryUsage);
+    return Objects.hash(freeMem, maxMem, objectPendingFinalizationCount, totalMem, heapMemoryUsage, nonHeapMemoryUsage);
   }
 
   @Override
@@ -42,9 +42,9 @@ public class MemoryInfos implements Serializable {
     if (this == o) return true;
     if (!(o instanceof MemoryInfos)) return false;
     final MemoryInfos that = (MemoryInfos) o;
-    return f == that.f &&
-        m == that.m &&
-        t == that.t &&
+    return freeMem == that.freeMem &&
+        maxMem == that.maxMem &&
+        totalMem == that.totalMem &&
         Objects.equals(heapMemoryUsage, that.heapMemoryUsage) &&
         Objects.equals(nonHeapMemoryUsage, that.nonHeapMemoryUsage);
   }
@@ -52,40 +52,40 @@ public class MemoryInfos implements Serializable {
   @Override
   public String toString() {
     return "MemoryInfos{" +
-        "freeMem=" + f + System.lineSeparator() +
+        "freeMem=" + freeMem + System.lineSeparator() +
         ", heapMemoryUsage=" + heapMemoryUsage + System.lineSeparator() +
-        ", maxMem=" + m + System.lineSeparator() +
-        ", objectPendingFinalizationCount=" + o + System.lineSeparator() +
+        ", maxMem=" + maxMem + System.lineSeparator() +
+        ", objectPendingFinalizationCount=" + objectPendingFinalizationCount + System.lineSeparator() +
         ", nonHeapMemoryUsage=" + nonHeapMemoryUsage + System.lineSeparator() +
-        ", totalMem=" + t + System.lineSeparator() +
+        ", totalMem=" + totalMem + System.lineSeparator() +
         '}';
   }
 
   public MemoryInfos freeMemory(final long freeMemory) {
-    this.f = freeMemory;
+    this.freeMem = freeMemory;
     return this;
   }
 
   public MemoryInfos maxMemory(final long maxMemory) {
-    this.m = maxMemory;
+    this.maxMem = maxMemory;
     return this;
   }
 
   public MemoryInfos totalMemory(final long totalMemory) {
-    this.t = totalMemory;
+    this.totalMem = totalMemory;
     return this;
   }
 
   public long getFreeMemory() {
-    return f;
+    return freeMem;
   }
 
   public long getMaxMemory() {
-    return m;
+    return maxMem;
   }
 
   public long getTotalMemory() {
-    return t;
+    return totalMem;
   }
 
   public MemoryUsage getHeapMemoryUsage() {
@@ -107,7 +107,7 @@ public class MemoryInfos implements Serializable {
   }
 
   public MemoryInfos objectPendingFinalizationCount(final int objectPendingFinalizationCount) {
-    this.o = objectPendingFinalizationCount;
+    this.objectPendingFinalizationCount = objectPendingFinalizationCount;
     return this;
   }
 }
