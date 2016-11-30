@@ -35,7 +35,6 @@
     <module>core-testutils</module>
     <module>core</module>
     <module>optionals</module>
-    <module>persistence</module>
     <module>hazelcast</module>
   </modules>
 
