@@ -15,6 +15,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.Response;
+import java.io.File;
 import java.util.Map;
 
 /**
@@ -35,8 +36,8 @@ public class PropertyServiceRestEndpointTest002 extends BasicRestTest {
 
   public static final String GETPROPERTY = "getproperty";
   public static final String GETNAMESPACE = "getnamespace";
-  final String propertyfile = PropertyServiceRestEndpointTest002.class.getResource("test.properties").getPath().substring(1);
-  final String clientfile = PropertyServiceRestEndpointTest002.class.getResource("clients.txt").getPath().substring(1);
+  final File propertyFile = new File(this.getClass().getResource("test.properties").getFile());
+  final File clientFile = new File(this.getClass().getResource("clients.txt").getFile());
 
   @Override
   @Before
@@ -47,8 +48,8 @@ public class PropertyServiceRestEndpointTest002 extends BasicRestTest {
     DI.activatePackages(aClass);
 
     Main.deploy(java.util.Optional.of(new String[]{
-        "-" + PropertyFileStartupAction.COMMAND_SHORT + "=" + propertyfile,
-        "-" + AuthenticationStartupAction.COMMAND_SHORT + "=" + clientfile
+        "-" + PropertyFileStartupAction.COMMAND_SHORT + "=" + propertyFile.getAbsolutePath(),
+        "-" + AuthenticationStartupAction.COMMAND_SHORT + "=" + clientFile.getAbsolutePath()
     }));
   }
 

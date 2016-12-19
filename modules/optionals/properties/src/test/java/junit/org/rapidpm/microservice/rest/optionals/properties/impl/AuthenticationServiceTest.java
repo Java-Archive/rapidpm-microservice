@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.rapidpm.microservice.rest.optionals.properties.api.AuthenticationService;
 
 import javax.inject.Inject;
+import java.io.File;
 
 /**
  * Copyright (C) 2010 RapidPM
@@ -24,14 +25,14 @@ import javax.inject.Inject;
  */
 public class AuthenticationServiceTest extends BaseDITest{
 
-  private final static String path = PropertiesStoreTest.class.getResource("clients.txt").getPath().substring(1);
+  static final File file = new File(AuthenticationServiceTest.class.getResource("clients.txt").getFile());
 
   @Inject
   AuthenticationService authenticationServiceImpl;
 
   @BeforeClass
   public static void before() throws Exception {
-    System.setProperty(AuthenticationService.CLIENTFILE, path);
+    System.setProperty(AuthenticationService.CLIENTFILE, file.getAbsolutePath());
   }
 
   @Test

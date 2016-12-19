@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.rapidpm.microservice.rest.optionals.properties.api.PropertiesStore;
 
 import javax.inject.Inject;
+import java.io.File;
 import java.util.Map;
 import java.util.Optional;
 
@@ -27,14 +28,14 @@ import static org.junit.Assert.*;
  */
 public class PropertiesStoreTest extends BaseDITest {
 
-  private final static String propertyPath = PropertiesStoreTest.class.getResource("test.properties").getPath().substring(1);
+  static final File file = new File(PropertiesStoreTest.class.getResource("test.properties").getFile());
 
   @Inject
   PropertiesStore propertieStore;
 
   @BeforeClass
   public static void before() throws Exception {
-    System.setProperty(PropertiesStore.PROPERTYFILE, propertyPath);
+    System.setProperty(PropertiesStore.PROPERTYFILE, file.getAbsolutePath());
   }
 
   @Test

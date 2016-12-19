@@ -12,6 +12,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.Response;
+import java.io.File;
 
 /**
  * Copyright (C) 2010 RapidPM
@@ -30,7 +31,7 @@ import javax.ws.rs.core.Response;
 public class PropertyServiceRestEndpointTest001 extends BasicRestTest {
 
   public static final String GETPROPERTY = "getproperty";
-  final String path = PropertyServiceRestEndpointTest001.class.getResource("test.properties").getPath().substring(1);
+  final File propertyFile = new File(PropertyServiceRestEndpointTest001.class.getResource("test.properties").getFile());
 
   @Override
   @Before
@@ -40,7 +41,7 @@ public class PropertyServiceRestEndpointTest001 extends BasicRestTest {
     final Class<? extends BasicRestTest> aClass = this.getClass();
     DI.activatePackages(aClass);
 
-    Main.deploy(java.util.Optional.of(new String[]{"-p=" + path}));
+    Main.deploy(java.util.Optional.of(new String[]{"-p=" + propertyFile.getAbsolutePath()}));
   }
 
   @Test

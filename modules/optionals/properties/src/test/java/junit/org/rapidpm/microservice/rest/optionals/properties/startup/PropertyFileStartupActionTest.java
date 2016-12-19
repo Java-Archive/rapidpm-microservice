@@ -31,23 +31,18 @@ public class PropertyFileStartupActionTest {
   @After
   public void tearDown() throws Exception {
     Main.stop();
+    System.clearProperty(PropertiesStore.PROPERTYFILE);
   }
 
   @Test
   public void test001() throws Exception {
-    Main.deploy();
-    assertNull(System.getProperty(PropertiesStore.PROPERTYFILE));
-  }
-
-  @Test
-  public void test002() throws Exception {
     Main.deploy(Optional.of(new String[]{"-" + PropertyFileStartupAction.COMMAND_SHORT + "=" + TESTFILE_PATH}));
     assertNotNull(System.getProperty(PropertiesStore.PROPERTYFILE));
     assertEquals(TESTFILE_PATH, System.getProperty(PropertiesStore.PROPERTYFILE));
   }
 
   @Test
-  public void test003() throws Exception {
+  public void test002() throws Exception {
     Main.deploy(Optional.of(new String[]{"-" + PropertyFileStartupAction.COMMAND_LONG + "=" + TESTFILE_PATH}));
     assertNotNull(System.getProperty(PropertiesStore.PROPERTYFILE));
     assertEquals(TESTFILE_PATH, System.getProperty(PropertiesStore.PROPERTYFILE));
