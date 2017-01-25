@@ -1,6 +1,5 @@
 package junit.org.rapidpm.microservice.rest.optionals.properties.impl;
 
-import junit.org.rapidpm.microservice.rest.optionals.properties.BaseDITest;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.rapidpm.microservice.rest.optionals.properties.api.PropertiesStore;

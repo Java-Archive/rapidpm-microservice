@@ -1,5 +1,7 @@
 package junit.org.rapidpm.microservice.rest.optionals.properties.startup;
 
+import junit.org.rapidpm.microservice.BasicRestTest;
+import junit.org.rapidpm.microservice.rest.optionals.properties.impl.BaseDITest;
 import org.junit.After;
 import org.junit.Test;
 import org.rapidpm.microservice.Main;
@@ -8,7 +10,8 @@ import org.rapidpm.microservice.rest.optionals.properties.startup.PropertyFileSt
 
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Copyright (C) 2010 RapidPM
@@ -24,12 +27,13 @@ import static org.junit.Assert.*;
  * <p>
  * Created by RapidPM - Team on 16.12.2016.
  */
-public class PropertyFileStartupActionTest {
+public class PropertyFileStartupActionTest extends BaseDITest {
 
   public static final String TESTFILE_PATH = "testfile";
 
   @After
   public void tearDown() throws Exception {
+    super.tearDown();
     Main.stop();
     System.clearProperty(PropertiesStore.PROPERTYFILE);
   }

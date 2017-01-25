@@ -1,6 +1,5 @@
 package junit.org.rapidpm.microservice.rest.optionals.properties.impl;
 
-import junit.org.rapidpm.microservice.rest.optionals.properties.BaseDITest;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -23,7 +22,7 @@ import java.io.File;
  * <p>
  * Created by RapidPM - Team on 16.12.2016.
  */
-public class AuthenticationServiceTest extends BaseDITest{
+public class AuthenticationServiceTest extends BaseDITest {
 
   static final File file = new File(AuthenticationServiceTest.class.getResource("clients.txt").getFile());
 

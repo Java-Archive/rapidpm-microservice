@@ -1,4 +1,4 @@
-package junit.org.rapidpm.microservice.rest.optionals.properties;
+package junit.org.rapidpm.microservice.rest.optionals.properties.impl;
 
 import org.junit.After;
 import org.junit.Before;
