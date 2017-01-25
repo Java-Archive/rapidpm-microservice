@@ -1,6 +1,5 @@
 package junit.org.rapidpm.microservice.rest.optionals.properties.startup;
 
-import junit.org.rapidpm.microservice.BasicRestTest;
 import junit.org.rapidpm.microservice.rest.optionals.properties.impl.BaseDITest;
 import org.junit.After;
 import org.junit.Test;
