@@ -50,7 +50,7 @@ public class IndexManagement {
   public static final String IDX_BASE_DIR = "_index";
 
 
-  @Inject IndexStore indexStore; // here Singleton implicite
+  @Inject IndexStore indexStore; // here Singleton implicit
 
 //  public String addDirectoryToScann(String path, boolean relative) {
 //    return "";
