@@ -19,7 +19,7 @@
 
 package junit.org.rapidpm.microservice.optionals.metrics.jvm.v001;
 
-import com.google.common.reflect.TypeToken;
+
 import com.google.gson.Gson;
 import junit.org.rapidpm.microservice.BasicRestTest;
 import org.junit.Assert;
@@ -34,8 +34,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.core.Response;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class JVMRessourcesTest extends BasicRestTest {
@@ -79,9 +78,9 @@ public class JVMRessourcesTest extends BasicRestTest {
     Assert.assertNotNull(data);
     Assert.assertFalse(data.isEmpty());
 
-    final Type listType = new TypeToken<ArrayList<GCInfos>>() {
-    }.getType();
-    final List<GCInfos> gcInfosList = new Gson().fromJson(data, listType);
+//    final Type listType = new TypeToken<ArrayList<GCInfos>>() {
+//    }.getType();
+    final List<GCInfos> gcInfosList = Arrays.asList(new Gson().fromJson(data, GCInfos[].class));
 
     Assert.assertNotNull(gcInfosList);
     Assert.assertFalse(gcInfosList.isEmpty());

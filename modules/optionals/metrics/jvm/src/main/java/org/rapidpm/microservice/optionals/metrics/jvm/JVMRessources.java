@@ -20,7 +20,6 @@
 package org.rapidpm.microservice.optionals.metrics.jvm;
 
 
-import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import org.rapidpm.microservice.optionals.metrics.jvm.model.jvm.GCInfos;
 import org.rapidpm.microservice.optionals.metrics.jvm.model.jvm.MemoryInfos;
@@ -32,10 +31,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.lang.management.*;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Path("/metrics/jvm")
 public class JVMRessources {
@@ -53,10 +48,10 @@ public class JVMRessources {
     final String specVendor = runtimeMXBean.getSpecVendor();
     final String specVersion = runtimeMXBean.getSpecVersion();
 
-    final List<GCInfos> gcInfos = ManagementFactory.getGarbageCollectorMXBeans()
+    final GCInfos[] gcInfos = ManagementFactory.getGarbageCollectorMXBeans()
         .stream()
         .map(g -> new GCInfos()
-            .collectionCount(g.getCollectionCount())
+                .collectionCount(g.getCollectionCount())
                 .collectionTime(g.getCollectionTime())
                 .name(g.getName())
 //            .objectName(g.getObjectName().)
@@ -64,11 +59,11 @@ public class JVMRessources {
 
 
         )
-        .collect(Collectors.toList());
+        .toArray(GCInfos[]::new);
 
-    Type listType = new TypeToken<ArrayList<GCInfos>>() {
-    }.getType();
-    return new Gson().toJson(gcInfos, listType);
+//    Type listType = new TypeToken<ArrayList<GCInfos>>() {
+//    }.getType();
+    return new Gson().toJson(gcInfos, GCInfos[].class);
   }
 
   @GET

@@ -36,6 +36,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Base64.Encoder;
 import java.util.List;
@@ -83,7 +84,7 @@ public class LogEventIndexTest extends BasicRestTest {
     final String q01 = webTarget.request().get(String.class);
     System.out.println("q01 = " + q01);
 
-    final List<LogEvent> q01List = gson.fromJson(q01, LoggerEventREST.LOGGER_EVENT_LIST_TYPE);
+    final List<LogEvent> q01List = Arrays.asList(gson.fromJson(q01, LoggerEventREST.LOGGER_EVENT_LIST_TYPE));
     Assert.assertNotNull(q01List);
     Assert.assertTrue(q01List.isEmpty());
 
@@ -100,7 +101,7 @@ public class LogEventIndexTest extends BasicRestTest {
         .get(String.class);
     System.out.println("q02 = " + q02);
 
-    final List<LogEvent> q02List = gson.fromJson(q02, LoggerEventREST.LOGGER_EVENT_LIST_TYPE);
+    final List<LogEvent> q02List = Arrays.asList(gson.fromJson(q02, LoggerEventREST.LOGGER_EVENT_LIST_TYPE));
     Assert.assertNotNull(q02List);
     Assert.assertFalse(q02List.isEmpty());
     Assert.assertEquals(1, q02List.size());
