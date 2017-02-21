@@ -54,8 +54,9 @@ public class Main {
 
   public static void deploy(Optional<String[]> args) {
     cliArguments = args;
+    DI.activatePackages("org.rapidpm");
     executeStartupActions(args);
-    DI.bootstrap(); // per config steuern
+    //DI.bootstrap(); // per config steuern
     MainUndertow.deploy(args); // TODO make it non-static
   }
 
