@@ -68,9 +68,7 @@ public class ActiveUrlsTest extends BasicRestTest {
     final Path path = restClass.getAnnotation(Path.class);
 
     final boolean present = restUrls.stream()
-        .filter(s -> s.contains(path.value()))
-        .findFirst()
-        .isPresent();
+        .anyMatch(s -> s.contains(path.value()));
     Assert.assertTrue(present);
 
     System.out.println("response status info = " + val);
@@ -78,17 +76,13 @@ public class ActiveUrlsTest extends BasicRestTest {
     Assert.assertTrue(restUrls.stream()
         .filter(s -> s.contains(TestRessource.class.getAnnotation(Path.class).value()))
         .filter(s -> s.contains("pathA"))
-        .filter(s -> s.contains("paramA"))
-        .findFirst()
-        .isPresent());
+        .anyMatch(s -> s.contains("paramA")));
 
     Assert.assertTrue(activeUrlsHolder.getServletCounter() > 0);
 
     Assert.assertTrue(activeUrlsHolder.getServletUrls().stream()
         .filter(s -> s.contains(TestServlet.class.getAnnotation(WebServlet.class).urlPatterns()[0]))
-        .filter(s -> s.contains("testServlet"))
-        .findFirst()
-        .isPresent());
+        .anyMatch(s -> s.contains("testServlet")));
 
 
   }
