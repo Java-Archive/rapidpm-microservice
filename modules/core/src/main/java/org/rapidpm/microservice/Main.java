@@ -54,7 +54,9 @@ public class Main {
 
   public static void deploy(Optional<String[]> args) {
     cliArguments = args;
-    DI.activatePackages("org.rapidpm");
+    String property = System.getProperty(DI.ORG_RAPIDPM_DDI_PACKAGESFILE, Main.class.getResource("microservice.packages").getPath());
+    System.setProperty(DI.ORG_RAPIDPM_DDI_PACKAGESFILE, property);
+    DI.bootstrap();
     executeStartupActions(args);
     //DI.bootstrap(); // per config steuern
     MainUndertow.deploy(args); // TODO make it non-static
