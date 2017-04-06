@@ -44,7 +44,7 @@
       <dependency>
         <groupId>org.rapidpm.microservice</groupId>
         <artifactId>rapidpm-microservice-bom</artifactId>
-        <version>${rapidpm-dynamic-cdi.version}</version>
+        <version>${rapidpm-microservice.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>

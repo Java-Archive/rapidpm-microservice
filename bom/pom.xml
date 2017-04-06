@@ -13,6 +13,13 @@
   <packaging>pom</packaging>
 
 
+  <!--change parent pom too-->
+  <properties>
+    <rapidpm-microservice.version>0.7.0-SNAPSHOT</rapidpm-microservice.version>
+    <rapidpm-dynamic-cdi.version>0.7.0-SNAPSHOT</rapidpm-dynamic-cdi.version>
+    <rapidpm-proxybuilder.version>0.7.0</rapidpm-proxybuilder.version>
+  </properties>
+
   <dependencyManagement>
     <dependencies>
       <dependency>
