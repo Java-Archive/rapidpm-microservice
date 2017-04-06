@@ -23,7 +23,7 @@
   <parent>
     <groupId>org.rapidpm.microservice</groupId>
     <artifactId>rapidpm-microservice-modules</artifactId>
-    <version>0.6.0</version>
+    <version>0.7.0</version>
     <relativePath>./../pom.xml</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
@@ -74,11 +74,9 @@
     <dependency>
       <groupId>org.rapidpm.microservice</groupId>
       <artifactId>rapidpm-microservice-modules-core-testutils</artifactId>
+      <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.jetbrains.kotlin</groupId>
-      <artifactId>kotlin-stdlib</artifactId>
-    </dependency>
+
     <!--TDD-->
   </dependencies>
 

@@ -1,6 +1,7 @@
 package junit.org.rapidpm.microservice.propertyservice.startup.commandline.v003;
 
 import org.junit.Test;
+import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.Main;
 
 import java.util.Optional;
@@ -15,6 +16,10 @@ public class LoadPropertiesStartupActionTest003 {
 
   @Test
   public void test001() throws Exception {
+    DI.clearReflectionModel();
+    DI.activatePackages("org.rapidpm");
+    DI.activatePackages(this.getClass());
+
     //final File file = folder.newFile("test.properties");
     //writePropertiesToFile(file);
     //final Optional<String[]> args = Optional.of(new String[]{"-i" + file.getAbsoluteFile().getCanonicalPath()});

@@ -21,7 +21,6 @@ package junit.org.rapidpm.microservice.optionals.metrics.performance;
 
 import com.google.gson.Gson;
 import junit.org.rapidpm.microservice.BasicRestTest;
-import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.Before;
 import org.rapidpm.microservice.optionals.metrics.performance.HistogrammSnapshot;
@@ -58,7 +57,6 @@ public class HistogrammBaseTest extends BasicRestTest {
   }
 
 
-  @NotNull
   public String requestWithCheck(final String generateBasicReqURL) {
     final String result = request(generateBasicReqURL);
     Assert.assertNotNull(result);
@@ -76,7 +74,6 @@ public class HistogrammBaseTest extends BasicRestTest {
     return val;
   }
 
-  @NotNull
   public void requestWithCheckWithVoid(final String generateBasicReqURL) {
     Client client = ClientBuilder.newClient();
     client
@@ -85,7 +82,6 @@ public class HistogrammBaseTest extends BasicRestTest {
     client.close();
   }
 
-  @NotNull
   public HistogrammSnapshot fromJsonWithCheck(final String result) {
     final HistogrammSnapshot histogrammSnapshot = new Gson().fromJson(result, HistogrammSnapshot.class);
     Assert.assertNotNull(histogrammSnapshot);

@@ -23,7 +23,7 @@
   <parent>
     <groupId>org.rapidpm.microservice</groupId>
     <artifactId>rapidpm-microservice</artifactId>
-    <version>0.6.0</version>
+    <version>0.7.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -35,9 +35,32 @@
     <module>core-testutils</module>
     <module>core</module>
     <module>optionals</module>
-    <module>persistence</module>
     <module>hazelcast</module>
   </modules>
 
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.rapidpm.microservice</groupId>
+        <artifactId>rapidpm-microservice-bom</artifactId>
+        <version>${rapidpm-microservice.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.rapidpm</groupId>
+      <artifactId>rapidpm-dependencies-core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.rapidpm.dynamic-cdi</groupId>
+      <artifactId>rapidpm-dynamic-cdi-modules-core</artifactId>
+    </dependency>
+  </dependencies>
 
 </project>

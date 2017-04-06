@@ -20,7 +20,6 @@
 package junit.org.rapidpm.microservice.optionals.metrics.performance;
 
 import com.google.gson.Gson;
-import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -76,7 +75,6 @@ public class Histogramms002Test extends HistogrammBaseTest {
     Assert.assertEquals(expected, preHistogrammSnapshot.getHistogramCount());
   }
 
-  @NotNull
   private Set<String> getActivatedMetrics() {
     final String allActiveMetricsReq = generateBasicReqURL(Histogramms.class)
         + "/" + Histogramms.LIST_ALL_ACTIVATED_METRICS;

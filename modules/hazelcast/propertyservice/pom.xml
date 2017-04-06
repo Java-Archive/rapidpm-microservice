@@ -24,7 +24,7 @@
   <parent>
     <groupId>org.rapidpm.microservice</groupId>
     <artifactId>rapidpm-microservice-modules-hazelcast</artifactId>
-    <version>0.6.0</version>
+    <version>0.7.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>rapidpm-microservice-modules-hazelcast-propertyservice</artifactId>
@@ -52,8 +52,14 @@
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
-  </dependencies>
 
+    <dependency>
+      <groupId>org.rapidpm.microservice</groupId>
+      <artifactId>rapidpm-microservice-modules-core-testutils</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
 
 
 </project>

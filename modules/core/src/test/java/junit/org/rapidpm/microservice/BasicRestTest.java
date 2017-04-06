@@ -47,7 +47,8 @@ public class BasicRestTest {
   public void setUp() throws Exception {
     DI.clearReflectionModel();
     DI.activatePackages("org.rapidpm");
-    DI.activatePackages(this.getClass());
+    final Class<? extends BasicRestTest> aClass = this.getClass();
+    DI.activatePackages(aClass);
     Main.deploy();
   }
 

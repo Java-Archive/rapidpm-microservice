@@ -19,7 +19,6 @@
 
 package junit.org.rapidpm.microservice.optionals.index.v004.server;
 
-import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import junit.org.rapidpm.microservice.optionals.index.v004.api.IndexOfTypeLoggerEvent;
 import junit.org.rapidpm.microservice.optionals.index.v004.api.LoggerEvent;
@@ -40,8 +39,7 @@ import java.util.List;
 @Path("/index/idx/loggerevent")
 public class LoggerEventREST {
 
-  public static final Type LOGGER_EVENT_LIST_TYPE = new TypeToken<List<LoggerEvent>>() {
-  }.getType();
+  public static final Type LOGGER_EVENT_LIST_TYPE = LoggerEvent[].class;
   public static final String INDEX_NAME = IndexOfTypeLoggerEvent.class.getSimpleName();
 
   public static final String QUERY = "query";
@@ -58,13 +56,14 @@ public class LoggerEventREST {
   public String query(@QueryParam(QP_QUERY) String query) {
     final LoggerEventIndex index = indexStore.getIndex(INDEX_NAME);
     final List<LoggerEvent> events = index.query(query);
-    return new Gson().toJson(events, LOGGER_EVENT_LIST_TYPE);
+    return new Gson().toJson(events.toArray(new LoggerEvent[0]), LOGGER_EVENT_LIST_TYPE);
   }
 
   @GET()
   @Path(INSERT)
   @Produces(MediaType.APPLICATION_JSON)
-  public String insert(@QueryParam(QP_LOGGER_EVENT) final String loggerEventJSON) {
+  public String insert(@QueryParam(QP_LOGGER_EVENT)
+                       final String loggerEventJSON) {
     final Gson gson = new Gson();
 
     final Decoder decoder = Base64.getDecoder();

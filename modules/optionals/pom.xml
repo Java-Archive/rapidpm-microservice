@@ -24,7 +24,7 @@
   <parent>
     <artifactId>rapidpm-microservice-modules</artifactId>
     <groupId>org.rapidpm.microservice</groupId>
-    <version>0.6.0</version>
+    <version>0.7.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -35,8 +35,8 @@
     <module>metrics</module>
     <module>admin</module>
     <module>index</module>
-    <module>filesystem</module>
     <module>service</module>
+    <module>properties</module>
     <!--<module>vaadin</module>-->  <!-- moved to prj vaadin jumpstart-->
     <!--<module>message-queues</module>-->
   </modules>

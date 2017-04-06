@@ -64,7 +64,7 @@ public abstract class BasicLuceneIndexOfType<T> implements IndexOfType<T> {
 
     } catch (final IOException e) {
       e.printStackTrace();
-      throw new RuntimeException("Index  " + indexName + " could not instanciated " + this.getClass().getName());
+      throw new RuntimeException("Index  " + indexName + " could not instantiated " + this.getClass().getName());
     }
 
   }

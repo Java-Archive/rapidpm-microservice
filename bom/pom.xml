@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>rapidpm-microservice</artifactId>
+    <groupId>org.rapidpm.microservice</groupId>
+    <version>0.7.0</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>rapidpm-microservice-bom</artifactId>
+  <packaging>pom</packaging>
+
+
+  <!--change parent pom too-->
+  <properties>
+    <rapidpm-microservice.version>0.7.0</rapidpm-microservice.version>
+    <rapidpm-dynamic-cdi.version>0.7.0</rapidpm-dynamic-cdi.version>
+    <rapidpm-proxybuilder.version>0.7.0</rapidpm-proxybuilder.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.rapidpm.dynamic-cdi</groupId>
+        <artifactId>rapidpm-dynamic-cdi-bom</artifactId>
+        <version>${rapidpm-dynamic-cdi.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+
+
+      <dependency>
+        <groupId>org.rapidpm.microservice</groupId>
+        <artifactId>rapidpm-microservice-modules-core</artifactId>
+        <version>${rapidpm-microservice.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.rapidpm.microservice</groupId>
+        <artifactId>rapidpm-microservice-modules-core</artifactId>
+        <version>${rapidpm-microservice.version}</version>
+        <type>test-jar</type>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.rapidpm.microservice</groupId>
+        <artifactId>rapidpm-microservice-modules-optionals-admin</artifactId>
+        <version>${rapidpm-microservice.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.rapidpm.microservice</groupId>
+        <artifactId>rapidpm-microservice-modules-optionals-cli</artifactId>
+        <version>${rapidpm-microservice.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.rapidpm.microservice</groupId>
+        <artifactId>rapidpm-microservice-modules-optionals-service</artifactId>
+        <version>${rapidpm-microservice.version}</version>
+      </dependency>
+
+
+      <!--TDD-->
+      <dependency>
+        <groupId>org.rapidpm.microservice</groupId>
+        <artifactId>rapidpm-microservice-modules-core-testutils</artifactId>
+        <version>${rapidpm-microservice.version}</version>
+      </dependency>
+
+      <!--TDD-->
+
+      <dependency>
+        <groupId>org.rapidpm.microservice</groupId>
+        <artifactId>rapidpm-microservice-modules-optionals-metrics-performance</artifactId>
+        <version>${rapidpm-microservice.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.rapidpm.microservice</groupId>
+        <artifactId>rapidpm-microservice-modules-optionals-metrics-activeressources</artifactId>
+        <version>${rapidpm-microservice.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.rapidpm.microservice</groupId>
+        <artifactId>rapidpm-microservice-modules-optionals-metrics-health</artifactId>
+        <version>${rapidpm-microservice.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.rapidpm.microservice</groupId>
+        <artifactId>rapidpm-microservice-modules-optionals-metrics-jvm</artifactId>
+        <version>${rapidpm-microservice.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.rapidpm.microservice</groupId>
+        <artifactId>rapidpm-microservice-modules-optionals-filesystem-base</artifactId>
+        <version>${rapidpm-microservice.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.rapidpm.microservice</groupId>
+        <artifactId>rapidpm-microservice-modules-optionals-filesystem-hazelcast</artifactId>
+        <version>${rapidpm-microservice.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.rapidpm.microservice</groupId>
+        <artifactId>rapidpm-microservice-modules-optionals-filesystem-memory</artifactId>
+        <version>${rapidpm-microservice.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.rapidpm.microservice</groupId>
+        <artifactId>rapidpm-microservice-modules-optionals-filesystem-os</artifactId>
+        <version>${rapidpm-microservice.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.rapidpm.microservice</groupId>
+        <artifactId>jumpstart-vaadin-modules-optionals-microservice</artifactId>
+        <version>${rapidpm-microservice.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.rapidpm.microservice</groupId>
+        <artifactId>rapidpm-microservice-modules-persistence-local-hashmap</artifactId>
+        <version>${rapidpm-microservice.version}</version>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+
+</project>
