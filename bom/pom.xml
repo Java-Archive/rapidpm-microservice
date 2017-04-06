@@ -18,6 +18,15 @@
     <rapidpm-microservice.version>0.8.0-SNAPSHOT</rapidpm-microservice.version>
     <rapidpm-dynamic-cdi.version>0.8.0-SNAPSHOT</rapidpm-dynamic-cdi.version>
     <rapidpm-proxybuilder.version>0.8.0-SNAPSHOT</rapidpm-proxybuilder.version>
+
+
+    <undertow.version>2.0.0.Alpha1</undertow.version>
+    <resteasy-undertow.version>3.1.2.Final</resteasy-undertow.version>
+    <vaadin.version>8.0.5</vaadin.version>
+    <vaadin-testbench-api.version>5.0.0</vaadin-testbench-api.version>
+
+    <hazelcast.version>3.8</hazelcast.version>
+    <lucene.version>6.5.0</lucene.version>
   </properties>
 
   <dependencyManagement>
@@ -129,7 +138,187 @@
         <version>${rapidpm-microservice.version}</version>
       </dependency>
 
+
+      <!--External stuff-->
+
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <version>4.0.0-b02</version>
+      </dependency>
+
+      <!--Undertow-->
+      <dependency>
+        <groupId>io.undertow</groupId>
+        <artifactId>undertow-core</artifactId>
+        <version>${undertow.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.undertow</groupId>
+        <artifactId>undertow-servlet</artifactId>
+        <version>${undertow.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.undertow</groupId>
+        <artifactId>undertow-websockets-jsr</artifactId>
+        <version>${undertow.version}</version>
+      </dependency>
+      <!--Undertow-->
+
+      <!--RestEasy-->
+      <dependency>
+        <groupId>org.jboss.resteasy</groupId>
+        <artifactId>resteasy-undertow</artifactId>
+        <version>${resteasy-undertow.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.resteasy</groupId>
+        <artifactId>resteasy-cdi</artifactId>
+        <version>${resteasy-undertow.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.resteasy</groupId>
+        <artifactId>resteasy-jaxrs</artifactId>
+        <version>${resteasy-undertow.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.resteasy</groupId>
+        <artifactId>resteasy-client</artifactId>
+        <version>${resteasy-undertow.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.resteasy</groupId>
+        <artifactId>jaxrs-api</artifactId>
+        <version>3.0.12.Final</version>
+      </dependency>
+
+      <!--RestEasy-->
+
+      <!--Lucene-->
+      <dependency>
+        <groupId>org.apache.lucene</groupId>
+        <artifactId>lucene-core</artifactId>
+        <version>${lucene.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.lucene</groupId>
+        <artifactId>lucene-analyzers-common</artifactId>
+        <version>${lucene.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.lucene</groupId>
+        <artifactId>lucene-queryparser</artifactId>
+        <version>${lucene.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.lucene</groupId>
+        <artifactId>lucene-backward-codecs</artifactId>
+        <version>${lucene.version}</version>
+      </dependency>
+
+
+      <!--Vaadin Based stuff-->
+      <dependency>
+        <groupId>com.vaadin</groupId>
+        <artifactId>vaadin-server</artifactId>
+        <version>${vaadin.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.vaadin</groupId>
+        <artifactId>vaadin-themes</artifactId>
+        <version>${vaadin.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.vaadin</groupId>
+        <artifactId>vaadin-push</artifactId>
+        <version>${vaadin.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.vaadin</groupId>
+        <artifactId>vaadin-client</artifactId>
+        <version>${vaadin.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.vaadin</groupId>
+        <artifactId>vaadin-client-compiled</artifactId>
+        <version>${vaadin.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.vaadin</groupId>
+        <artifactId>vaadin-testbench</artifactId>
+        <version>${vaadin-testbench-api.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>com.hazelcast</groupId>
+        <artifactId>hazelcast-all</artifactId>
+        <version>${hazelcast.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hazelcast</groupId>
+        <artifactId>hazelcast-client</artifactId>
+        <version>${hazelcast.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hazelcast</groupId>
+        <artifactId>hazelcast-root</artifactId>
+        <version>${hazelcast.version}</version>
+      </dependency>
+
+
     </dependencies>
   </dependencyManagement>
+
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>3.0.0</version>
+        </plugin>
+
+        <!--Vaadin Widget external -->
+        <plugin>
+          <groupId>com.vaadin</groupId>
+          <artifactId>vaadin-maven-plugin</artifactId>
+          <version>${vaadin.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+
+  <profiles>
+    <profile>
+      <id>repo-allow-vaadin</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <repositories>
+        <repository>
+          <id>vaadin-repo</id>
+          <url>http://maven.vaadin.com/vaadin-addons</url>
+          <!--<url>http://maven.vaadin.com/</url>-->
+        </repository>
+        <repository>
+          <id>vaadin-prereleases</id>
+          <name>Vaadin Pre-releases</name>
+          <url>https://maven.vaadin.com/vaadin-prereleases</url>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>vaadin-prereleases</id>
+          <name>Vaadin Pre-releases</name>
+          <url>https://maven.vaadin.com/vaadin-prereleases</url>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+
+  </profiles>
 
 </project>
