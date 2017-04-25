@@ -37,6 +37,7 @@ public class Main {
 
   private static final Timer TIMER = new Timer(true);
   public static final String DEFAULT_HOST = "0.0.0.0";
+  private static final String DI_PACKAGE_FILE = "microservice.packages";
 
   private static Optional<String[]> cliArguments;
 
@@ -54,7 +55,8 @@ public class Main {
 
   public static void deploy(Optional<String[]> args) {
     cliArguments = args;
-    String property = System.getProperty(DI.ORG_RAPIDPM_DDI_PACKAGESFILE, Main.class.getResource("microservice.packages").getPath());
+    final String packages = Main.class.getPackage().getName().replace(".", "/") + "/" + DI_PACKAGE_FILE;
+    String property = System.getProperty(DI.ORG_RAPIDPM_DDI_PACKAGESFILE, packages);
     System.setProperty(DI.ORG_RAPIDPM_DDI_PACKAGESFILE, property);
     DI.bootstrap();
     executeStartupActions(args);
