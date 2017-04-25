@@ -19,6 +19,8 @@
 
 package junit.org.rapidpm.microservice;
 
+import java.util.function.Supplier;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -32,6 +34,8 @@ public class BasicRestTest {
 
   final RestUtils restUtils = new RestUtils();
 
+  static Supplier<Boolean> useDocker = () -> false;
+
   @BeforeClass
   public static void setUpClass() {
     final PortUtils portUtils = new PortUtils();
@@ -39,8 +43,10 @@ public class BasicRestTest {
     System.setProperty(MainUndertow.REST_HOST_PROPERTY, "127.0.0.1");
     System.setProperty(MainUndertow.SERVLET_HOST_PROPERTY, "127.0.0.1");
 
-    System.setProperty(MainUndertow.REST_PORT_PROPERTY, portUtils.nextFreePortForTest() + "");
-    System.setProperty(MainUndertow.SERVLET_PORT_PROPERTY, portUtils.nextFreePortForTest() + "");
+    if ( ! useDocker.get()){
+      System.setProperty(MainUndertow.REST_PORT_PROPERTY, portUtils.nextFreePortForTest() + "");
+      System.setProperty(MainUndertow.SERVLET_PORT_PROPERTY, portUtils.nextFreePortForTest() + "");
+    }
   }
 
   @Before
