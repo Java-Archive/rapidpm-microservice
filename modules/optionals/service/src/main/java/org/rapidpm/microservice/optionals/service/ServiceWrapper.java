@@ -29,6 +29,8 @@ import org.rapidpm.ddi.DI;
 import org.rapidpm.dependencies.core.system.ExitHandler;
 import org.rapidpm.microservice.MainUndertow;
 import org.rapidpm.microservice.rest.optionals.admin.BasicAdministration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.Path;
 import java.io.FileNotFoundException;
@@ -38,6 +40,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,6 +49,7 @@ import static org.rapidpm.microservice.MainUndertow.CONTEXT_PATH_REST;
 
 public class ServiceWrapper {
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(ServiceWrapper.class);
   public static final String SHUTDOWN = "SHUTDOWN";
   public static final int DELAY = 1000;
   public static final java.nio.file.Path MICROSERVICE_REST_FILE = Paths.get("microservice.rest");
@@ -73,9 +77,9 @@ public class ServiceWrapper {
   private static void checkPortFileExists() {
 
     if (Files.exists(MICROSERVICE_REST_FILE)) {
-      System.err.println("File " + MICROSERVICE_REST_FILE + "already exists.");
-      System.err.println("Service seems to be running. Make sure the service terminated and remove the file.");
-      System.err.println("Then restart the service");
+      LOGGER.error("File " + MICROSERVICE_REST_FILE + "already exists.");
+      LOGGER.error("Service seems to be running. Make sure the service terminated and remove the file.");
+      LOGGER.error("Then restart the service");
       exitHandler.exit(1);
     }
   }
@@ -83,9 +87,9 @@ public class ServiceWrapper {
   private static void writeRestPortToFile() {
     String restPort = System.getProperty(MainUndertow.REST_PORT_PROPERTY, MainUndertow.DEFAULT_REST_PORT + "");
     try {
-      Files.write(MICROSERVICE_REST_FILE, Arrays.asList(restPort));
+      Files.write(MICROSERVICE_REST_FILE, Collections.singletonList(restPort));
     } catch (IOException e) {
-      System.err.println("Can not write to File " + MICROSERVICE_REST_FILE + "check permissions and restart the service");
+      LOGGER.error("Can not write to File " + MICROSERVICE_REST_FILE + "check permissions and restart the service");
       exitHandler.exit(1);
     }
 
@@ -100,14 +104,14 @@ public class ServiceWrapper {
     if (pathAnnotation.isPresent()) {
       sendShutdownToService(restBaseUrl, pathAnnotation);
     } else {
-      System.err.print("Could not locate Path of rest service. Could it be you forgot to add the admin optional?");
+      LOGGER.error("Could not locate Path of rest service. Could it be you forgot to add the admin optional?");
       exitHandler.exit(1);
     }
 
     try {
       Files.delete(MICROSERVICE_REST_FILE);
     } catch (IOException e) {
-      System.err.print("Could not delete file " + MICROSERVICE_REST_FILE + "Cleanup file before restart");
+      LOGGER.error("Could not delete file " + MICROSERVICE_REST_FILE + "Cleanup file before restart");
       exitHandler.exit(1);
     }
 
@@ -116,20 +120,20 @@ public class ServiceWrapper {
   private static void sendShutdownToService(String restBaseUrl, Optional<Annotation> pathAnnotation) {
     String adminRestPath = getAdminRestPath(pathAnnotation);
 
-    System.out.println("Sending SHUTDOWN message to microservice");
+    LOGGER.debug("Sending SHUTDOWN message to microservice");
 
     String returnedValue = null;
     try {
       returnedValue = callRest(restBaseUrl, adminRestPath);
     } catch (IOException e) {
-      System.err.println("Failed to call rest endpoint");
+      LOGGER.error("Failed to call rest endpoint");
       exitHandler.exit(1);
     }
-    System.out.println("Received answer, Server shutting down");
+    LOGGER.debug("Received answer, Server shutting down");
 
     if (!returnedValue.toLowerCase().contains("ok")) {
-      System.err.println("Service returned <" + returnedValue + ">");
-      System.err.println("Something went wrong, exiting");
+      LOGGER.error("Service returned <" + returnedValue + ">");
+      LOGGER.error("Something went wrong, exiting");
       exitHandler.exit(1);
     }
   }
@@ -140,14 +144,14 @@ public class ServiceWrapper {
       return String.format("http://127.0.0.1:%d/%s", Integer.valueOf(restPortFromFile), CONTEXT_PATH_REST);
 
     } catch (FileNotFoundException e) {
-      System.err.println("The file " + MICROSERVICE_REST_FILE + " was not found. \n It seems like your service wasn't started");
+      LOGGER.error("The file " + MICROSERVICE_REST_FILE + " was not found. \n It seems like your service wasn't started");
       exitHandler.exit(1);
     } catch (IOException e) {
-      System.err.println("The file " + MICROSERVICE_REST_FILE + " wasn't read/writeable. \n" + e.getMessage());
+      LOGGER.error("The file " + MICROSERVICE_REST_FILE + " wasn't read/writeable. \n" + e.getMessage());
       exitHandler.exit(1);
     } catch (NumberFormatException e) {
-      System.err.println("The file " + MICROSERVICE_REST_FILE + " contained no readable port. \n" + e.getMessage());
-      System.err.println("Remove the file and start the service again");
+      LOGGER.error("The file " + MICROSERVICE_REST_FILE + " contained no readable port. \n" + e.getMessage());
+      LOGGER.error("Remove the file and start the service again");
       exitHandler.exit(1);
     }
 
@@ -163,7 +167,7 @@ public class ServiceWrapper {
   }
 
   private static Optional<Annotation> getAnnotation() {
-    return Arrays.asList(BasicAdministration.class.getAnnotations()).stream()
+    return Arrays.stream(BasicAdministration.class.getAnnotations())
         .filter(a -> a.annotationType().equals(Path.class))
         .findFirst();
   }
