@@ -23,7 +23,7 @@
   <parent>
     <groupId>org.rapidpm.microservice</groupId>
     <artifactId>rapidpm-microservice</artifactId>
-    <version>0.8.0</version>
+    <version>0.8.1</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 

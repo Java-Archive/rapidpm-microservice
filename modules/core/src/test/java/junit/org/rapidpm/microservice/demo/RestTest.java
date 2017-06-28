@@ -23,6 +23,7 @@ import junit.org.rapidpm.microservice.BasicRestTest;
 import junit.org.rapidpm.microservice.demo.rest.Resource;
 import org.junit.Assert;
 import org.junit.Test;
+import org.rapidpm.microservice.rest.PingMe;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -42,6 +43,23 @@ public class RestTest extends BasicRestTest {
     Assert.assertEquals("Hello Rest World CDI Service", val);
     client.close();
   }
+
+  @Test
+  public void testPingMe() throws Exception {
+    Client client = ClientBuilder.newClient();
+    final String generateBasicReqURL = generateBasicReqURL(PingMe.class);
+    System.out.println("generateBasicReqURL = " + generateBasicReqURL);
+    String val = client
+        .target(generateBasicReqURL)
+        .request()
+        .get(String.class);
+    System.out.println("val = " + val);
+    Assert.assertTrue(val.startsWith("Hello"));
+    client.close();
+  }
+
+
+
 
 
 }
