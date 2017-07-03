@@ -23,9 +23,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.dependencies.core.net.PortUtils;
-import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.MainUndertow;
 import org.rapidpm.microservice.optionals.service.ServiceWrapper;
+import org.rapidpm.microservice.test.system.JunitExitHandler;
 import org.rapidpm.microservice.test.system.JunitExitRuntimeException;
 
 import java.nio.file.Files;
@@ -43,8 +43,8 @@ public class ServiceWrapperTest {
     DI.clearReflectionModel();
     DI.activatePackages("org.rapidpm");
 
-
     try {
+      ServiceWrapper.exitHandler = new JunitExitHandler();
       ServiceWrapper.main(Arrays.asList(ServiceWrapper.SHUTDOWN).toArray(new String[1]));
     } catch (JunitExitRuntimeException e) {
       Assert.assertEquals(1, e.exitCode);
