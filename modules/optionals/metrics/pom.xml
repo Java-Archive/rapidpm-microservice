@@ -32,7 +32,7 @@
   <packaging>pom</packaging>
   <modules>
     <module>health</module>
-    <module>performance</module>
+    <!--<module>performance</module>-->
     <module>activeressources</module>
     <module>jvm</module>
   </modules>

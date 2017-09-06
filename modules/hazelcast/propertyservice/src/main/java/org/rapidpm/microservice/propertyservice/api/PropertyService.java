@@ -1,14 +1,12 @@
 package org.rapidpm.microservice.propertyservice.api;
 
-import org.rapidpm.proxybuilder.staticgenerated.annotations.StaticMetricsProxy;
-
-import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
-@StaticMetricsProxy
+import javax.annotation.Nullable;
+
 public interface PropertyService {
   void init(@Nullable String source);
 

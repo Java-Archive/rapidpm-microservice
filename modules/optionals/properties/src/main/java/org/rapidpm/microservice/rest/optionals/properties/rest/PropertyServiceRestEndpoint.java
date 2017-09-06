@@ -69,9 +69,8 @@ public class PropertyServiceRestEndpoint {
 
 
   private boolean authenticate(@Context HttpServletRequest requestContext) {
-    if (authenticationServiceImpl.isActive() && !authenticationServiceImpl.authenticate(requestContext.getRemoteAddr()))
-        return true;
-    return false;
+    return authenticationServiceImpl.isActive() &&
+           ! authenticationServiceImpl.authenticate(requestContext.getRemoteAddr());
   }
 
 
