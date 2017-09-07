@@ -32,6 +32,20 @@
 
 
   <dependencies>
+
+    <!--security -->
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-web</artifactId>
+    </dependency>
+    <!--Logging for Shiro 1.4.0-->
+    <!--<dependency>-->
+    <!--<groupId>commons-logging</groupId>-->
+    <!--<artifactId>commons-logging</artifactId>-->
+    <!--<version>1.2</version>-->
+    <!--</dependency>-->
+
+
     <dependency>
       <groupId>io.undertow</groupId>
       <artifactId>undertow-core</artifactId>
