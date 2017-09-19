@@ -24,7 +24,7 @@ import java.util.List;
 public class AuthenticationStartupAction implements CmdLineStartupAction {
 
   public static final String COMMAND_SHORT = "a";
-  public static final String COMMAND_LONG = "athentication";
+  public static final String COMMAND_LONG = "authentication";
 
   @Override
   public List<Option> getOptions() {
