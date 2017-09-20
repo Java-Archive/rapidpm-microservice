@@ -35,8 +35,7 @@ import java.util.stream.Collectors;
 public class CmdLineStartupActionExecutor implements MainStartupAction {
   public static final String CMD_HELP = "h";
   private final CmdLineParser cmdLineParser = new CmdLineParser();
-  @Inject
-  private ExitHandler exitHelper;
+  @Inject private ExitHandler exitHelper;
 
   @Override
   public void execute(Optional<String[]> args) {
@@ -88,7 +87,7 @@ public class CmdLineStartupActionExecutor implements MainStartupAction {
         System.out.println(cmdLineParser.getHelpText());
         exitHelper.exit(0);
       }
-      startupActionInstances.stream().forEach(cmdLineStartupAction -> cmdLineStartupAction.execute(cmdLine));
+      startupActionInstances.forEach(cmdLineStartupAction -> cmdLineStartupAction.execute(cmdLine));
     }
   }
 
