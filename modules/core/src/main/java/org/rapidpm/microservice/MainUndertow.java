@@ -1,27 +1,13 @@
 package org.rapidpm.microservice;
 
-import static io.undertow.servlet.Servlets.defaultContainer;
-import static io.undertow.servlet.Servlets.deployment;
-import static io.undertow.servlet.Servlets.servlet;
-import static javax.servlet.DispatcherType.ERROR;
-import static javax.servlet.DispatcherType.FORWARD;
-import static javax.servlet.DispatcherType.INCLUDE;
-import static javax.servlet.DispatcherType.REQUEST;
-
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.EventListener;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebInitParam;
-import javax.servlet.annotation.WebListener;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-
+import io.undertow.Handlers;
+import io.undertow.Undertow;
+import io.undertow.Undertow.Builder;
+import io.undertow.UndertowOptions;
+import io.undertow.server.HttpHandler;
+import io.undertow.server.handlers.PathHandler;
+import io.undertow.servlet.api.*;
+import io.undertow.websockets.jsr.WebSocketDeploymentInfo;
 import org.apache.shiro.web.env.EnvironmentLoaderListener;
 import org.apache.shiro.web.servlet.ShiroFilter;
 import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
@@ -36,19 +22,22 @@ import org.rapidpm.microservice.rest.ddi.DdiInjectorFactory;
 import org.rapidpm.microservice.servlet.ServletInstanceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import io.undertow.Handlers;
-import io.undertow.Undertow;
-import io.undertow.Undertow.Builder;
-import io.undertow.UndertowOptions;
-import io.undertow.server.HttpHandler;
-import io.undertow.server.handlers.PathHandler;
-import io.undertow.servlet.api.DeploymentInfo;
-import io.undertow.servlet.api.DeploymentManager;
-import io.undertow.servlet.api.FilterInfo;
-import io.undertow.servlet.api.ListenerInfo;
-import io.undertow.servlet.api.ServletContainer;
-import io.undertow.servlet.api.ServletInfo;
-import io.undertow.websockets.jsr.WebSocketDeploymentInfo;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebInitParam;
+import javax.servlet.annotation.WebListener;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.EventListener;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static io.undertow.servlet.Servlets.*;
+import static javax.servlet.DispatcherType.*;
 
 /**
  * Copyright (C) 2010 RapidPM
@@ -120,7 +109,7 @@ public class MainUndertow {
 
     final JaxRsActivator jaxRsActivator = new JaxRsActivator();
     if (jaxRsActivator.somethingToDeploy()) {
-      deployRestRessources(builder , jaxRsActivator);
+      deployRestResources(builder , jaxRsActivator);
     } else {
       undertowServer = builder.build();
       undertowServer.start();
@@ -218,7 +207,7 @@ public class MainUndertow {
   }
 
 
-  static void deployRestRessources(final Builder builder , final JaxRsActivator jaxRsActivator) {
+  static void deployRestResources(final Builder builder , final JaxRsActivator jaxRsActivator) {
     final String realRestPort = System.getProperty(REST_PORT_PROPERTY , DEFAULT_REST_PORT + "");
     final String realRestHost = System.getProperty(REST_HOST_PROPERTY , Main.DEFAULT_HOST);
 
