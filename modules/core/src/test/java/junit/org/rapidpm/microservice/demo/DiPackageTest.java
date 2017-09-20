@@ -2,11 +2,10 @@ package junit.org.rapidpm.microservice.demo;
 
 import junit.org.rapidpm.microservice.BasicRestTest;
 import junit.org.rapidpm.microservice.demo.rest.Resource;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.rapidpm.ddi.DI;
-import org.rapidpm.microservice.Main;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -29,21 +28,19 @@ import static org.junit.Assert.assertEquals;
  */
 public class DiPackageTest extends BasicRestTest {
 
-  @Before
-  public void setUp() throws Exception {
-    DI.clearReflectionModel();
+  @BeforeClass
+  public static void beforeClass(){
+    System.setProperty(DI.ORG_RAPIDPM_DDI_PACKAGESFILE, "junit/org/rapidpm/microservice/microservice.packages");
   }
 
-  @After
-  public void tearDown() throws Exception {
-    DI.clearReflectionModel();
-    Main.stop();
+  @AfterClass
+  public static void afterClass(){
+    System.clearProperty(DI.ORG_RAPIDPM_DDI_PACKAGESFILE);
   }
+
 
   @Test
   public void test001() throws Exception {
-    System.setProperty(DI.ORG_RAPIDPM_DDI_PACKAGESFILE, "junit/org/rapidpm/microservice/microservice.packages");
-    Main.deploy();
     assertEquals("Hello Rest World CDI Service", callRestEndpoint());
   }
 
