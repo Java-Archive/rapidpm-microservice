@@ -70,7 +70,7 @@ public class MainUndertow {
   public static final  String REST_HOST_PROPERTY        = "org.rapidpm.microservice.rest.host";
   public static final  String SERVLET_PORT_PROPERTY     = "org.rapidpm.microservice.servlet.port";
   public static final  String SERVLET_HOST_PROPERTY     = "org.rapidpm.microservice.servlet.host";
-  public static final  String SHIRO_ACTIVE_PROPERTY      = "org.rapidpm.microservice.security.shiro.active";
+  public static final  String SHIRO_ACTIVE_PROPERTY     = "org.rapidpm.microservice.security.shiro.active";
 
   private static final String RESTEASY_PORT_PROPERTY = "org.jboss.resteasy.port";
   private static final String RESTEASY_HOST_PROPERTY = "org.jboss.resteasy.host";

@@ -76,10 +76,8 @@ public class PropertyServiceImpl implements PropertyService {
 
   @Override
   public String getSingleProperty(String property) {
-    if (properties.containsKey(property))
-      return properties.get(property);
-    else
-      return ""; // Todo return something useful or make optional
+    // Todo return something useful or make optional
+    return properties.getOrDefault(property , "");
   }
 
   @Override
