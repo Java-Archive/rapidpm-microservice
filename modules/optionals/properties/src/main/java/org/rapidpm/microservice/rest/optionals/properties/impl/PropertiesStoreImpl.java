@@ -1,6 +1,5 @@
 package org.rapidpm.microservice.rest.optionals.properties.impl;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -10,6 +9,10 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+
+import javax.annotation.PostConstruct;
+
+import org.rapidpm.microservice.rest.optionals.properties.api.PropertiesStore;
 
 /**
  * Copyright (C) 2010 RapidPM
@@ -25,7 +28,7 @@ import java.util.stream.Collectors;
  * <p>
  * Created by RapidPM - Team on 13.12.2016.
  */
-public class PropertiesStoreImpl implements org.rapidpm.microservice.rest.optionals.properties.api.PropertiesStore {
+public class PropertiesStoreImpl implements PropertiesStore {
 
   private Map<String, String> propertyMap;
 
@@ -45,8 +48,8 @@ public class PropertiesStoreImpl implements org.rapidpm.microservice.rest.option
   @Override
   public Map<String, String> getPropertiesOfNamespace(String namespace) {
     return propertyMap.entrySet().stream()
-        .filter(entry -> entry.getKey().startsWith(namespace))
-        .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue()));
+                      .filter(entry -> entry.getKey().startsWith(namespace))
+                      .collect(Collectors.toMap(Map.Entry::getKey , Map.Entry::getValue));
   }
 
   private void loadProperties() {
@@ -55,8 +58,8 @@ public class PropertiesStoreImpl implements org.rapidpm.microservice.rest.option
       Properties props = new Properties();
       props.load(reader);
 
-      props.entrySet().stream()
-          .forEach(entry -> propertyMap.putIfAbsent(entry.getKey().toString(), entry.getValue().toString()));
+      props.entrySet()
+           .forEach(entry -> propertyMap.putIfAbsent(entry.getKey().toString() , entry.getValue().toString()));
     } catch (IOException e) {
       e.printStackTrace();
     }

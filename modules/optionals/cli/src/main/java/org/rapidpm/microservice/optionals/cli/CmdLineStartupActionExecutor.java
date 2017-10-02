@@ -60,7 +60,7 @@ public class CmdLineStartupActionExecutor implements MainStartupAction {
     startupActionInstances.stream()
         .map(CmdLineStartupAction::getOptions)
         .flatMap(Collection::stream)
-        .forEach(opt -> cmdLineParser.addCmdLineOption(opt));
+        .forEach(cmdLineParser::addCmdLineOption);
   }
 
   private void checkCommands() {

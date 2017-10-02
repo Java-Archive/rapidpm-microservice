@@ -24,7 +24,7 @@
   <parent>
     <artifactId>rapidpm-microservice-modules-optionals</artifactId>
     <groupId>org.rapidpm.microservice</groupId>
-    <version>0.8.1</version>
+    <version>0.9.1</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -32,7 +32,7 @@
   <packaging>pom</packaging>
   <modules>
     <module>health</module>
-    <module>performance</module>
+    <!--<module>performance</module>-->
     <module>activeressources</module>
     <module>jvm</module>
   </modules>

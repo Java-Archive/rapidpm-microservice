@@ -8,6 +8,8 @@ import io.undertow.server.HttpHandler;
 import io.undertow.server.handlers.PathHandler;
 import io.undertow.servlet.api.*;
 import io.undertow.websockets.jsr.WebSocketDeploymentInfo;
+import org.apache.shiro.web.env.EnvironmentLoaderListener;
+import org.apache.shiro.web.servlet.ShiroFilter;
 import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
 import org.jboss.resteasy.spi.ResteasyDeployment;
 import org.rapidpm.ddi.DI;
@@ -35,6 +37,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static io.undertow.servlet.Servlets.*;
+import static javax.servlet.DispatcherType.*;
 
 /**
  * Copyright (C) 2010 RapidPM
@@ -47,7 +50,7 @@ import static io.undertow.servlet.Servlets.*;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ * <p>
  * Created by RapidPM - Team on 08.08.16.
  */
 public class MainUndertow {
@@ -57,21 +60,25 @@ public class MainUndertow {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(MainUndertow.class);
 
-  public static final String MYAPP = "/microservice";
-  public static final String CONTEXT_PATH_REST = "/rest";
-  public static final int DEFAULT_REST_PORT = 7081;
-  public static final int DEFAULT_SERVLET_PORT = 7080;
-  public static final String REST_PORT_PROPERTY = "org.rapidpm.microservice.rest.port";
-  public static final String REST_HOST_PROPERTY = "org.rapidpm.microservice.rest.host";
-  public static final String SERVLET_PORT_PROPERTY = "org.rapidpm.microservice.servlet.port";
-  public static final String SERVLET_HOST_PROPERTY = "org.rapidpm.microservice.servlet.host";
+  public static final  String DEFAULT_FILTER_MAPPING    = "/*";
+  public static final  String DEFAULT_SHIRO_FILTER_NAME = "ShiroFilter";
+  public static final  String MYAPP                     = "/microservice";
+  public static final  String CONTEXT_PATH_REST         = "/rest";
+  public static final  int    DEFAULT_REST_PORT         = 7081;
+  public static final  int    DEFAULT_SERVLET_PORT      = 7080;
+  public static final  String REST_PORT_PROPERTY        = "org.rapidpm.microservice.rest.port";
+  public static final  String REST_HOST_PROPERTY        = "org.rapidpm.microservice.rest.host";
+  public static final  String SERVLET_PORT_PROPERTY     = "org.rapidpm.microservice.servlet.port";
+  public static final  String SERVLET_HOST_PROPERTY     = "org.rapidpm.microservice.servlet.host";
+  public static final  String SHIRO_ACTIVE_PROPERTY     = "org.rapidpm.microservice.security.shiro.active";
+
   private static final String RESTEASY_PORT_PROPERTY = "org.jboss.resteasy.port";
   private static final String RESTEASY_HOST_PROPERTY = "org.jboss.resteasy.host";
 
   private static UndertowJaxrsServer jaxrsServer;
-  private static Undertow undertowServer;
+  private static Undertow            undertowServer;
 
-  private static LocalDateTime deployStart;
+  private static LocalDateTime      deployStart;
   private static Optional<String[]> cliArguments;
 
   public static void deploy() {
@@ -85,24 +92,24 @@ public class MainUndertow {
     //DI.bootstrap(); // per config steuern
 
     final Builder builder = Undertow.builder() //TODO
-        .setDirectBuffers(true)
-        .setServerOption(UndertowOptions.ENABLE_HTTP2, true);
+                                    .setDirectBuffers(true)
+                                    .setServerOption(UndertowOptions.ENABLE_HTTP2 , true);
 
     // deploy servlets
     DeploymentInfo deploymentInfo = createServletDeploymentInfos();
-    final boolean anyServlets = !deploymentInfo.getServlets().isEmpty();
+    final boolean anyServlets = ! deploymentInfo.getServlets().isEmpty();
     if (anyServlets) {
       try {
-        deployServlets(builder, deploymentInfo);
+        deployServlets(builder , deploymentInfo);
       } catch (ServletException e) {
         e.printStackTrace();
-        LOGGER.error("deploy Servlets ", e);
+        LOGGER.error("deploy Servlets " , e);
       }
     }
 
     final JaxRsActivator jaxRsActivator = new JaxRsActivator();
     if (jaxRsActivator.somethingToDeploy()) {
-      deployRestRessources(builder, jaxRsActivator);
+      deployRestResources(builder , jaxRsActivator);
     } else {
       undertowServer = builder.build();
       undertowServer.start();
@@ -117,27 +124,27 @@ public class MainUndertow {
     System.out.println("");
     final LocalDateTime stopTime = LocalDateTime.now();
     System.out.println(" ############  Startup finished  = " + stopTime + " ############  ");
-    System.out.println(" ############  Startup time [ms] = " + Duration.between(deployStart, stopTime).toMillis() + " ############  ");
+    System.out.println(" ############  Startup time [ms] = " + Duration.between(deployStart , stopTime).toMillis() + " ############  ");
 
   }
 
 
   private static DeploymentInfo createServletDeploymentInfos() {
 
-    final Set<Class<?>> typesAnnotatedWith = DI.getTypesAnnotatedWith(WebServlet.class, true);
+    final Set<Class<?>> typesAnnotatedWith = DI.getTypesAnnotatedWith(WebServlet.class , true);
 
     final List<ServletInfo> servletInfos = typesAnnotatedWith
         .stream()
-        .filter(s -> new ReflectionUtils().checkInterface(s, HttpServlet.class))
+        .filter(s -> new ReflectionUtils().checkInterface(s , HttpServlet.class))
         .map(c -> {
           Class<HttpServlet> servletClass = (Class<HttpServlet>) c;
-          final ServletInfo servletInfo = servlet(c.getSimpleName(), servletClass, new ServletInstanceFactory<>(servletClass));
+          final ServletInfo servletInfo = servlet(c.getSimpleName() , servletClass , new ServletInstanceFactory<>(servletClass));
           if (c.isAnnotationPresent(WebInitParam.class)) {
             final WebInitParam[] annotationsByType = c.getAnnotationsByType(WebInitParam.class);
             for (WebInitParam webInitParam : annotationsByType) {
               final String value = webInitParam.value();
               final String name = webInitParam.name();
-              servletInfo.addInitParam(name, value);
+              servletInfo.addInitParam(name , value);
             }
           }
           final WebServlet annotation = c.getAnnotation(WebServlet.class);
@@ -148,55 +155,75 @@ public class MainUndertow {
           servletInfo.setAsyncSupported(annotation.asyncSupported());
           return servletInfo;
         })
-        .filter(servletInfo -> !servletInfo.getMappings().isEmpty())
+        .filter(servletInfo -> ! servletInfo.getMappings().isEmpty())
         .collect(Collectors.toList());
 
     final Set<Class<?>> weblisteners = DI.getTypesAnnotatedWith(WebListener.class);
     final List<ListenerInfo> listenerInfos = weblisteners.stream()
-        .map(c -> new ListenerInfo((Class<? extends EventListener>) c))
-        .collect(Collectors.toList());
+                                                         .map(c -> new ListenerInfo((Class<? extends EventListener>) c))
+                                                         .collect(Collectors.toList());
 
-    return deployment()
+
+    final DeploymentInfo deploymentInfo = deployment()
         .setClassLoader(Main.class.getClassLoader())
         .setContextPath(MYAPP)
         .setDeploymentName("ROOT" + ".war")
-        .setDefaultEncoding("UTF-8")
+        .setDefaultEncoding("UTF-8");
+
+
+    final Boolean shiroActive = Boolean.valueOf(System.getProperty(SHIRO_ACTIVE_PROPERTY , "true"));
+    if (shiroActive) addShiroFilter(deploymentInfo , DEFAULT_SHIRO_FILTER_NAME , DEFAULT_FILTER_MAPPING);
+
+    return deploymentInfo
         .addListeners(listenerInfos)
-        .addServletContextAttribute(WebSocketDeploymentInfo.ATTRIBUTE_NAME, new WebSocketDeploymentInfo())
+        .addServletContextAttribute(WebSocketDeploymentInfo.ATTRIBUTE_NAME , new WebSocketDeploymentInfo())
         .addServlets(servletInfos);
   }
 
-  static void deployServlets(final Builder builder, final DeploymentInfo deploymentInfo) throws ServletException {
+  static void deployServlets(final Builder builder , final DeploymentInfo deploymentInfo) throws ServletException {
     final ServletContainer servletContainer = defaultContainer();
     final DeploymentManager manager = servletContainer.addDeployment(deploymentInfo);
     manager.deploy();
     final HttpHandler servletHandler = manager.start();
     final PathHandler pathServlet = Handlers
         .path(Handlers.redirect(MYAPP))
-        .addPrefixPath(MYAPP, servletHandler);
-    final String realServletPort = System.getProperty(SERVLET_PORT_PROPERTY, DEFAULT_SERVLET_PORT + "");
-    final String realServletHost = System.getProperty(SERVLET_HOST_PROPERTY, Main.DEFAULT_HOST);
+        .addPrefixPath(MYAPP , servletHandler);
+    final String realServletPort = System.getProperty(SERVLET_PORT_PROPERTY , DEFAULT_SERVLET_PORT + "");
+    final String realServletHost = System.getProperty(SERVLET_HOST_PROPERTY , Main.DEFAULT_HOST);
 
-    builder.addHttpListener(Integer.parseInt(realServletPort), realServletHost, pathServlet);
+    builder.addHttpListener(Integer.parseInt(realServletPort) , realServletHost , pathServlet);
   }
 
-  static void deployRestRessources(final Builder builder, final JaxRsActivator jaxRsActivator) {
-    final String realRestPort = System.getProperty(REST_PORT_PROPERTY, DEFAULT_REST_PORT + "");
-    final String realRestHost = System.getProperty(REST_HOST_PROPERTY, Main.DEFAULT_HOST);
 
-    System.setProperty(RESTEASY_PORT_PROPERTY, realRestPort);
-    System.setProperty(RESTEASY_HOST_PROPERTY, realRestHost);
+  static DeploymentInfo addShiroFilter(DeploymentInfo deploymentInfo ,
+                                       String shiroFilterName ,
+                                       String shiroShiroFilterMappin) {
+    return deploymentInfo.addListener(new ListenerInfo(EnvironmentLoaderListener.class))
+                         .addFilter(new FilterInfo(shiroFilterName , ShiroFilter.class))
+                         .addFilterUrlMapping(shiroFilterName , shiroShiroFilterMappin , REQUEST)
+                         .addFilterUrlMapping(shiroFilterName , shiroShiroFilterMappin , FORWARD)
+                         .addFilterUrlMapping(shiroFilterName , shiroShiroFilterMappin , INCLUDE)
+                         .addFilterUrlMapping(shiroFilterName , shiroShiroFilterMappin , ERROR);
+  }
 
-    builder.addHttpListener(Integer.parseInt(realRestPort), realRestHost);
+
+  static void deployRestResources(final Builder builder , final JaxRsActivator jaxRsActivator) {
+    final String realRestPort = System.getProperty(REST_PORT_PROPERTY , DEFAULT_REST_PORT + "");
+    final String realRestHost = System.getProperty(REST_HOST_PROPERTY , Main.DEFAULT_HOST);
+
+    System.setProperty(RESTEASY_PORT_PROPERTY , realRestPort);
+    System.setProperty(RESTEASY_HOST_PROPERTY , realRestHost);
+
+    builder.addHttpListener(Integer.parseInt(realRestPort) , realRestHost);
     jaxrsServer = new UndertowJaxrsServer().start(builder);
     final ResteasyDeployment deployment = new ResteasyDeployment();
     deployment.setApplication(jaxRsActivator);
 //      deployment.setAsyncJobServiceEnabled(false);
     deployment.setInjectorFactoryClass(DdiInjectorFactory.class.getCanonicalName());
     jaxrsServer.deploy(jaxrsServer.undertowDeployment(deployment)
-        .setDeploymentName("Rest")
-        .setContextPath(CONTEXT_PATH_REST)
-        .setClassLoader(Main.class.getClassLoader()));
+                                  .setDeploymentName("Rest")
+                                  .setContextPath(CONTEXT_PATH_REST)
+                                  .setClassLoader(Main.class.getClassLoader()));
   }
 
   public static void stop() {
@@ -205,13 +232,13 @@ public class MainUndertow {
         try {
           jaxrsServer.stop();
         } catch (Exception e) {
-          LOGGER.error("jaxrsServer.stop()", e);
+          LOGGER.error("jaxrsServer.stop()" , e);
         }
     } else if (undertowServer != null) {
       try {
         undertowServer.stop();
       } catch (Exception e) {
-        LOGGER.error("undertowServer.stop()", e);
+        LOGGER.error("undertowServer.stop()" , e);
       }
     }
   }

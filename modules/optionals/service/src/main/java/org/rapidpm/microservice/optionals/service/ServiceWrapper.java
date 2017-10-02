@@ -25,8 +25,8 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.rapidpm.ddi.DI;
 import org.rapidpm.dependencies.core.system.ExitHandler;
+import org.rapidpm.dependencies.core.system.SystemExitHandler;
 import org.rapidpm.microservice.MainUndertow;
 import org.rapidpm.microservice.rest.optionals.admin.BasicAdministration;
 import org.slf4j.Logger;
@@ -54,7 +54,8 @@ public class ServiceWrapper {
   public static final int DELAY = 1000;
   public static final java.nio.file.Path MICROSERVICE_REST_FILE = Paths.get("microservice.rest");
 
-  public static ExitHandler exitHandler = DI.activateDI(ExitHandler.class);
+  public static ExitHandler exitHandler = new SystemExitHandler();
+
 
   private ServiceWrapper() {
   }

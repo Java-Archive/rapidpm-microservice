@@ -20,13 +20,12 @@
 package org.rapidpm.microservice;
 
 import org.rapidpm.ddi.DI;
-import org.rapidpm.dependencies.core.reflections.NewInstances;
+import org.rapidpm.frp.functions.CheckedSupplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -60,16 +59,21 @@ public class Main {
     System.setProperty(DI.ORG_RAPIDPM_DDI_PACKAGESFILE, property);
     DI.bootstrap();
     executeStartupActions(args);
-    //DI.bootstrap(); // per config steuern
     MainUndertow.deploy(args); // TODO make it non-static
   }
 
   private static void executeStartupActions(final Optional<String[]> args) {
-    final Set<Class<? extends MainStartupAction>> classes = DI.getSubTypesOf(MainStartupAction.class);
-    NewInstances.createInstances(classes)
+    DI.getSubTypesOf(MainStartupAction.class)
         .stream()
-        .map(DI::activateDI)
-        .forEach((mainStartupAction) -> mainStartupAction.execute(args));
+        .map(c -> (CheckedSupplier<MainStartupAction>) c::newInstance)
+        .map(CheckedSupplier::get)
+        .forEach(r -> r.ifPresentOrElse(
+            success -> {
+              DI.activateDI(success);
+              success.execute(args);
+            },
+            failed -> System.out.println("failed to create new instance = " + failed)
+        ));
   }
 
   public static void stop(long delayMS) {
@@ -91,13 +95,15 @@ public class Main {
   }
 
   private static void executeShutdownActions(Optional<String[]> args) {
-    final Set<Class<? extends MainShutdownAction>> classes = DI.getSubTypesOf(MainShutdownAction.class);
-    NewInstances.createInstances(classes)
+    DI.getSubTypesOf(MainShutdownAction.class)
         .stream()
-        .map(DI::activateDI)
-        .forEach((mainShutdownAction) -> mainShutdownAction.execute(args));
+        .map(c -> (CheckedSupplier<MainShutdownAction>) c::newInstance)
+        .map(CheckedSupplier::get)
+        .forEach(r -> r.ifPresentOrElse(
+            success -> success.execute(args),
+            failed -> System.out.println("failed to create new instance = " + failed)
+        ));
   }
-
 
   @FunctionalInterface
   public interface MainStartupAction {
