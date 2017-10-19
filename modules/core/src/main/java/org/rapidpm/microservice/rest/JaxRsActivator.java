@@ -20,15 +20,15 @@
 package org.rapidpm.microservice.rest;
 
 
-import org.rapidpm.ddi.DI;
-
+import java.util.Collections;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Application;
-import java.util.Collections;
-import java.util.Set;
-
-import static java.util.stream.Collectors.toSet;
+import javax.ws.rs.ext.Provider;
+import org.rapidpm.ddi.DI;
 
 @ApplicationPath("/rest")
 public class JaxRsActivator extends Application {
@@ -41,10 +41,13 @@ public class JaxRsActivator extends Application {
 
   @Override
   public Set<Class<?>> getClasses() {
-    return DI.getTypesAnnotatedWith(Path.class, true)
+    Stream<Class<?>> pathStream = DI.getTypesAnnotatedWith(Path.class, true)
         .stream()
-        .filter(aClass -> !aClass.getCanonicalName().contains("org.jboss"))
-        .collect(toSet());
+        .filter(aClass -> !aClass.getCanonicalName().contains("org.jboss"));
+
+    Stream<Class<?>> providerStream = DI.getTypesAnnotatedWith(Provider.class, true).stream();
+
+    return Stream.concat(pathStream, providerStream).collect(Collectors.toSet());
   }
 
   /**
@@ -52,6 +55,7 @@ public class JaxRsActivator extends Application {
    *
    * @return
    */
+  @Override
   public Set<Object> getSingletons() {
     //TODO DDI aktivieren
     return Collections.emptySet();
