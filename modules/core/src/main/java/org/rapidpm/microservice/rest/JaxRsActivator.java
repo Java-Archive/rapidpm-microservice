@@ -20,6 +20,8 @@
 package org.rapidpm.microservice.rest;
 
 
+import static java.util.stream.Collectors.toSet;
+import static org.rapidpm.ddi.DI.getTypesAnnotatedWith;
 import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,20 +32,22 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.ext.Provider;
 import org.rapidpm.ddi.DI;
 
+
 @ApplicationPath("/rest")
 public class JaxRsActivator extends Application {
 
   public boolean somethingToDeploy() {
     final Set<Class<?>> jaxRsActivatorClasses = getClasses();
     final Set<Object> jaxRsActivatorSingletons = getSingletons();
-    return !(jaxRsActivatorClasses.isEmpty() && jaxRsActivatorSingletons.isEmpty());
+    return ! (jaxRsActivatorClasses.isEmpty() && jaxRsActivatorSingletons.isEmpty());
   }
 
   @Override
   public Set<Class<?>> getClasses() {
-    Stream<Class<?>> pathStream = DI.getTypesAnnotatedWith(Path.class, true)
+    Stream<Class<?>> pathStream = getTypesAnnotatedWith(Path.class, true)
         .stream()
-        .filter(aClass -> !aClass.getCanonicalName().contains("org.jboss"));
+        .filter(aClass -> !aClass.getCanonicalName().contains("org.jboss"))
+        .filter(aClass -> !aClass.isInterface());
 
     Stream<Class<?>> providerStream = DI.getTypesAnnotatedWith(Provider.class, true).stream();
 
@@ -57,7 +61,15 @@ public class JaxRsActivator extends Application {
    */
   @Override
   public Set<Object> getSingletons() {
-    //TODO DDI aktivieren
     return Collections.emptySet();
   }
+
+  public Set<Class<?>> getInterfacesWithPathAnnotation() {
+    return getTypesAnnotatedWith(Path.class , true)
+        .stream()
+        .filter(aClass -> ! aClass.getCanonicalName().contains("org.jboss"))
+        .filter(Class::isInterface)
+        .collect(toSet());
+  }
+
 }

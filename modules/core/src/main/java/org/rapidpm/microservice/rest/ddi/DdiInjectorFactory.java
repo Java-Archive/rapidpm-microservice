@@ -79,7 +79,6 @@ public class DdiInjectorFactory implements InjectorFactory {
   }
 
   protected ConstructorInjector ddiConstructor(Class<?> clazz) {
-
     if (new JaxRsActivator().getClasses().contains(clazz)) {
       return new DdiConstructorInjector(clazz);
     } else return null;
