@@ -22,13 +22,16 @@ package org.rapidpm.microservice.rest;
 
 import static java.util.stream.Collectors.toSet;
 import static org.rapidpm.ddi.DI.getTypesAnnotatedWith;
-
 import java.util.Collections;
 import java.util.Set;
-
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.ext.Provider;
+import org.rapidpm.ddi.DI;
+
 
 @ApplicationPath("/rest")
 public class JaxRsActivator extends Application {
@@ -41,11 +44,14 @@ public class JaxRsActivator extends Application {
 
   @Override
   public Set<Class<?>> getClasses() {
-    return getTypesAnnotatedWith(Path.class , true)
+    Stream<Class<?>> pathStream = getTypesAnnotatedWith(Path.class, true)
         .stream()
-        .filter(aClass -> ! aClass.getCanonicalName().contains("org.jboss"))
-        .filter(aClass -> ! aClass.isInterface())
-        .collect(toSet());
+        .filter(aClass -> !aClass.getCanonicalName().contains("org.jboss"))
+        .filter(aClass -> !aClass.isInterface());
+
+    Stream<Class<?>> providerStream = DI.getTypesAnnotatedWith(Provider.class, true).stream();
+
+    return Stream.concat(pathStream, providerStream).collect(Collectors.toSet());
   }
 
   /**
@@ -53,6 +59,7 @@ public class JaxRsActivator extends Application {
    *
    * @return
    */
+  @Override
   public Set<Object> getSingletons() {
     return Collections.emptySet();
   }
