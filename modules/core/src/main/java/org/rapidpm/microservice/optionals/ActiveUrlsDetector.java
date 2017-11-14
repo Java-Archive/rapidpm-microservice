@@ -20,20 +20,19 @@
 package org.rapidpm.microservice.optionals;
 
 
-import org.rapidpm.ddi.DI;
-import org.rapidpm.microservice.Main;
-import org.rapidpm.microservice.MainUndertow;
-import org.rapidpm.microservice.rest.JaxRsActivator;
-
-import javax.servlet.annotation.WebServlet;
-import javax.ws.rs.Path;
-import javax.ws.rs.QueryParam;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
+import javax.servlet.annotation.WebServlet;
+import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
+import org.rapidpm.ddi.DI;
+import org.rapidpm.microservice.Main;
+import org.rapidpm.microservice.MainUndertow;
+import org.rapidpm.microservice.rest.JaxRsActivator;
 
 public class ActiveUrlsDetector {
 
@@ -86,8 +85,10 @@ public class ActiveUrlsDetector {
     default void checkClass(final Class<?> aClass) {
       System.out.println("aClass = " + aClass);
       final Path annotation = aClass.getAnnotation(Path.class);
-      final String urlPattern = annotation.value();
-      String url = "http://" + REAL_REST_HOST + ":" + REAL_REST_PORT + MainUndertow.CONTEXT_PATH_REST + urlPattern;
+      if (annotation != null) {
+        final String urlPattern = annotation.value();
+        String url = "http://" + REAL_REST_HOST + ":" + REAL_REST_PORT
+            + MainUndertow.CONTEXT_PATH_REST + urlPattern;
 
       boolean foundNoPath = true;
       final Method[] declaredMethods = aClass.getDeclaredMethods();
@@ -112,7 +113,7 @@ public class ActiveUrlsDetector {
         addURL(url);
       }
     }
-
+    }
     void addURL(final String url);
   }
 
