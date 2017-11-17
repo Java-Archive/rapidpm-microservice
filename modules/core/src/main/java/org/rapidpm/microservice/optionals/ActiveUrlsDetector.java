@@ -39,7 +39,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import org.rapidpm.ddi.DI;
-import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.MainUndertow;
 import org.rapidpm.microservice.rest.JaxRsActivator;
 
