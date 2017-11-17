@@ -21,7 +21,6 @@ package org.rapidpm.microservice;
 
 import static java.time.Duration.between;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Timer;

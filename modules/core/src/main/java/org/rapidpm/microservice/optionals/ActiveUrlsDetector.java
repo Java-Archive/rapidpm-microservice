@@ -20,6 +20,15 @@
 package org.rapidpm.microservice.optionals;
 
 
+import static java.lang.System.getProperty;
+import static org.rapidpm.microservice.Main.DEFAULT_HOST;
+import static org.rapidpm.microservice.MainUndertow.DEFAULT_REST_PORT;
+import static org.rapidpm.microservice.MainUndertow.DEFAULT_SERVLET_PORT;
+import static org.rapidpm.microservice.MainUndertow.REST_HOST_PROPERTY;
+import static org.rapidpm.microservice.MainUndertow.REST_PORT_PROPERTY;
+import static org.rapidpm.microservice.MainUndertow.SERVLET_HOST_PROPERTY;
+import static org.rapidpm.microservice.MainUndertow.SERVLET_PORT_PROPERTY;
+
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
@@ -54,8 +63,8 @@ public class ActiveUrlsDetector {
 //
     final Set<Object> singletonClasses = jaxRsActivator.getSingletons();
 
-    final String realServletPort = System.getProperty(MainUndertow.SERVLET_PORT_PROPERTY, MainUndertow.DEFAULT_SERVLET_PORT + "");
-    final String realServletHost = System.getProperty(MainUndertow.SERVLET_HOST_PROPERTY, Main.DEFAULT_HOST);
+    final String realServletPort = getProperty(SERVLET_PORT_PROPERTY, DEFAULT_SERVLET_PORT + "");
+    final String realServletHost = getProperty(SERVLET_HOST_PROPERTY, DEFAULT_HOST);
 
     typesAnnotatedWith
         .stream()
@@ -67,7 +76,7 @@ public class ActiveUrlsDetector {
 
     final Executor executorREST = activeUrlsHolder::addRestUrl;
     jaxRsActivator
-        .getClasses()
+        .getClasses() //TODO add interfaces with Path annotation
         .forEach(executorREST::checkClass);
 
     final Executor executorSingleton = activeUrlsHolder::addSingletonUrl;
@@ -79,8 +88,8 @@ public class ActiveUrlsDetector {
 
   @FunctionalInterface
   private interface Executor {
-    String REAL_REST_PORT = System.getProperty(MainUndertow.REST_PORT_PROPERTY, MainUndertow.DEFAULT_REST_PORT + "");
-    String REAL_REST_HOST = System.getProperty(MainUndertow.REST_HOST_PROPERTY, Main.DEFAULT_HOST);
+    String REAL_REST_PORT = getProperty(REST_PORT_PROPERTY, DEFAULT_REST_PORT + "");
+    String REAL_REST_HOST = getProperty(REST_HOST_PROPERTY, DEFAULT_HOST);
 
     default void checkClass(final Class<?> aClass) {
       System.out.println("aClass = " + aClass);
