@@ -37,7 +37,7 @@ import org.rapidpm.ddi.DI;
 @ApplicationPath("/rest")
 public class JaxRsActivator extends Application {
 
-  private static final Predicate<? super Class<?>> jbossPackageFilter = aClass -> !aClass.getCanonicalName().contains("org.jboss");
+  private static final Predicate<? super Class<?>> JBOSS_PACKAGE_FILTER = aClass -> !aClass.getCanonicalName().contains("org.jboss");
 
   public boolean somethingToDeploy() {
     final Set<Class<?>> jaxRsActivatorClasses = getClasses();
@@ -49,7 +49,7 @@ public class JaxRsActivator extends Application {
   public Set<Class<?>> getClasses() {
     Stream<Class<?>> pathStream = getTypesAnnotatedWith(Path.class, true)
         .stream()
-        .filter(jbossPackageFilter)
+        .filter(JBOSS_PACKAGE_FILTER)
         .filter(aClass -> !aClass.isInterface());
 
     Stream<Class<?>> providerStream = DI.getTypesAnnotatedWith(Provider.class, true).stream();
@@ -59,7 +59,7 @@ public class JaxRsActivator extends Application {
 
   public Set<Class<?>> getPathResources() {
     return getTypesAnnotatedWith(Path.class, true).stream()
-        .filter(jbossPackageFilter)
+        .filter(JBOSS_PACKAGE_FILTER)
         .collect(Collectors.toSet());
   }
 
@@ -76,7 +76,7 @@ public class JaxRsActivator extends Application {
   public Set<Class<?>> getInterfacesWithPathAnnotation() {
     return getTypesAnnotatedWith(Path.class , true)
         .stream()
-        .filter(jbossPackageFilter)
+        .filter(JBOSS_PACKAGE_FILTER)
         .filter(Class::isInterface)
         .collect(toSet());
   }
