@@ -67,7 +67,7 @@ public class ActiveUrlsDetector {
 
     final Executor executorREST = activeUrlsHolder::addRestUrl;
     jaxRsActivator
-        .getClasses()
+        .getPathResources()
         .forEach(executorREST::checkClass);
 
     final Executor executorSingleton = activeUrlsHolder::addSingletonUrl;
