@@ -19,7 +19,8 @@
 
 package org.rapidpm.microservice;
 
-import java.time.Duration;
+import static java.time.Duration.between;
+
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Timer;
@@ -58,6 +59,7 @@ public class Main {
     final String packages = Main.class.getPackage().getName().replace("." , "/") + "/" + DI_PACKAGE_FILE;
     String property = System.getProperty(DI.ORG_RAPIDPM_DDI_PACKAGESFILE , packages);
     System.setProperty(DI.ORG_RAPIDPM_DDI_PACKAGESFILE , property);
+
     final LocalDateTime dependencyBootstrapStart = LocalDateTime.now();
     DI.bootstrap();
     final LocalDateTime dependencyBootstrapStop = LocalDateTime.now();
@@ -71,10 +73,10 @@ public class Main {
     final LocalDateTime deployStop = LocalDateTime.now();
 
 
-    final long startupDDI = Duration.between(dependencyBootstrapStart , dependencyBootstrapStop).toMillis();
-    final long startupStartupActions = Duration.between(startupActionsStart , startupActionsStop).toMillis();
-    final long startupUndertow = Duration.between(deployStart , deployStop).toMillis();
-    final long startupComplete = Duration.between(dependencyBootstrapStart , deployStop).toMillis();
+    final long startupDDI = between(dependencyBootstrapStart , dependencyBootstrapStop).toMillis();
+    final long startupStartupActions = between(startupActionsStart , startupActionsStop).toMillis();
+    final long startupUndertow = between(deployStart , deployStop).toMillis();
+    final long startupComplete = between(dependencyBootstrapStart , deployStop).toMillis();
 
     final String ddi = String.format("%1$4s" , startupDDI);
     final String actions = String.format("%1$4s" , startupStartupActions);
