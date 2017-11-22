@@ -56,6 +56,15 @@
       <groupId>org.rapidpm</groupId>
       <artifactId>rapidpm-dependencies-core</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.rapidpm</groupId>
+      <artifactId>rapidpm-dependencies-core-logger</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.rapidpm</groupId>
+      <artifactId>rapidpm-functional-reactive</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>org.rapidpm.dynamic-cdi</groupId>

@@ -27,14 +27,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.rapidpm.ddi.DI;
+import org.rapidpm.dependencies.core.logger.Logger;
+import org.rapidpm.dependencies.core.logger.LoggingService;
 import org.rapidpm.frp.functions.CheckedSupplier;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 public class Main {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
+  private static final LoggingService LOGGER = Logger.getLogger(Main.class);
 
   private static final Timer  TIMER           = new Timer(true);
   public static final  String DEFAULT_HOST    = "0.0.0.0";
@@ -109,12 +109,12 @@ public class Main {
   }
 
   public static void stop(long delayMS) {
-    LOGGER.warn("shutdown delay [ms] = " + delayMS);
+    LOGGER.warning("shutdown delay [ms] = " + delayMS);
 
     TIMER.schedule(new TimerTask() {
       @Override
       public void run() {
-        LOGGER.warn("delayed shutdown  now = " + LocalDateTime.now());
+        LOGGER.warning("delayed shutdown  now = " + LocalDateTime.now());
         stop();
       }
     } , delayMS);

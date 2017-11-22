@@ -27,6 +27,8 @@ import org.jboss.resteasy.spi.ResourceFactory;
 import org.jboss.resteasy.spi.ResteasyDeployment;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.ddi.reflections.ReflectionUtils;
+import org.rapidpm.dependencies.core.logger.Logger;
+import org.rapidpm.dependencies.core.logger.LoggingService;
 import org.rapidpm.microservice.optionals.ActiveUrlsDetector;
 import org.rapidpm.microservice.optionals.header.ActiveUrlPrinter;
 import org.rapidpm.microservice.optionals.header.HeaderScreenPrinter;
@@ -34,8 +36,6 @@ import org.rapidpm.microservice.rest.JaxRsActivator;
 import org.rapidpm.microservice.rest.ddi.DdiInjectorFactory;
 import org.rapidpm.microservice.rest.ddi.PoJoDDIRessourceFactory;
 import org.rapidpm.microservice.servlet.ServletInstanceFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import io.undertow.Handlers;
 import io.undertow.Undertow;
 import io.undertow.Undertow.Builder;
@@ -69,7 +69,7 @@ public class MainUndertow {
   private MainUndertow() {
   }
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(MainUndertow.class);
+  private static final LoggingService LOGGER = Logger.getLogger(MainUndertow.class);
 
   public static final String DEFAULT_FILTER_MAPPING    = "/*";
   public static final String DEFAULT_SHIRO_FILTER_NAME = "ShiroFilter";
@@ -112,7 +112,7 @@ public class MainUndertow {
         deployServlets(builder , deploymentInfo);
       } catch (ServletException e) {
         e.printStackTrace();
-        LOGGER.error("deploy Servlets " , e);
+        LOGGER.warning("deploy Servlets " , e);
       }
     }
 
@@ -244,13 +244,13 @@ public class MainUndertow {
         try {
           jaxrsServer.stop();
         } catch (Exception e) {
-          LOGGER.error("jaxrsServer.stop()" , e);
+          LOGGER.warning("jaxrsServer.stop()" , e);
         }
     } else if (undertowServer != null) {
       try {
         undertowServer.stop();
       } catch (Exception e) {
-        LOGGER.error("undertowServer.stop()" , e);
+        LOGGER.warning("undertowServer.stop()" , e);
       }
     }
   }
