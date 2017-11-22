@@ -1,2 +1,3 @@
+
 maven_build:
   script: mvn clean install
