@@ -75,8 +75,8 @@ public class ActiveUrlsDetector {
 
     final Executor executorREST = activeUrlsHolder::addRestUrl;
     jaxRsActivator
-        .getClasses() //TODO add interfaces with Path annotation
-        .forEach(executorREST::checkClass);
+      .getPathResources()
+      .forEach(executorREST::checkClass);
 
     final Executor executorSingleton = activeUrlsHolder::addSingletonUrl;
     singletonClasses.forEach(o -> executorSingleton.checkClass(o.getClass()));

@@ -24,6 +24,7 @@ import static java.util.stream.Collectors.toSet;
 import static org.rapidpm.ddi.DI.getTypesAnnotatedWith;
 import java.util.Collections;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.ws.rs.ApplicationPath;
@@ -36,6 +37,8 @@ import org.rapidpm.ddi.DI;
 @ApplicationPath("/rest")
 public class JaxRsActivator extends Application {
 
+  private static final Predicate<? super Class<?>> JBOSS_PACKAGE_FILTER = aClass -> !aClass.getCanonicalName().contains("org.jboss");
+
   public boolean somethingToDeploy() {
     final Set<Class<?>> jaxRsActivatorClasses = getClasses();
     final Set<Object> jaxRsActivatorSingletons = getSingletons();
@@ -46,12 +49,18 @@ public class JaxRsActivator extends Application {
   public Set<Class<?>> getClasses() {
     Stream<Class<?>> pathStream = getTypesAnnotatedWith(Path.class, true)
         .stream()
-        .filter(aClass -> !aClass.getCanonicalName().contains("org.jboss"))
+        .filter(JBOSS_PACKAGE_FILTER)
         .filter(aClass -> !aClass.isInterface());
 
     Stream<Class<?>> providerStream = DI.getTypesAnnotatedWith(Provider.class, true).stream();
 
     return Stream.concat(pathStream, providerStream).collect(Collectors.toSet());
+  }
+
+  public Set<Class<?>> getPathResources() {
+    return getTypesAnnotatedWith(Path.class, true).stream()
+        .filter(JBOSS_PACKAGE_FILTER)
+        .collect(Collectors.toSet());
   }
 
   /**
@@ -67,7 +76,7 @@ public class JaxRsActivator extends Application {
   public Set<Class<?>> getInterfacesWithPathAnnotation() {
     return getTypesAnnotatedWith(Path.class , true)
         .stream()
-        .filter(aClass -> ! aClass.getCanonicalName().contains("org.jboss"))
+        .filter(JBOSS_PACKAGE_FILTER)
         .filter(Class::isInterface)
         .collect(toSet());
   }
