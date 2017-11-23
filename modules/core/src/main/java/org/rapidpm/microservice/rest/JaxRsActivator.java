@@ -20,31 +20,47 @@
 package org.rapidpm.microservice.rest;
 
 
-import org.rapidpm.ddi.DI;
-
+import static java.util.stream.Collectors.toSet;
+import static org.rapidpm.ddi.DI.getTypesAnnotatedWith;
+import java.util.Collections;
+import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Application;
-import java.util.Collections;
-import java.util.Set;
+import javax.ws.rs.ext.Provider;
+import org.rapidpm.ddi.DI;
 
-import static java.util.stream.Collectors.toSet;
 
 @ApplicationPath("/rest")
 public class JaxRsActivator extends Application {
 
+  private static final Predicate<? super Class<?>> JBOSS_PACKAGE_FILTER = aClass -> !aClass.getCanonicalName().contains("org.jboss");
+
   public boolean somethingToDeploy() {
     final Set<Class<?>> jaxRsActivatorClasses = getClasses();
     final Set<Object> jaxRsActivatorSingletons = getSingletons();
-    return !(jaxRsActivatorClasses.isEmpty() && jaxRsActivatorSingletons.isEmpty());
+    return ! (jaxRsActivatorClasses.isEmpty() && jaxRsActivatorSingletons.isEmpty());
   }
 
   @Override
   public Set<Class<?>> getClasses() {
-    return DI.getTypesAnnotatedWith(Path.class, true)
+    Stream<Class<?>> pathStream = getTypesAnnotatedWith(Path.class, true)
         .stream()
-        .filter(aClass -> !aClass.getCanonicalName().contains("org.jboss"))
-        .collect(toSet());
+        .filter(JBOSS_PACKAGE_FILTER)
+        .filter(aClass -> !aClass.isInterface());
+
+    Stream<Class<?>> providerStream = DI.getTypesAnnotatedWith(Provider.class, true).stream();
+
+    return Stream.concat(pathStream, providerStream).collect(Collectors.toSet());
+  }
+
+  public Set<Class<?>> getPathResources() {
+    return getTypesAnnotatedWith(Path.class, true).stream()
+        .filter(JBOSS_PACKAGE_FILTER)
+        .collect(Collectors.toSet());
   }
 
   /**
@@ -52,8 +68,17 @@ public class JaxRsActivator extends Application {
    *
    * @return
    */
+  @Override
   public Set<Object> getSingletons() {
-    //TODO DDI aktivieren
     return Collections.emptySet();
   }
+
+  public Set<Class<?>> getInterfacesWithPathAnnotation() {
+    return getTypesAnnotatedWith(Path.class , true)
+        .stream()
+        .filter(JBOSS_PACKAGE_FILTER)
+        .filter(Class::isInterface)
+        .collect(toSet());
+  }
+
 }

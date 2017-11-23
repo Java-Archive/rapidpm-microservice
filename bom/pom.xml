@@ -5,7 +5,7 @@
   <parent>
     <artifactId>rapidpm-microservice</artifactId>
     <groupId>org.rapidpm.microservice</groupId>
-    <version>0.9.1</version>
+    <version>1.0.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -15,19 +15,18 @@
 
   <!--change parent pom too-->
   <properties>
-    <rapidpm-microservice.version>0.9.1</rapidpm-microservice.version>
-    <rapidpm-dynamic-cdi.version>0.9.1</rapidpm-dynamic-cdi.version>
-    <rapidpm-proxybuilder.version>0.9.1</rapidpm-proxybuilder.version>
+    <rapidpm-microservice.version>1.0.0</rapidpm-microservice.version>
+    <rapidpm-dynamic-cdi.version>1.0.0</rapidpm-dynamic-cdi.version>
+    <rapidpm-proxybuilder.version>1.0.0</rapidpm-proxybuilder.version>
+    <rapidpm-functional-reactive.version>0.1.0</rapidpm-functional-reactive.version>
 
     <shiro.version>1.3.2</shiro.version>
     <undertow.version>1.4.20.Final</undertow.version>
     <resteasy-undertow.version>3.1.4.Final</resteasy-undertow.version>
-    <vaadin.version>8.1.4</vaadin.version>
-    <!--<vaadin-testbench-api.version>5.0.0</vaadin-testbench-api.version>-->
-    <vaadin-testbench-api.version>5.1.0.alpha1</vaadin-testbench-api.version>
 
-    <hazelcast.version>3.8.1</hazelcast.version>
-    <lucene.version>7.0.0</lucene.version>
+
+    <hazelcast.version>3.9-EA</hazelcast.version>
+    <lucene.version>7.1.0</lucene.version>
   </properties>
 
   <dependencyManagement>
@@ -141,6 +140,14 @@
 
       <!--External stuff-->
 
+
+      <dependency>
+        <groupId>org.rapidpm</groupId>
+        <artifactId>rapidpm-functional-reactive</artifactId>
+        <version>${rapidpm-functional-reactive.version}</version>
+      </dependency>
+
+
       <dependency>
         <groupId>javax.servlet</groupId>
         <artifactId>javax.servlet-api</artifactId>
@@ -231,42 +238,6 @@
         <artifactId>lucene-backward-codecs</artifactId>
         <version>${lucene.version}</version>
       </dependency>
-
-
-      <!--Vaadin Based stuff-->
-      <dependency>
-        <groupId>com.vaadin</groupId>
-        <artifactId>vaadin-server</artifactId>
-        <version>${vaadin.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>com.vaadin</groupId>
-        <artifactId>vaadin-themes</artifactId>
-        <version>${vaadin.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.vaadin</groupId>
-        <artifactId>vaadin-push</artifactId>
-        <version>${vaadin.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.vaadin</groupId>
-        <artifactId>vaadin-client</artifactId>
-        <version>${vaadin.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.vaadin</groupId>
-        <artifactId>vaadin-client-compiled</artifactId>
-        <version>${vaadin.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.vaadin</groupId>
-        <artifactId>vaadin-testbench</artifactId>
-        <version>${vaadin-testbench-api.version}</version>
-        <scope>test</scope>
-      </dependency>
-
       <dependency>
         <groupId>com.hazelcast</groupId>
         <artifactId>hazelcast-all</artifactId>
@@ -282,8 +253,6 @@
         <artifactId>hazelcast-root</artifactId>
         <version>${hazelcast.version}</version>
       </dependency>
-
-
     </dependencies>
   </dependencyManagement>
 
@@ -307,34 +276,5 @@
     </pluginManagement>
   </build>
 
-
-  <profiles>
-    <profile>
-      <id>repo-allow-vaadin</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <repositories>
-        <repository>
-          <id>vaadin-repo</id>
-          <url>http://maven.vaadin.com/vaadin-addons</url>
-          <!--<url>http://maven.vaadin.com/</url>-->
-        </repository>
-        <repository>
-          <id>vaadin-prereleases</id>
-          <name>Vaadin Pre-releases</name>
-          <url>https://maven.vaadin.com/vaadin-prereleases</url>
-        </repository>
-      </repositories>
-      <pluginRepositories>
-        <pluginRepository>
-          <id>vaadin-prereleases</id>
-          <name>Vaadin Pre-releases</name>
-          <url>https://maven.vaadin.com/vaadin-prereleases</url>
-        </pluginRepository>
-      </pluginRepositories>
-    </profile>
-
-  </profiles>
 
 </project>

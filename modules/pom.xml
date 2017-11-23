@@ -23,7 +23,7 @@
   <parent>
     <groupId>org.rapidpm.microservice</groupId>
     <artifactId>rapidpm-microservice</artifactId>
-    <version>0.9.1</version>
+    <version>1.0.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -55,6 +55,15 @@
     <dependency>
       <groupId>org.rapidpm</groupId>
       <artifactId>rapidpm-dependencies-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.rapidpm</groupId>
+      <artifactId>rapidpm-dependencies-core-logger</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.rapidpm</groupId>
+      <artifactId>rapidpm-functional-reactive</artifactId>
     </dependency>
 
     <dependency>

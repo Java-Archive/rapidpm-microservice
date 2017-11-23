@@ -1,43 +1,54 @@
 package org.rapidpm.microservice;
 
-import io.undertow.Handlers;
-import io.undertow.Undertow;
-import io.undertow.Undertow.Builder;
-import io.undertow.UndertowOptions;
-import io.undertow.server.HttpHandler;
-import io.undertow.server.handlers.PathHandler;
-import io.undertow.servlet.api.*;
-import io.undertow.websockets.jsr.WebSocketDeploymentInfo;
-import org.apache.shiro.web.env.EnvironmentLoaderListener;
-import org.apache.shiro.web.servlet.ShiroFilter;
-import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
-import org.jboss.resteasy.spi.ResteasyDeployment;
-import org.rapidpm.ddi.DI;
-import org.rapidpm.ddi.reflections.ReflectionUtils;
-import org.rapidpm.microservice.optionals.ActiveUrlsDetector;
-import org.rapidpm.microservice.optionals.header.ActiveUrlPrinter;
-import org.rapidpm.microservice.optionals.header.HeaderScreenPrinter;
-import org.rapidpm.microservice.rest.JaxRsActivator;
-import org.rapidpm.microservice.rest.ddi.DdiInjectorFactory;
-import org.rapidpm.microservice.servlet.ServletInstanceFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static io.undertow.servlet.Servlets.defaultContainer;
+import static io.undertow.servlet.Servlets.deployment;
+import static io.undertow.servlet.Servlets.servlet;
+import static javax.servlet.DispatcherType.ERROR;
+import static javax.servlet.DispatcherType.FORWARD;
+import static javax.servlet.DispatcherType.INCLUDE;
+import static javax.servlet.DispatcherType.REQUEST;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebInitParam;
-import javax.servlet.annotation.WebListener;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.EventListener;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static io.undertow.servlet.Servlets.*;
-import static javax.servlet.DispatcherType.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebInitParam;
+import javax.servlet.annotation.WebListener;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+
+import org.apache.shiro.web.env.EnvironmentLoaderListener;
+import org.apache.shiro.web.servlet.ShiroFilter;
+import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
+import org.jboss.resteasy.spi.ResourceFactory;
+import org.jboss.resteasy.spi.ResteasyDeployment;
+import org.rapidpm.ddi.DI;
+import org.rapidpm.ddi.reflections.ReflectionUtils;
+import org.rapidpm.dependencies.core.logger.Logger;
+import org.rapidpm.dependencies.core.logger.LoggingService;
+import org.rapidpm.microservice.optionals.ActiveUrlsDetector;
+import org.rapidpm.microservice.optionals.header.ActiveUrlPrinter;
+import org.rapidpm.microservice.optionals.header.HeaderScreenPrinter;
+import org.rapidpm.microservice.rest.JaxRsActivator;
+import org.rapidpm.microservice.rest.ddi.DdiInjectorFactory;
+import org.rapidpm.microservice.rest.ddi.PoJoDDIRessourceFactory;
+import org.rapidpm.microservice.servlet.ServletInstanceFactory;
+import io.undertow.Handlers;
+import io.undertow.Undertow;
+import io.undertow.Undertow.Builder;
+import io.undertow.UndertowOptions;
+import io.undertow.server.HttpHandler;
+import io.undertow.server.handlers.PathHandler;
+import io.undertow.servlet.api.DeploymentInfo;
+import io.undertow.servlet.api.DeploymentManager;
+import io.undertow.servlet.api.FilterInfo;
+import io.undertow.servlet.api.ListenerInfo;
+import io.undertow.servlet.api.ServletContainer;
+import io.undertow.servlet.api.ServletInfo;
+import io.undertow.websockets.jsr.WebSocketDeploymentInfo;
 
 /**
  * Copyright (C) 2010 RapidPM
@@ -58,19 +69,19 @@ public class MainUndertow {
   private MainUndertow() {
   }
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(MainUndertow.class);
+  private static final LoggingService LOGGER = Logger.getLogger(MainUndertow.class);
 
-  public static final  String DEFAULT_FILTER_MAPPING    = "/*";
-  public static final  String DEFAULT_SHIRO_FILTER_NAME = "ShiroFilter";
-  public static final  String MYAPP                     = "/microservice";
-  public static final  String CONTEXT_PATH_REST         = "/rest";
-  public static final  int    DEFAULT_REST_PORT         = 7081;
-  public static final  int    DEFAULT_SERVLET_PORT      = 7080;
-  public static final  String REST_PORT_PROPERTY        = "org.rapidpm.microservice.rest.port";
-  public static final  String REST_HOST_PROPERTY        = "org.rapidpm.microservice.rest.host";
-  public static final  String SERVLET_PORT_PROPERTY     = "org.rapidpm.microservice.servlet.port";
-  public static final  String SERVLET_HOST_PROPERTY     = "org.rapidpm.microservice.servlet.host";
-  public static final  String SHIRO_ACTIVE_PROPERTY     = "org.rapidpm.microservice.security.shiro.active";
+  public static final String DEFAULT_FILTER_MAPPING    = "/*";
+  public static final String DEFAULT_SHIRO_FILTER_NAME = "ShiroFilter";
+  public static final String MYAPP                     = "/microservice";
+  public static final String CONTEXT_PATH_REST         = "/rest";
+  public static final int    DEFAULT_REST_PORT         = 7081;
+  public static final int    DEFAULT_SERVLET_PORT      = 7080;
+  public static final String REST_PORT_PROPERTY        = "org.rapidpm.microservice.rest.port";
+  public static final String REST_HOST_PROPERTY        = "org.rapidpm.microservice.rest.host";
+  public static final String SERVLET_PORT_PROPERTY     = "org.rapidpm.microservice.servlet.port";
+  public static final String SERVLET_HOST_PROPERTY     = "org.rapidpm.microservice.servlet.host";
+  public static final String SHIRO_ACTIVE_PROPERTY     = "org.rapidpm.microservice.security.shiro.active";
 
   private static final String RESTEASY_PORT_PROPERTY = "org.jboss.resteasy.port";
   private static final String RESTEASY_HOST_PROPERTY = "org.jboss.resteasy.host";
@@ -78,7 +89,6 @@ public class MainUndertow {
   private static UndertowJaxrsServer jaxrsServer;
   private static Undertow            undertowServer;
 
-  private static LocalDateTime      deployStart;
   private static Optional<String[]> cliArguments;
 
   public static void deploy() {
@@ -87,7 +97,6 @@ public class MainUndertow {
 
   public static void deploy(Optional<String[]> args) {
     cliArguments = args;
-    deployStart = LocalDateTime.now();
     //executeStartupActions(args);
     //DI.bootstrap(); // per config steuern
 
@@ -103,7 +112,7 @@ public class MainUndertow {
         deployServlets(builder , deploymentInfo);
       } catch (ServletException e) {
         e.printStackTrace();
-        LOGGER.error("deploy Servlets " , e);
+        LOGGER.warning("deploy Servlets " , e);
       }
     }
 
@@ -115,17 +124,8 @@ public class MainUndertow {
       undertowServer.start();
     }
 
-
     new HeaderScreenPrinter().printOnScreen();
     new ActiveUrlPrinter().printActiveURLs(new ActiveUrlsDetector().detectUrls());
-
-
-    System.out.println("");
-    System.out.println("");
-    final LocalDateTime stopTime = LocalDateTime.now();
-    System.out.println(" ############  Startup finished  = " + stopTime + " ############  ");
-    System.out.println(" ############  Startup time [ms] = " + Duration.between(deployStart , stopTime).toMillis() + " ############  ");
-
   }
 
 
@@ -171,7 +171,7 @@ public class MainUndertow {
         .setDefaultEncoding("UTF-8");
 
 
-    final Boolean shiroActive = Boolean.valueOf(System.getProperty(SHIRO_ACTIVE_PROPERTY , "true"));
+    final Boolean shiroActive = Boolean.valueOf(System.getProperty(SHIRO_ACTIVE_PROPERTY , "false"));
     if (shiroActive) addShiroFilter(deploymentInfo , DEFAULT_SHIRO_FILTER_NAME , DEFAULT_FILTER_MAPPING);
 
     return deploymentInfo
@@ -220,6 +220,18 @@ public class MainUndertow {
     deployment.setApplication(jaxRsActivator);
 //      deployment.setAsyncJobServiceEnabled(false);
     deployment.setInjectorFactoryClass(DdiInjectorFactory.class.getCanonicalName());
+
+    // add resourceFactories for dedicated classes
+
+    final List<ResourceFactory> collect = jaxRsActivator
+        .getInterfacesWithPathAnnotation()
+        .stream()
+        .map(PoJoDDIRessourceFactory::new)
+        .collect(Collectors.toList());
+
+    deployment.setResourceFactories(collect);
+
+
     jaxrsServer.deploy(jaxrsServer.undertowDeployment(deployment)
                                   .setDeploymentName("Rest")
                                   .setContextPath(CONTEXT_PATH_REST)
@@ -232,13 +244,13 @@ public class MainUndertow {
         try {
           jaxrsServer.stop();
         } catch (Exception e) {
-          LOGGER.error("jaxrsServer.stop()" , e);
+          LOGGER.warning("jaxrsServer.stop()" , e);
         }
     } else if (undertowServer != null) {
       try {
         undertowServer.stop();
       } catch (Exception e) {
-        LOGGER.error("undertowServer.stop()" , e);
+        LOGGER.warning("undertowServer.stop()" , e);
       }
     }
   }
