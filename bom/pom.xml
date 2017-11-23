@@ -5,7 +5,7 @@
   <parent>
     <artifactId>rapidpm-microservice</artifactId>
     <groupId>org.rapidpm.microservice</groupId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -15,17 +15,15 @@
 
   <!--change parent pom too-->
   <properties>
-    <rapidpm-microservice.version>1.0.0-SNAPSHOT</rapidpm-microservice.version>
-    <rapidpm-dynamic-cdi.version>1.0.0-SNAPSHOT</rapidpm-dynamic-cdi.version>
-    <rapidpm-proxybuilder.version>1.0.0-SNAPSHOT</rapidpm-proxybuilder.version>
-    <rapidpm-functional-reactive.version>0.1.0-SNAPSHOT</rapidpm-functional-reactive.version>
+    <rapidpm-microservice.version>1.0.0</rapidpm-microservice.version>
+    <rapidpm-dynamic-cdi.version>1.0.0</rapidpm-dynamic-cdi.version>
+    <rapidpm-proxybuilder.version>1.0.0</rapidpm-proxybuilder.version>
+    <rapidpm-functional-reactive.version>0.1.0</rapidpm-functional-reactive.version>
 
     <shiro.version>1.3.2</shiro.version>
     <undertow.version>1.4.20.Final</undertow.version>
     <resteasy-undertow.version>3.1.4.Final</resteasy-undertow.version>
-    <!--<vaadin.version>8.1.6</vaadin.version>-->
-    <!--<vaadin-testbench-api.version>5.0.0</vaadin-testbench-api.version>-->
-    <!--<vaadin-testbench-api.version>5.1.0.beta1</vaadin-testbench-api.version>-->
+
 
     <hazelcast.version>3.9-EA</hazelcast.version>
     <lucene.version>7.1.0</lucene.version>
@@ -240,42 +238,6 @@
         <artifactId>lucene-backward-codecs</artifactId>
         <version>${lucene.version}</version>
       </dependency>
-
-
-      <!--Vaadin Based stuff-->
-      <!--<dependency>-->
-        <!--<groupId>com.vaadin</groupId>-->
-        <!--<artifactId>vaadin-server</artifactId>-->
-        <!--<version>${vaadin.version}</version>-->
-      <!--</dependency>-->
-
-      <!--<dependency>-->
-        <!--<groupId>com.vaadin</groupId>-->
-        <!--<artifactId>vaadin-themes</artifactId>-->
-        <!--<version>${vaadin.version}</version>-->
-      <!--</dependency>-->
-      <!--<dependency>-->
-        <!--<groupId>com.vaadin</groupId>-->
-        <!--<artifactId>vaadin-push</artifactId>-->
-        <!--<version>${vaadin.version}</version>-->
-      <!--</dependency>-->
-      <!--<dependency>-->
-        <!--<groupId>com.vaadin</groupId>-->
-        <!--<artifactId>vaadin-client</artifactId>-->
-        <!--<version>${vaadin.version}</version>-->
-      <!--</dependency>-->
-      <!--<dependency>-->
-        <!--<groupId>com.vaadin</groupId>-->
-        <!--<artifactId>vaadin-client-compiled</artifactId>-->
-        <!--<version>${vaadin.version}</version>-->
-      <!--</dependency>-->
-      <!--<dependency>-->
-        <!--<groupId>com.vaadin</groupId>-->
-        <!--<artifactId>vaadin-testbench</artifactId>-->
-        <!--<version>${vaadin-testbench-api.version}</version>-->
-        <!--<scope>test</scope>-->
-      <!--</dependency>-->
-
       <dependency>
         <groupId>com.hazelcast</groupId>
         <artifactId>hazelcast-all</artifactId>
@@ -291,8 +253,6 @@
         <artifactId>hazelcast-root</artifactId>
         <version>${hazelcast.version}</version>
       </dependency>
-
-
     </dependencies>
   </dependencyManagement>
 
