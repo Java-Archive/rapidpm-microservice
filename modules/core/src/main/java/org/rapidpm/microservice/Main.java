@@ -27,12 +27,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.rapidpm.ddi.DI;
+import org.rapidpm.dependencies.core.logger.HasLogger;
 import org.rapidpm.dependencies.core.logger.Logger;
 import org.rapidpm.dependencies.core.logger.LoggingService;
 import org.rapidpm.frp.functions.CheckedSupplier;
 
 
-public class Main {
+public class Main implements HasLogger {
 
   private static final LoggingService LOGGER = Logger.getLogger(Main.class);
 

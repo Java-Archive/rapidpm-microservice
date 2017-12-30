@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.rapidpm</groupId>
     <artifactId>rapidpm-dependencies</artifactId>
-    <version>3.5.3</version>
+    <version>3.5.5</version>
   </parent>
 
 
@@ -67,8 +67,8 @@
     </developer>
   </developers>
   <issueManagement>
-    <system>Youtrack</system>
-    <url>https://issues.rapidpm.org/issues?q=project%3A+Java-MicroService</url>
+    <system>Github</system>
+    <url>https://github.com/JavaMicroService/rapidpm-microservice/issues</url>
   </issueManagement>
   <ciManagement>
     <system>TeamCity</system>
