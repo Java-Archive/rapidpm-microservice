@@ -5,7 +5,7 @@
   <parent>
     <artifactId>rapidpm-microservice</artifactId>
     <groupId>org.rapidpm.microservice</groupId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -15,9 +15,9 @@
 
   <!--change parent pom too-->
   <properties>
-    <rapidpm-microservice.version>1.0.1-SNAPSHOT</rapidpm-microservice.version>
-    <rapidpm-dynamic-cdi.version>1.0.1-SNAPSHOT</rapidpm-dynamic-cdi.version>
-    <!--<rapidpm-proxybuilder.version>1.0.1-SNAPSHOT</rapidpm-proxybuilder.version>-->
+    <rapidpm-microservice.version>1.0.1</rapidpm-microservice.version>
+    <rapidpm-dynamic-cdi.version>1.0.1</rapidpm-dynamic-cdi.version>
+    <!--<rapidpm-proxybuilder.version>1.0.1</rapidpm-proxybuilder.version>-->
     <rapidpm-functional-reactive.version>0.1.0</rapidpm-functional-reactive.version>
 
     <shiro.version>1.3.2</shiro.version>
