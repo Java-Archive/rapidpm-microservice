@@ -74,6 +74,7 @@ public class MainUndertow {
   public static final String DEFAULT_FILTER_MAPPING    = "/*";
   public static final String DEFAULT_SHIRO_FILTER_NAME = "ShiroFilter";
   public static final String MYAPP                     = "/microservice";
+  public static final String MYAPP_VAADIN              = "/vaadin";
   public static final String CONTEXT_PATH_REST         = "/rest";
   public static final int    DEFAULT_REST_PORT         = 7081;
   public static final int    DEFAULT_SERVLET_PORT      = 7080;
@@ -89,7 +90,7 @@ public class MainUndertow {
   private static UndertowJaxrsServer jaxrsServer;
   private static Undertow            undertowServer;
 
-  private static Optional<String[]> cliArguments;
+  private static Optional<String[]> cliArguments; //TODO switch to Result
 
   public static void deploy() {
     deploy(Optional.empty());
@@ -129,6 +130,7 @@ public class MainUndertow {
   }
 
 
+  //TODO extend for a Vaadin App Version
   private static DeploymentInfo createServletDeploymentInfos() {
 
     final Set<Class<?>> typesAnnotatedWith = DI.getTypesAnnotatedWith(WebServlet.class , true);
