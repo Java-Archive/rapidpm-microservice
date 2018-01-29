@@ -24,8 +24,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.Main;
+import junit.org.rapidpm.microservice.BasicRestTest;
 
-public class HeaderTest {
+public class HeaderTest extends BasicRestTest {
 
   @Before
   public void setUp() throws Exception {
@@ -44,7 +45,6 @@ public class HeaderTest {
   @Test
   public void test001() throws Exception {
     Main.deploy();
-
   }
 
 }
