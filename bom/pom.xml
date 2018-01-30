@@ -26,6 +26,7 @@
 
     <hazelcast.version>3.9.1</hazelcast.version>
     <lucene.version>7.2.0</lucene.version>
+    <stagemonitor.version>0.87.2</stagemonitor.version>
   </properties>
 
   <dependencyManagement>
@@ -251,6 +252,33 @@
         <groupId>com.hazelcast</groupId>
         <artifactId>hazelcast-root</artifactId>
         <version>${hazelcast.version}</version>
+      </dependency>
+
+      <!--APM -->
+      <dependency>
+        <groupId>org.stagemonitor</groupId>
+        <artifactId>stagemonitor-web-servlet</artifactId>
+        <version>${stagemonitor.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.stagemonitor</groupId>
+        <artifactId>stagemonitor-tracing</artifactId>
+        <version>${stagemonitor.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.stagemonitor</groupId>
+        <artifactId>stagemonitor-jvm</artifactId>
+        <version>${stagemonitor.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.stagemonitor</groupId>
+        <artifactId>stagemonitor-os</artifactId>
+        <version>${stagemonitor.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.stagemonitor</groupId>
+        <artifactId>stagemonitor-tracing-elasticsearch</artifactId>
+        <version>${stagemonitor.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

@@ -37,13 +37,35 @@
     <dependency>
       <groupId>org.apache.shiro</groupId>
       <artifactId>shiro-web</artifactId>
+      <optional>true</optional>
     </dependency>
-    <!--Logging for Shiro 1.4.0-->
-    <!--<dependency>-->
-    <!--<groupId>commons-logging</groupId>-->
-    <!--<artifactId>commons-logging</artifactId>-->
-    <!--<version>1.2</version>-->
-    <!--</dependency>-->
+    <!--APM - Stagemonitor-->
+    <!--APM -->
+    <dependency>
+      <groupId>org.stagemonitor</groupId>
+      <artifactId>stagemonitor-web-servlet</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.stagemonitor</groupId>
+      <artifactId>stagemonitor-tracing</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.stagemonitor</groupId>
+      <artifactId>stagemonitor-jvm</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.stagemonitor</groupId>
+      <artifactId>stagemonitor-os</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.stagemonitor</groupId>
+      <artifactId>stagemonitor-tracing-elasticsearch</artifactId>
+      <optional>true</optional>
+    </dependency>
 
 
     <dependency>

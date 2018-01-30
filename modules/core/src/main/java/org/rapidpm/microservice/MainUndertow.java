@@ -7,6 +7,8 @@ import static javax.servlet.DispatcherType.ERROR;
 import static javax.servlet.DispatcherType.FORWARD;
 import static javax.servlet.DispatcherType.INCLUDE;
 import static javax.servlet.DispatcherType.REQUEST;
+import static org.rapidpm.microservice.ServletContainerFunctions.addShiroFilter;
+import static org.rapidpm.microservice.ServletContainerFunctions.addStagemonitor;
 
 import java.util.EventListener;
 import java.util.List;
@@ -83,6 +85,7 @@ public class MainUndertow {
   public static final String SERVLET_PORT_PROPERTY     = "org.rapidpm.microservice.servlet.port";
   public static final String SERVLET_HOST_PROPERTY     = "org.rapidpm.microservice.servlet.host";
   public static final String SHIRO_ACTIVE_PROPERTY     = "org.rapidpm.microservice.security.shiro.active";
+  public static final String STAGEMONITOR_ACTIVE_PROPERTY     = "org.rapidpm.microservice.security.stagemonitor.active";
 
   private static final String RESTEASY_PORT_PROPERTY = "org.jboss.resteasy.port";
   private static final String RESTEASY_HOST_PROPERTY = "org.jboss.resteasy.host";
@@ -174,7 +177,9 @@ public class MainUndertow {
 
 
     final Boolean shiroActive = Boolean.valueOf(System.getProperty(SHIRO_ACTIVE_PROPERTY , "false"));
-    if (shiroActive) addShiroFilter(deploymentInfo , DEFAULT_SHIRO_FILTER_NAME , DEFAULT_FILTER_MAPPING);
+    final Boolean stagemonitorActive = Boolean.valueOf(System.getProperty(STAGEMONITOR_ACTIVE_PROPERTY , "false"));
+    if (shiroActive) addShiroFilter().apply(deploymentInfo , DEFAULT_SHIRO_FILTER_NAME , DEFAULT_FILTER_MAPPING);
+    if (stagemonitorActive) addStagemonitor().apply(deploymentInfo);
 
     return deploymentInfo
         .addListeners(listenerInfos)
@@ -197,16 +202,25 @@ public class MainUndertow {
   }
 
 
-  static DeploymentInfo addShiroFilter(DeploymentInfo deploymentInfo ,
-                                       String shiroFilterName ,
-                                       String shiroShiroFilterMappin) {
-    return deploymentInfo.addListener(new ListenerInfo(EnvironmentLoaderListener.class))
-                         .addFilter(new FilterInfo(shiroFilterName , ShiroFilter.class))
-                         .addFilterUrlMapping(shiroFilterName , shiroShiroFilterMappin , REQUEST)
-                         .addFilterUrlMapping(shiroFilterName , shiroShiroFilterMappin , FORWARD)
-                         .addFilterUrlMapping(shiroFilterName , shiroShiroFilterMappin , INCLUDE)
-                         .addFilterUrlMapping(shiroFilterName , shiroShiroFilterMappin , ERROR);
-  }
+//  static DeploymentInfo addShiroFilter(DeploymentInfo deploymentInfo ,
+//                                       String shiroFilterName ,
+//                                       String shiroShiroFilterMappin) {
+//    return deploymentInfo.addListener(new ListenerInfo(EnvironmentLoaderListener.class))
+//                         .addFilter(new FilterInfo(shiroFilterName , ShiroFilter.class))
+//                         .addFilterUrlMapping(shiroFilterName , shiroShiroFilterMappin , REQUEST)
+//                         .addFilterUrlMapping(shiroFilterName , shiroShiroFilterMappin , FORWARD)
+//                         .addFilterUrlMapping(shiroFilterName , shiroShiroFilterMappin , INCLUDE)
+//                         .addFilterUrlMapping(shiroFilterName , shiroShiroFilterMappin , ERROR);
+//  }
+
+
+//  static DeploymentInfo addStagemonitor(DeploymentInfo deploymentInfo){
+//
+//
+//    return deploymentInfo;
+//  }
+
+
 
 
   static void deployRestResources(final Builder builder , final JaxRsActivator jaxRsActivator) {
