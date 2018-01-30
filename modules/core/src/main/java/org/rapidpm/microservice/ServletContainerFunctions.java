@@ -23,7 +23,7 @@ import io.undertow.servlet.util.ImmediateInstanceFactory;
 /**
  *
  */
-public class ServletContainerFunctions {
+public interface ServletContainerFunctions {
 
   static TriFunction<DeploymentInfo, String, String, DeploymentInfo> addShiroFilter() {
     return (deploymentInfo , shiroFilterName , shiroShiroFilterMappin) -> deploymentInfo.addListener(new ListenerInfo(EnvironmentLoaderListener.class))
@@ -33,7 +33,6 @@ public class ServletContainerFunctions {
                                                                                         .addFilterUrlMapping(shiroFilterName , shiroShiroFilterMappin , INCLUDE)
                                                                                         .addFilterUrlMapping(shiroFilterName , shiroShiroFilterMappin , ERROR);
   }
-
 
   static Function<DeploymentInfo, DeploymentInfo> addStagemonitor() {
     return (deploymentInfo) -> deploymentInfo.addServletContainerInitalizer(

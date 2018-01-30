@@ -194,26 +194,6 @@ public class MainUndertow {
     builder.addHttpListener(Integer.parseInt(realServletPort) , realServletHost , pathServlet);
   }
 
-
-//  static DeploymentInfo addShiroFilter(DeploymentInfo deploymentInfo ,
-//                                       String shiroFilterName ,
-//                                       String shiroShiroFilterMappin) {
-//    return deploymentInfo.addListener(new ListenerInfo(EnvironmentLoaderListener.class))
-//                         .addFilter(new FilterInfo(shiroFilterName , ShiroFilter.class))
-//                         .addFilterUrlMapping(shiroFilterName , shiroShiroFilterMappin , REQUEST)
-//                         .addFilterUrlMapping(shiroFilterName , shiroShiroFilterMappin , FORWARD)
-//                         .addFilterUrlMapping(shiroFilterName , shiroShiroFilterMappin , INCLUDE)
-//                         .addFilterUrlMapping(shiroFilterName , shiroShiroFilterMappin , ERROR);
-//  }
-
-
-//  static DeploymentInfo addStagemonitor(DeploymentInfo deploymentInfo){
-//
-//
-//    return deploymentInfo;
-//  }
-
-
   static void deployRestResources(final Builder builder , final JaxRsActivator jaxRsActivator) {
     final String realRestPort = System.getProperty(REST_PORT_PROPERTY , DEFAULT_REST_PORT + "");
     final String realRestHost = System.getProperty(REST_HOST_PROPERTY , Main.DEFAULT_HOST);
