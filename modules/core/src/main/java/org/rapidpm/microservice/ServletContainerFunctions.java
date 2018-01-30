@@ -6,16 +6,13 @@ import static javax.servlet.DispatcherType.INCLUDE;
 import static javax.servlet.DispatcherType.REQUEST;
 
 import java.util.Collections;
-import java.util.Set;
 import java.util.function.Function;
 
 import javax.servlet.ServletContainerInitializer;
-import javax.servlet.ServletContext;
 
 import org.apache.shiro.web.env.EnvironmentLoaderListener;
 import org.apache.shiro.web.servlet.ShiroFilter;
 import org.rapidpm.frp.functions.TriFunction;
-import org.stagemonitor.web.servlet.ServletPlugin;
 import org.stagemonitor.web.servlet.initializer.MainStagemonitorServletContainerInitializer;
 import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.FilterInfo;
@@ -42,15 +39,9 @@ public class ServletContainerFunctions {
     return (deploymentInfo) -> deploymentInfo.addServletContainerInitalizer(
         new ServletContainerInitializerInfo(
             MainStagemonitorServletContainerInitializer.class ,
-            new ImmediateInstanceFactory<ServletContainerInitializer>(new ServletContainerInitializer() {
-              private final ServletPlugin.Initializer initializer = new ServletPlugin.Initializer();
-
-              @Override
-              public void onStartup(Set<Class<?>> c , ServletContext ctx) {
-                initializer.onStartup(ctx);
-              }
-            }) ,
+            new ImmediateInstanceFactory<ServletContainerInitializer>(new MainStagemonitorServletContainerInitializer()) ,
             Collections.emptySet()
         ));
   }
+
 }

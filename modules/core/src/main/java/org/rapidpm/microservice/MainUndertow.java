@@ -3,10 +3,6 @@ package org.rapidpm.microservice;
 import static io.undertow.servlet.Servlets.defaultContainer;
 import static io.undertow.servlet.Servlets.deployment;
 import static io.undertow.servlet.Servlets.servlet;
-import static javax.servlet.DispatcherType.ERROR;
-import static javax.servlet.DispatcherType.FORWARD;
-import static javax.servlet.DispatcherType.INCLUDE;
-import static javax.servlet.DispatcherType.REQUEST;
 import static org.rapidpm.microservice.ServletContainerFunctions.addShiroFilter;
 import static org.rapidpm.microservice.ServletContainerFunctions.addStagemonitor;
 
@@ -22,8 +18,6 @@ import javax.servlet.annotation.WebListener;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 
-import org.apache.shiro.web.env.EnvironmentLoaderListener;
-import org.apache.shiro.web.servlet.ShiroFilter;
 import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
 import org.jboss.resteasy.spi.ResourceFactory;
 import org.jboss.resteasy.spi.ResteasyDeployment;
@@ -46,7 +40,6 @@ import io.undertow.server.HttpHandler;
 import io.undertow.server.handlers.PathHandler;
 import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.DeploymentManager;
-import io.undertow.servlet.api.FilterInfo;
 import io.undertow.servlet.api.ListenerInfo;
 import io.undertow.servlet.api.ServletContainer;
 import io.undertow.servlet.api.ServletInfo;
@@ -73,19 +66,19 @@ public class MainUndertow {
 
   private static final LoggingService LOGGER = Logger.getLogger(MainUndertow.class);
 
-  public static final String DEFAULT_FILTER_MAPPING    = "/*";
-  public static final String DEFAULT_SHIRO_FILTER_NAME = "ShiroFilter";
-  public static final String MYAPP                     = "/microservice";
-  public static final String MYAPP_VAADIN              = "/vaadin";
-  public static final String CONTEXT_PATH_REST         = "/rest";
-  public static final int    DEFAULT_REST_PORT         = 7081;
-  public static final int    DEFAULT_SERVLET_PORT      = 7080;
-  public static final String REST_PORT_PROPERTY        = "org.rapidpm.microservice.rest.port";
-  public static final String REST_HOST_PROPERTY        = "org.rapidpm.microservice.rest.host";
-  public static final String SERVLET_PORT_PROPERTY     = "org.rapidpm.microservice.servlet.port";
-  public static final String SERVLET_HOST_PROPERTY     = "org.rapidpm.microservice.servlet.host";
-  public static final String SHIRO_ACTIVE_PROPERTY     = "org.rapidpm.microservice.security.shiro.active";
-  public static final String STAGEMONITOR_ACTIVE_PROPERTY     = "org.rapidpm.microservice.security.stagemonitor.active";
+  public static final String DEFAULT_FILTER_MAPPING       = "/*";
+  public static final String DEFAULT_SHIRO_FILTER_NAME    = "ShiroFilter";
+  public static final String MYAPP                        = "/microservice";
+  public static final String MYAPP_VAADIN                 = "/vaadin";
+  public static final String CONTEXT_PATH_REST            = "/rest";
+  public static final int    DEFAULT_REST_PORT            = 7081;
+  public static final int    DEFAULT_SERVLET_PORT         = 7080;
+  public static final String REST_PORT_PROPERTY           = "org.rapidpm.microservice.rest.port";
+  public static final String REST_HOST_PROPERTY           = "org.rapidpm.microservice.rest.host";
+  public static final String SERVLET_PORT_PROPERTY        = "org.rapidpm.microservice.servlet.port";
+  public static final String SERVLET_HOST_PROPERTY        = "org.rapidpm.microservice.servlet.host";
+  public static final String SHIRO_ACTIVE_PROPERTY        = "org.rapidpm.microservice.security.shiro.active";
+  public static final String STAGEMONITOR_ACTIVE_PROPERTY = "org.rapidpm.microservice.security.stagemonitor.active";
 
   private static final String RESTEASY_PORT_PROPERTY = "org.jboss.resteasy.port";
   private static final String RESTEASY_HOST_PROPERTY = "org.jboss.resteasy.host";
@@ -219,8 +212,6 @@ public class MainUndertow {
 //
 //    return deploymentInfo;
 //  }
-
-
 
 
   static void deployRestResources(final Builder builder , final JaxRsActivator jaxRsActivator) {
