@@ -1,9 +1,9 @@
 package junit.org.rapidpm.microservice.rest.optionals.properties.rest.v001;
 
 import junit.org.rapidpm.microservice.BasicRestTest;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.rest.optionals.properties.rest.PropertyServiceRestEndpoint;
@@ -34,7 +34,7 @@ public class PropertyServiceRestEndpointTest001 extends BasicRestTest {
   final File propertyFile = new File(PropertyServiceRestEndpointTest001.class.getResource("test.properties").getFile());
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     DI.clearReflectionModel();
     DI.activatePackages("org.rapidpm");
@@ -54,8 +54,8 @@ public class PropertyServiceRestEndpointTest001 extends BasicRestTest {
         .queryParam("name", "test.001")
         .request();
     final Response response = request.get();
-    Assert.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-    Assert.assertEquals("001", response.readEntity(String.class));
+    Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    Assertions.assertEquals("001", response.readEntity(String.class));
   }
 
   @Test
@@ -68,8 +68,8 @@ public class PropertyServiceRestEndpointTest001 extends BasicRestTest {
         .queryParam("name", "not.there")
         .request();
     final Response response = request.get();
-    Assert.assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), response.getStatus());
-    Assert.assertEquals(PropertyServiceRestEndpoint.NOT_FOUND, response.readEntity(String.class));
+    Assertions.assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), response.getStatus());
+    Assertions.assertEquals(PropertyServiceRestEndpoint.NOT_FOUND, response.readEntity(String.class));
   }
 
 }

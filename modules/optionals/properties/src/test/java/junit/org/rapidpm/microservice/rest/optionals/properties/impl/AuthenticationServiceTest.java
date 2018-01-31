@@ -1,8 +1,9 @@
 package junit.org.rapidpm.microservice.rest.optionals.properties.impl;
 
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.microservice.rest.optionals.properties.api.AuthenticationService;
 
 import javax.inject.Inject;
@@ -29,19 +30,19 @@ public class AuthenticationServiceTest extends BaseDITest {
   @Inject
   AuthenticationService authenticationServiceImpl;
 
-  @BeforeClass
+  @BeforeAll
   public static void before() throws Exception {
     System.setProperty(AuthenticationService.CLIENTFILE, file.getAbsolutePath());
   }
 
   @Test
   public void test001() throws Exception {
-    Assert.assertTrue(authenticationServiceImpl.isActive());
+    Assertions.assertTrue(authenticationServiceImpl.isActive());
   }
 
   @Test
   public void test002() throws Exception {
-    Assert.assertTrue(authenticationServiceImpl.authenticate("0.0.0.0"));
-    Assert.assertFalse(authenticationServiceImpl.authenticate("1.2.3.4"));
+    Assertions.assertTrue(authenticationServiceImpl.authenticate("0.0.0.0"));
+    Assertions.assertFalse(authenticationServiceImpl.authenticate("1.2.3.4"));
   }
 }

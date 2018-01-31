@@ -19,9 +19,9 @@
 
 package junit.org.rapidpm.microservice.optionals.cli;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.dependencies.core.net.PortUtils;
 import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.MainUndertow;
@@ -33,7 +33,7 @@ public class MainTest003 extends BaseCmdlineTest {
   public static final int PORT = new PortUtils().nextFreePortForTest();
 
 
-  @After
+  @AfterEach
   public void tearDown() throws Exception {
     Main.stop();
   }
@@ -44,7 +44,7 @@ public class MainTest003 extends BaseCmdlineTest {
 
     Main.main(new String[]{"-" + CMD_REST_PORT + " " + PORT});
     String restPort = (String) System.getProperties().get(MainUndertow.REST_PORT_PROPERTY);
-    Assert.assertEquals(PORT + "", restPort);
+    Assertions.assertEquals(PORT + "", restPort);
 
   }
 

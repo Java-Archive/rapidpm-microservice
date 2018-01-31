@@ -1,7 +1,7 @@
 package junit.org.rapidpm.microservice.rest.optionals.properties.impl;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.rapidpm.ddi.DI;
 
 /**
@@ -20,14 +20,14 @@ import org.rapidpm.ddi.DI;
  */
 public class BaseDITest {
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     DI.clearReflectionModel();
     DI.activatePackages("org.rapidpm");
     DI.activateDI(this);
   }
 
-  @After
+  @AfterEach
   public void tearDown() throws Exception {
     DI.clearReflectionModel();
   }

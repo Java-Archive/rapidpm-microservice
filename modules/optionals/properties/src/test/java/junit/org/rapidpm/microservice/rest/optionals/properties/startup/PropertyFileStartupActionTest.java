@@ -1,16 +1,17 @@
 package junit.org.rapidpm.microservice.rest.optionals.properties.startup;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import junit.org.rapidpm.microservice.rest.optionals.properties.impl.BaseDITest;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.rest.optionals.properties.api.PropertiesStore;
 import org.rapidpm.microservice.rest.optionals.properties.startup.PropertyFileStartupAction;
 
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 /**
  * Copyright (C) 2010 RapidPM
@@ -30,7 +31,7 @@ public class PropertyFileStartupActionTest extends BaseDITest {
 
   public static final String TESTFILE_PATH = "testfile";
 
-  @After
+  @AfterEach
   public void tearDown() throws Exception {
     super.tearDown();
     Main.stop();

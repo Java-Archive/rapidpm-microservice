@@ -1,22 +1,20 @@
 package junit.org.rapidpm.microservice.rest.optionals.properties.rest.v002;
 
 import junit.org.rapidpm.microservice.BasicRestTest;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.rest.optionals.properties.rest.PropertyServiceRestEndpoint;
 import org.rapidpm.microservice.rest.optionals.properties.startup.AuthenticationStartupAction;
 import org.rapidpm.microservice.rest.optionals.properties.startup.PropertyFileStartupAction;
 
-import javax.ws.rs.GET;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.Response;
 import java.io.File;
-import java.util.Map;
 
 /**
  * Copyright (C) 2010 RapidPM
@@ -40,7 +38,7 @@ public class PropertyServiceRestEndpointTest002 extends BasicRestTest {
   final File clientFile = new File(this.getClass().getResource("clients.txt").getFile());
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     DI.clearReflectionModel();
     DI.activatePackages("org.rapidpm");
@@ -63,8 +61,8 @@ public class PropertyServiceRestEndpointTest002 extends BasicRestTest {
         .queryParam("name", "test.001")
         .request();
     final Response response = request.get();
-    Assert.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-    Assert.assertEquals("001", response.readEntity(String.class));
+    Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    Assertions.assertEquals("001", response.readEntity(String.class));
   }
 
   @Test
@@ -77,7 +75,7 @@ public class PropertyServiceRestEndpointTest002 extends BasicRestTest {
         .queryParam("namespace", "test")
         .request();
     final Response response = request.get();
-    Assert.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-    Assert.assertEquals("{\"test.002\":\"asdf\",\"test.001\":\"001\"}", response.readEntity(String.class));
+    Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    Assertions.assertEquals("{\"test.002\":\"asdf\",\"test.001\":\"001\"}", response.readEntity(String.class));
   }
 }

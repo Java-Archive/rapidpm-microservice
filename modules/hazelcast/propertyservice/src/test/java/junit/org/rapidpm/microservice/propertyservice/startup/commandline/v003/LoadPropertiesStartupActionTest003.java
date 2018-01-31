@@ -1,13 +1,14 @@
 package junit.org.rapidpm.microservice.propertyservice.startup.commandline.v003;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.Main;
 
 import java.util.Optional;
 import java.util.Properties;
 
-import static org.junit.Assert.assertEquals;
 
 public class LoadPropertiesStartupActionTest003 {
 

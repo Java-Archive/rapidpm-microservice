@@ -1,10 +1,13 @@
 package junit.org.rapidpm.microservice.propertyservice.rest.v003;
 
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import junit.org.rapidpm.microservice.BasicRestTest;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.ddi.scopes.provided.JVMSingletonInjectionScope;
 import org.rapidpm.microservice.propertyservice.impl.PropertyServiceImpl;
@@ -17,13 +20,11 @@ import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.FileInputStream;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 public class RestTest003 extends BasicRestTest {
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     super.setUp();
     DI.activateDI(new PropertiesFileLoader());
@@ -34,7 +35,7 @@ public class RestTest003 extends BasicRestTest {
   }
 
   @Override
-  @After
+  @AfterEach
   public void tearDown() throws Exception {
     super.tearDown();
   }

@@ -21,8 +21,8 @@ package junit.org.rapidpm.microservice.propertyservice.startup.commandline.v004;
 
 import junit.org.rapidpm.microservice.BasicRestTest;
 import org.apache.commons.cli.Option;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.microservice.propertyservice.startup.commandline.PropertyFolderCmdLineOption;
 
 import java.util.List;
@@ -33,8 +33,8 @@ public class PropertyFolderCmdLineOptionTest004 extends BasicRestTest {
   @Test
   public void test001() throws Exception {
     final List<Option> options = new PropertyFolderCmdLineOption().getOptions();
-    Assert.assertNotNull(options);
-    Assert.assertFalse(options.isEmpty());
-    Assert.assertEquals("pf", options.get(0).getOpt());
+    Assertions.assertNotNull(options);
+    Assertions.assertFalse(options.isEmpty());
+    Assertions.assertEquals("pf", options.get(0).getOpt());
   }
 }

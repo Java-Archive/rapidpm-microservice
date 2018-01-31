@@ -1,34 +1,34 @@
 package junit.org.rapidpm.microservice.propertyservice.rest.v002;
 
 
-import junit.org.rapidpm.microservice.BasicRestTest;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.ddi.scopes.provided.JVMSingletonInjectionScope;
 import org.rapidpm.microservice.propertyservice.impl.PropertyServiceImpl;
 import org.rapidpm.microservice.propertyservice.persistence.file.PropertiesFileLoader;
 import org.rapidpm.microservice.propertyservice.rest.PropertyServiceRest;
-
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
+import junit.org.rapidpm.microservice.BasicRestTest;
 
 public class RestTest002 extends BasicRestTest {
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     super.setUp();
     DI.activateDI(new PropertiesFileLoader());
-    DI.registerClassForScope(PropertyServiceImpl.class, JVMSingletonInjectionScope.class.getSimpleName());
-    System.setProperty("propertyservice.mapname", RestTest002.class.getSimpleName());
-    System.setProperty("propertyservice.propertyfolder", this.getClass().getResource("").getPath());
+    DI.registerClassForScope(PropertyServiceImpl.class , JVMSingletonInjectionScope.class.getSimpleName());
+    System.setProperty("propertyservice.mapname" , RestTest002.class.getSimpleName());
+    System.setProperty("propertyservice.propertyfolder" , this.getClass().getResource("").getPath());
   }
 
   @Override
-  @After
+  @AfterEach
   public void tearDown() throws Exception {
     super.tearDown();
   }
@@ -43,10 +43,10 @@ public class RestTest002 extends BasicRestTest {
         .request()
         .get(String.class);
 
-    Assert.assertTrue(response.contains("\"restscope01.001\""));
-    Assert.assertTrue(response.contains("\"restscope02.001\""));
-    Assert.assertTrue(response.contains("\"restscope02.002\""));
-    Assert.assertTrue(response.contains("\"restscope02.003\""));
+    Assertions.assertTrue(response.contains("\"restscope01.001\""));
+    Assertions.assertTrue(response.contains("\"restscope02.001\""));
+    Assertions.assertTrue(response.contains("\"restscope02.002\""));
+    Assertions.assertTrue(response.contains("\"restscope02.003\""));
   }
 
   private void callLoadingOfProperties() {
@@ -63,7 +63,6 @@ public class RestTest002 extends BasicRestTest {
         .get(String.class);
     client.close();
   }
-
 
 
 }

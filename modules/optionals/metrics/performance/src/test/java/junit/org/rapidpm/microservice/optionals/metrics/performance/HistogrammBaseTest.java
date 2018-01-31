@@ -22,7 +22,7 @@ package junit.org.rapidpm.microservice.optionals.metrics.performance;
 import com.google.gson.Gson;
 import junit.org.rapidpm.microservice.BasicRestTest;
 import org.junit.Assert;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.rapidpm.microservice.optionals.metrics.performance.HistogrammSnapshot;
 
 import javax.ws.rs.client.Client;
@@ -36,7 +36,7 @@ public class HistogrammBaseTest extends BasicRestTest {
   public static final String HISTOGRAMM_NAME = TestRessource.class.getName() + ".doWork";
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     super.setUp();
     runRequests();

@@ -25,9 +25,9 @@ import junit.org.rapidpm.microservice.optionals.index.v004.api.LoggerEvent;
 import junit.org.rapidpm.microservice.optionals.index.v004.server.LoggerEventIndex;
 import junit.org.rapidpm.microservice.optionals.index.v004.server.LoggerEventREST;
 import org.apache.logging.log4j.core.LogEvent;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.optionals.index.stores.IndexStore;
 
@@ -48,7 +48,7 @@ public class LogEventIndexTest extends BasicRestTest {
   @Inject IndexStore indexStore;
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     super.setUp();
     DI.activateDI(this);
@@ -85,8 +85,8 @@ public class LogEventIndexTest extends BasicRestTest {
     System.out.println("q01 = " + q01);
 
     final List<LogEvent> q01List = Arrays.asList(gson.fromJson(q01, LoggerEventREST.LOGGER_EVENT_LIST_TYPE));
-    Assert.assertNotNull(q01List);
-    Assert.assertTrue(q01List.isEmpty());
+    Assertions.assertNotNull(q01List);
+    Assertions.assertTrue(q01List.isEmpty());
 
     final String i01 = client
         .target(generateBasicReqURL + "/" + LoggerEventREST.INSERT)
@@ -94,7 +94,7 @@ public class LogEventIndexTest extends BasicRestTest {
         .request()
         .get(String.class);
     System.out.println("i01 = " + i01);
-    Assert.assertEquals(LoggerEventREST.OK, i01);
+    Assertions.assertEquals(LoggerEventREST.OK, i01);
 
     final String q02 = webTarget
         .request()
@@ -102,9 +102,9 @@ public class LogEventIndexTest extends BasicRestTest {
     System.out.println("q02 = " + q02);
 
     final List<LogEvent> q02List = Arrays.asList(gson.fromJson(q02, LoggerEventREST.LOGGER_EVENT_LIST_TYPE));
-    Assert.assertNotNull(q02List);
-    Assert.assertFalse(q02List.isEmpty());
-    Assert.assertEquals(1, q02List.size());
+    Assertions.assertNotNull(q02List);
+    Assertions.assertFalse(q02List.isEmpty());
+    Assertions.assertEquals(1, q02List.size());
 
     client.close();
 

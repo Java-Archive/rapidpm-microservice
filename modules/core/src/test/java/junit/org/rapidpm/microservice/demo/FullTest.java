@@ -19,35 +19,39 @@
 
 package junit.org.rapidpm.microservice.demo;
 
-import org.junit.*;
-import org.rapidpm.ddi.DI;
-import org.rapidpm.dependencies.core.net.PortUtils;
-import org.rapidpm.microservice.Main;
-import org.rapidpm.microservice.MainUndertow;
-
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.rapidpm.ddi.DI;
+import org.rapidpm.dependencies.core.net.PortUtils;
+import org.rapidpm.microservice.Main;
+import org.rapidpm.microservice.MainUndertow;
+
 
 public class FullTest {
 
   private static String url;
-  private final String USER_AGENT = "Mozilla/5.0";
+  private final  String USER_AGENT = "Mozilla/5.0";
 
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpClass() {
-    System.setProperty(MainUndertow.REST_PORT_PROPERTY, new PortUtils().nextFreePortForTest() + "");
-    System.setProperty(MainUndertow.SERVLET_PORT_PROPERTY, new PortUtils().nextFreePortForTest() + "");
+    System.setProperty(MainUndertow.REST_PORT_PROPERTY , new PortUtils().nextFreePortForTest() + "");
+    System.setProperty(MainUndertow.SERVLET_PORT_PROPERTY , new PortUtils().nextFreePortForTest() + "");
     url = "http://127.0.0.1:" + System.getProperty(MainUndertow.SERVLET_PORT_PROPERTY) + MainUndertow.MYAPP + "/test"; //from Annotation Servlet
     System.out.println("url = " + url);
   }
 
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     DI.clearReflectionModel();
     DI.activatePackages("org.rapidpm");
@@ -56,7 +60,7 @@ public class FullTest {
     Main.deploy();
   }
 
-  @After
+  @AfterEach
   public void tearDown() throws Exception {
     Main.stop();
   }
@@ -68,7 +72,7 @@ public class FullTest {
     // optional default is GET
     con.setRequestMethod("GET");
     //add request header
-    con.setRequestProperty("User-Agent", USER_AGENT);
+    con.setRequestProperty("User-Agent" , USER_AGENT);
 
     int responseCode = con.getResponseCode();
     System.out.println("\nSending 'GET' request to URL : " + url);
@@ -83,7 +87,7 @@ public class FullTest {
     }
     in.close();
     System.out.println("response = " + response);
-    Assert.assertEquals("Hello World CDI Service", response.toString());
+    Assertions.assertEquals("Hello World CDI Service" , response.toString());
     //print result
 
   }
@@ -95,8 +99,8 @@ public class FullTest {
 
     //add reuqest header
     con.setRequestMethod("POST");
-    con.setRequestProperty("User-Agent", USER_AGENT);
-    con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+    con.setRequestProperty("User-Agent" , USER_AGENT);
+    con.setRequestProperty("Accept-Language" , "en-US,en;q=0.5");
 
     String urlParameters = "sn=C02G8416DRJM&cn=&locale=&caller=&num=12345";
 
@@ -122,7 +126,7 @@ public class FullTest {
     in.close();
 
     //print result
-    Assert.assertEquals("Hello World CDI Service", response.toString());
+    Assertions.assertEquals("Hello World CDI Service" , response.toString());
 
 
   }

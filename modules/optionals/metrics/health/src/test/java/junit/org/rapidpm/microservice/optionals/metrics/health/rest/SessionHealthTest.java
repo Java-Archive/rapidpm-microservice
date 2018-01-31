@@ -19,12 +19,12 @@
 
 package junit.org.rapidpm.microservice.optionals.metrics.health.rest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import com.google.gson.Gson;
 import junit.org.rapidpm.microservice.BasicRestTest;
-import org.junit.*;
-import org.rapidpm.ddi.DI;
-import org.rapidpm.dependencies.core.net.PortUtils;
-import org.rapidpm.microservice.Main;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.microservice.MainUndertow;
 import org.rapidpm.microservice.optionals.metrics.health.rest.SessionHealth;
 import org.rapidpm.microservice.optionals.metrics.health.rest.api.SessionHealthInfo;
@@ -59,7 +59,7 @@ public class SessionHealthTest extends BasicRestTest {
             .request();
     final Response response = authcode.get();
 
-    Assert.assertEquals(200, response.getStatus());
+    assertEquals(200, response.getStatus());
     String val = response.getStatusInfo().toString();
     System.out.println("response status info = " + val);
     client.close();
@@ -83,7 +83,7 @@ public class SessionHealthTest extends BasicRestTest {
     Gson gson = new Gson();
     SessionHealthInfo[] sessionHealthInfo = gson.fromJson(response, SessionHealthInfo[].class);
 
-    Assert.assertEquals(0L, sessionHealthInfo[0].activeSessionCount);
+    assertEquals(0L, sessionHealthInfo[0].activeSessionCount);
 
     client.close();
 
@@ -117,10 +117,10 @@ public class SessionHealthTest extends BasicRestTest {
     in.close();
 
     final String jsonResponse = response.toString();
-    Assert.assertFalse(jsonResponse.isEmpty());
+    assertFalse(jsonResponse.isEmpty());
 
     final List<SessionHealthInfo> healthInfos = new SessionHealthInfoJsonConverter().fromJsonList(jsonResponse);
-    Assert.assertEquals(3L, healthInfos.get(0).activeSessionCount);
+    assertEquals(3L, healthInfos.get(0).activeSessionCount);
   }
 
   public void generateSession() throws IOException {

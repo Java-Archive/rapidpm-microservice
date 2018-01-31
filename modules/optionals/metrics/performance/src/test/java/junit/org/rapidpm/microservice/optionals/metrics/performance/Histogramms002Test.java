@@ -21,8 +21,8 @@ package junit.org.rapidpm.microservice.optionals.metrics.performance;
 
 import com.google.gson.Gson;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.microservice.optionals.metrics.performance.HistogrammSnapshot;
 import org.rapidpm.microservice.optionals.metrics.performance.Histogramms;
 
@@ -32,7 +32,7 @@ public class Histogramms002Test extends HistogrammBaseTest {
 
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     super.setUp();
   }

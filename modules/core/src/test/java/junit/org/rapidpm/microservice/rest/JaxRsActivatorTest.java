@@ -2,12 +2,13 @@ package junit.org.rapidpm.microservice.rest;
 
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import java.util.Set;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.rest.JaxRsActivator;
 import org.rapidpm.microservice.rest.PingMe;
@@ -16,7 +17,7 @@ import junit.org.rapidpm.microservice.rest.provider.ProviderImpl;
 public class JaxRsActivatorTest {
   private JaxRsActivator jaxRsActivator = new JaxRsActivator();
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     DI.clearReflectionModel();
     final Class<?> aClass = ProviderImpl.class;

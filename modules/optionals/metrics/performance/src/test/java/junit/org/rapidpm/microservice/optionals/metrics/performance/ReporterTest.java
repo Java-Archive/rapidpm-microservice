@@ -21,7 +21,7 @@ package junit.org.rapidpm.microservice.optionals.metrics.performance;
 
 import junit.org.rapidpm.microservice.BasicRestTest;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.microservice.optionals.metrics.performance.Reporter;
 
 import javax.ws.rs.client.Client;

@@ -1,9 +1,9 @@
 package junit.org.rapidpm.microservice.propertyservice.impl.v003;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.propertyservice.api.PropertyService;
 import org.rapidpm.microservice.propertyservice.impl.PropertyServiceImpl;
@@ -15,7 +15,7 @@ public class PropertyServiceTest003 /* extends BaseDITest */ {
   private PropertyService service01;
   private PropertyService service02;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
 
     System.setProperty("propertyservice.propertyfolder", this.getClass().getResource("").getPath());
@@ -30,7 +30,7 @@ public class PropertyServiceTest003 /* extends BaseDITest */ {
 
   }
 
-  @After
+  @AfterEach
   public void tearDown() throws Exception {
     service01.shutdown();
     service02.shutdown();
@@ -45,9 +45,9 @@ public class PropertyServiceTest003 /* extends BaseDITest */ {
     service01.loadProperties("example");
     service02.initFromCmd();
     final String singleProperty = service02.getSingleProperty("example.part01.001");
-    Assert.assertNotNull(singleProperty);
-    //Assert.assertFalse(singleProperty.isEmpty());
-    //Assert.assertEquals("test001", singleProperty);
+    Assertions.assertNotNull(singleProperty);
+    //Assertions.assertFalse(singleProperty.isEmpty());
+    //Assertions.assertEquals("test001", singleProperty);
   }
 
   @Test
@@ -57,8 +57,8 @@ public class PropertyServiceTest003 /* extends BaseDITest */ {
     service02.initFromCmd();
     service02.loadProperties("example");
     final String singleProperty = service01.getSingleProperty("example.part01.001");
-    Assert.assertNotNull(singleProperty);
-    //Assert.assertFalse(singleProperty.isEmpty());
+    Assertions.assertNotNull(singleProperty);
+    //Assertions.assertFalse(singleProperty.isEmpty());
   }
 
   @Test
@@ -69,8 +69,8 @@ public class PropertyServiceTest003 /* extends BaseDITest */ {
     service01.loadProperties("example");
 
     final Set<String> indexToDomain = service01.getIndexOfScope("example");
-    Assert.assertNotNull(indexToDomain);
-    //Assert.assertTrue(indexToDomain.size() == 2);
+    Assertions.assertNotNull(indexToDomain);
+    //Assertions.assertTrue(indexToDomain.size() == 2);
   }
 
 

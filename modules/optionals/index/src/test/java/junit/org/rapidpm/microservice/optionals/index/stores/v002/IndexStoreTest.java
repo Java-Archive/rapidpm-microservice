@@ -20,8 +20,8 @@
 package junit.org.rapidpm.microservice.optionals.index.stores.v002;
 
 import junit.org.rapidpm.microservice.optionals.index.stores.IndexStoreBaseTest;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.microservice.optionals.index.stores.indices.IndexOfType;
 
 import java.util.List;
@@ -35,22 +35,22 @@ public class IndexStoreTest extends IndexStoreBaseTest {
 
   @Test
   public void indexElement() throws Exception {
-    Assert.assertTrue(indexStore.containsIndex(TESTINDEX));
-    Assert.assertFalse(indexStore.containsIndex("NOOP"));
+    Assertions.assertTrue(indexStore.containsIndex(TESTINDEX));
+    Assertions.assertFalse(indexStore.containsIndex("NOOP"));
 
     final Set<String> indexNameSet = indexStore.getIndexNameSet();
-    Assert.assertNotNull(indexNameSet);
-    Assert.assertFalse(indexNameSet.isEmpty());
-//    Assert.assertEquals(1, indexNameSet.size());
+    Assertions.assertNotNull(indexNameSet);
+    Assertions.assertFalse(indexNameSet.isEmpty());
+//    Assertions.assertEquals(1, indexNameSet.size());
 
     final IndexOfType<String> index = indexStore.getIndex(TESTINDEX);
-    Assert.assertNotNull(index);
+    Assertions.assertNotNull(index);
 
     index.addElement("Hallo Nase Trollpopel");
     final List<String> hallo = index.query("Trollpopel");
-    Assert.assertNotNull(hallo);
+    Assertions.assertNotNull(hallo);
 
-    Assert.assertFalse(hallo.isEmpty());
+    Assertions.assertFalse(hallo.isEmpty());
   }
 
   @Override

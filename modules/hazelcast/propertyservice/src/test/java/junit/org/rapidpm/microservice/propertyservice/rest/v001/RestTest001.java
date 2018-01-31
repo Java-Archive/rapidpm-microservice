@@ -2,10 +2,10 @@ package junit.org.rapidpm.microservice.propertyservice.rest.v001;
 
 
 import junit.org.rapidpm.microservice.BasicRestTest;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.ddi.scopes.provided.JVMSingletonInjectionScope;
 import org.rapidpm.microservice.propertyservice.impl.PropertyServiceImpl;
@@ -18,7 +18,7 @@ import javax.ws.rs.client.ClientBuilder;
 public class RestTest001 extends BasicRestTest {
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     super.setUp();
     DI.activateDI(new PropertiesFileLoader());
@@ -28,7 +28,7 @@ public class RestTest001 extends BasicRestTest {
   }
 
   @Override
-  @After
+  @AfterEach
   public void tearDown() throws Exception {
     super.tearDown();
   }
@@ -36,7 +36,7 @@ public class RestTest001 extends BasicRestTest {
   @Test
   public void test001() throws Exception {
     final String response = callLoadingOfProperties();
-    Assert.assertEquals("success", response);
+    Assertions.assertEquals("success", response);
   }
 
   private String callLoadingOfProperties() {
@@ -60,7 +60,7 @@ public class RestTest001 extends BasicRestTest {
         .request()
         .get(String.class);
     client.close();
-    Assert.assertEquals("test001", response);
+    Assertions.assertEquals("test001", response);
   }
 
   @Test
@@ -73,8 +73,8 @@ public class RestTest001 extends BasicRestTest {
         .request()
         .get(String.class);
     client.close();
-    Assert.assertNotNull(response);
-    Assert.assertFalse(response.isEmpty());
+    Assertions.assertNotNull(response);
+    Assertions.assertFalse(response.isEmpty());
   }
 
   @Test
@@ -87,8 +87,8 @@ public class RestTest001 extends BasicRestTest {
         .request()
         .get(String.class);
     client.close();
-    Assert.assertNotNull(response);
-    Assert.assertEquals("[\"rest01.prop01\"]", response);
+    Assertions.assertNotNull(response);
+    Assertions.assertEquals("[\"rest01.prop01\"]", response);
   }
 
   @Test
@@ -101,8 +101,8 @@ public class RestTest001 extends BasicRestTest {
         .request()
         .get(String.class);
     client.close();
-    Assert.assertNotNull(response);
-    Assert.assertEquals("{\"rest01.prop01\":\"test001\"}", response);
+    Assertions.assertNotNull(response);
+    Assertions.assertEquals("{\"rest01.prop01\":\"test001\"}", response);
   }
 
 }

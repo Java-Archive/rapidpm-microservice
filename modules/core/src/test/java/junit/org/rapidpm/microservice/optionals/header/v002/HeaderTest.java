@@ -19,9 +19,9 @@
 
 package junit.org.rapidpm.microservice.optionals.header.v002;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.optionals.header.Header;
@@ -29,14 +29,14 @@ import org.rapidpm.microservice.optionals.header.HeaderInfo;
 
 public class HeaderTest {
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     DI.clearReflectionModel();
     DI.activatePackages("org.rapidpm");
     DI.activatePackages(this.getClass());
   }
 
-  @After
+  @AfterEach
   public void tearDown() throws Exception {
     Main.stop();
     DI.clearReflectionModel();

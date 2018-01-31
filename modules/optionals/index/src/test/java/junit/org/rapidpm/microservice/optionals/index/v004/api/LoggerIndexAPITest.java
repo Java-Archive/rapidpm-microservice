@@ -19,7 +19,7 @@
 
 package junit.org.rapidpm.microservice.optionals.index.v004.api;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -70,6 +70,12 @@
       <groupId>org.rapidpm.dynamic-cdi</groupId>
       <artifactId>rapidpm-dynamic-cdi-modules-core</artifactId>
     </dependency>
+
+      <dependency>
+        <groupId>org.hamcrest</groupId>
+        <artifactId>hamcrest-all</artifactId>
+        <scope>test</scope>
+      </dependency>
   </dependencies>
 
 </project>

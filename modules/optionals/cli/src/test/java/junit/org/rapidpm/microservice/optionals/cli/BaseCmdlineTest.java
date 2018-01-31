@@ -19,10 +19,10 @@
 
 package junit.org.rapidpm.microservice.optionals.cli;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.dependencies.core.net.PortUtils;
 import org.rapidpm.microservice.Main;
@@ -33,7 +33,7 @@ import java.util.Optional;
 
 public class BaseCmdlineTest {
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpClass() {
     final PortUtils portUtils = new PortUtils();
 
@@ -45,14 +45,14 @@ public class BaseCmdlineTest {
   }
 
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     DI.clearReflectionModel();
     DI.activatePackages(getClass().getPackage().getName());
   }
 
 
-  @After
+  @AfterEach
   public void tearDown() throws Exception {
     DI.clearReflectionModel();
   }
@@ -65,7 +65,7 @@ public class BaseCmdlineTest {
     } catch (JunitExitRuntimeException e){
       return e.exitCode;
     }
-    Assert.fail("Exit not called");
+    Assertions.fail("Exit not called");
     return -1;
   }
 

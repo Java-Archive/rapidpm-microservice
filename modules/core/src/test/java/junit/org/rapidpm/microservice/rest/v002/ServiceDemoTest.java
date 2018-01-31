@@ -1,6 +1,6 @@
 package junit.org.rapidpm.microservice.rest.v002;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import junit.org.rapidpm.microservice.BasicRestTest;
 
 /**

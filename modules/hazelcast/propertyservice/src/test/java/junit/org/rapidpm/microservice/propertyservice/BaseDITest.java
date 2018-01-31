@@ -1,8 +1,8 @@
 package junit.org.rapidpm.microservice.propertyservice;
 
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.propertyservice.api.PropertyService;
 
@@ -12,7 +12,7 @@ public class BaseDITest {
 
   @Inject protected PropertyService propertyService;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     DI.clearReflectionModel();
     DI.activatePackages(this.getClass());
@@ -27,7 +27,7 @@ public class BaseDITest {
   }
 
 
-  @After
+  @AfterEach
   public void tearDown() throws Exception {
 
     if (propertyService != null) {

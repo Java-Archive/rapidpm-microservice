@@ -20,10 +20,14 @@
 package junit.org.rapidpm.microservice.optionals.metrics.jvm.v001;
 
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import com.google.gson.Gson;
 import junit.org.rapidpm.microservice.BasicRestTest;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.microservice.optionals.metrics.jvm.JVMRessources;
 import org.rapidpm.microservice.optionals.metrics.jvm.model.jvm.GCInfos;
 import org.rapidpm.microservice.optionals.metrics.jvm.model.jvm.MemoryInfos;
@@ -42,10 +46,10 @@ public class JVMRessourcesTest extends BasicRestTest {
   public void testOSInfos() throws Exception {
 
     final String data = makeRequestForValue("osinfos");
-    Assert.assertNotNull(data);
-    Assert.assertFalse(data.isEmpty());
+    assertNotNull(data);
+    assertFalse(data.isEmpty());
     final OSInfos osInfos = new Gson().fromJson(data, OSInfos.class);
-    Assert.assertNotNull(osInfos);
+    assertNotNull(osInfos);
     System.out.println("osInfos = " + osInfos);
   }
 
@@ -60,11 +64,11 @@ public class JVMRessourcesTest extends BasicRestTest {
         .request();
     final Response response = authcode.get();
 
-    Assert.assertEquals(200, response.getStatus());
+    assertEquals(200, response.getStatus());
     String val = response.getStatusInfo().toString();
     System.out.println("val = " + val);
-    Assert.assertNotNull(val);
-    Assert.assertEquals("OK", val);
+    assertNotNull(val);
+    assertEquals("OK", val);
     final String data = response.readEntity(String.class);
     System.out.println("data = " + data);
     client.close();
@@ -75,15 +79,15 @@ public class JVMRessourcesTest extends BasicRestTest {
   public void testLoadInfos() throws Exception {
 
     final String data = makeRequestForValue("loadinfos");
-    Assert.assertNotNull(data);
-    Assert.assertFalse(data.isEmpty());
+    assertNotNull(data);
+    assertFalse(data.isEmpty());
 
 //    final Type listType = new TypeToken<ArrayList<GCInfos>>() {
 //    }.getType();
     final List<GCInfos> gcInfosList = Arrays.asList(new Gson().fromJson(data, GCInfos[].class));
 
-    Assert.assertNotNull(gcInfosList);
-    Assert.assertFalse(gcInfosList.isEmpty());
+    assertNotNull(gcInfosList);
+    assertFalse(gcInfosList.isEmpty());
     System.out.println("loadinfos = " + gcInfosList);
   }
 
@@ -91,12 +95,12 @@ public class JVMRessourcesTest extends BasicRestTest {
   public void testSpecInfos() throws Exception {
 
     final String data = makeRequestForValue("specinfos");
-    Assert.assertNotNull(data);
-    Assert.assertFalse(data.isEmpty());
+    assertNotNull(data);
+    assertFalse(data.isEmpty());
 
     final SpecInfos specInfos = new Gson().fromJson(data, SpecInfos.class);
 
-    Assert.assertNotNull(specInfos);
+    assertNotNull(specInfos);
     System.out.println("specInfos = " + specInfos);
   }
 
@@ -104,12 +108,12 @@ public class JVMRessourcesTest extends BasicRestTest {
   public void testMemoryInfos() throws Exception {
 
     final String data = makeRequestForValue("memoryinfos");
-    Assert.assertNotNull(data);
-    Assert.assertFalse(data.isEmpty());
+    assertNotNull(data);
+    assertFalse(data.isEmpty());
 
     final MemoryInfos memoryInfos = new Gson().fromJson(data, MemoryInfos.class);
 
-    Assert.assertNotNull(memoryInfos);
+    assertNotNull(memoryInfos);
     System.out.println("memoryinfos = " + memoryInfos);
   }
 

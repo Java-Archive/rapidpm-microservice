@@ -20,8 +20,8 @@
 package junit.org.rapidpm.microservice.optionals.index.v003;
 
 import junit.org.rapidpm.microservice.optionals.index.IndexBasicRestTest;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.microservice.optionals.index.IndexManagement;
 
 import javax.ws.rs.client.Client;
@@ -44,7 +44,7 @@ public class IndexManagementContainsTest extends IndexBasicRestTest {
         .request();
     final Boolean response = clientReq.get(Boolean.class);
     client.close();
-    Assert.assertTrue(response);
+    Assertions.assertTrue(response);
   }
 
   @Override

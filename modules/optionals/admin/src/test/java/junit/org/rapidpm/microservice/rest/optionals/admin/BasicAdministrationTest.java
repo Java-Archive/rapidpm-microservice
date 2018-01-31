@@ -20,9 +20,9 @@
 package junit.org.rapidpm.microservice.rest.optionals.admin;
 
 import junit.org.rapidpm.microservice.BasicRestTest;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.microservice.rest.optionals.admin.BasicAdministration;
 
 import javax.ws.rs.client.Client;
@@ -40,7 +40,7 @@ import javax.ws.rs.core.Response;
 public class BasicAdministrationTest extends BasicRestTest {
 
   @Override
-  @After
+  @AfterEach
   public void tearDown() throws Exception {
     //no stop and wait
 
@@ -58,7 +58,7 @@ public class BasicAdministrationTest extends BasicRestTest {
         .request();
     final Response response = authcode.get();
 
-    Assert.assertEquals(200, response.getStatus());
+    Assertions.assertEquals(200, response.getStatus());
     String val = response.getStatusInfo().toString();
     System.out.println("response status info = " + val);
     client.close();

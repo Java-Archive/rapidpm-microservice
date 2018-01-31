@@ -1,9 +1,9 @@
 package junit.org.rapidpm.microservice.propertyservice.impl.v004;
 
 import junit.org.rapidpm.microservice.propertyservice.BaseDITest;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.microservice.propertyservice.impl.PropertyServiceImpl;
 
 import java.lang.reflect.Method;
@@ -11,12 +11,12 @@ import java.lang.reflect.Method;
 public class PropertyServiceTest004 extends BaseDITest {
 
 
-  @Test @Ignore
+  @Test @Disabled
   public void test001() throws Exception {
     Method method = PropertyServiceImpl.class.getDeclaredMethod("getMapName");
     method.setAccessible(true);
     final String result = (String) method.invoke(propertyService);
-    Assert.assertEquals("properties", result); // default ??
+    Assertions.assertEquals("properties", result); // default ??
   }
 
   @Test
@@ -26,7 +26,7 @@ public class PropertyServiceTest004 extends BaseDITest {
     Method method = PropertyServiceImpl.class.getDeclaredMethod("getMapName");
     method.setAccessible(true);
     final String result = (String) method.invoke(propertyService);
-    Assert.assertEquals(PropertyServiceTest004.class.getSimpleName(), result);
+    Assertions.assertEquals(PropertyServiceTest004.class.getSimpleName(), result);
 
 
   }

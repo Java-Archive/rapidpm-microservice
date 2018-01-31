@@ -20,7 +20,7 @@
 package junit.org.rapidpm.microservice.optionals.index;
 
 import junit.org.rapidpm.microservice.BasicRestTest;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.ddi.scopes.provided.JVMSingletonInjectionScope;
 import org.rapidpm.microservice.Main.MainStartupAction;
@@ -35,7 +35,7 @@ public abstract class IndexBasicRestTest extends BasicRestTest {
   @Inject public IndexStore indexStore;
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     super.setUp();
 

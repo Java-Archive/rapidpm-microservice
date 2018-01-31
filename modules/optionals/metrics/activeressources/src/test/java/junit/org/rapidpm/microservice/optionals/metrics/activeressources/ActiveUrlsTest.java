@@ -19,10 +19,14 @@
 
 package junit.org.rapidpm.microservice.optionals.metrics.activeressources;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.google.gson.Gson;
 import junit.org.rapidpm.microservice.BasicRestTest;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.microservice.optionals.ActiveUrlsHolder;
 import org.rapidpm.microservice.optionals.metrics.activeressources.ActiveUrls;
 
@@ -53,7 +57,7 @@ public class ActiveUrlsTest extends BasicRestTest {
         .request();
     final Response response = authcode.get();
 
-    Assert.assertEquals(200, response.getStatus());
+    assertEquals(200, response.getStatus());
     String val = response.getStatusInfo().toString();
     final String data = response.readEntity(String.class);
 
@@ -61,26 +65,26 @@ public class ActiveUrlsTest extends BasicRestTest {
 
     System.out.println("val = " + val);
     final ActiveUrlsHolder activeUrlsHolder = new Gson().fromJson(data, ActiveUrlsHolder.class);
-    Assert.assertNotNull(activeUrlsHolder);
+    assertNotNull(activeUrlsHolder);
     final List<String> restUrls = activeUrlsHolder.getRestUrls();
-    Assert.assertFalse(restUrls.isEmpty());
+    assertFalse(restUrls.isEmpty());
 
     final Path path = restClass.getAnnotation(Path.class);
 
     final boolean present = restUrls.stream()
         .anyMatch(s -> s.contains(path.value()));
-    Assert.assertTrue(present);
+    assertTrue(present);
 
     System.out.println("response status info = " + val);
 
-    Assert.assertTrue(restUrls.stream()
+    assertTrue(restUrls.stream()
         .filter(s -> s.contains(TestRessource.class.getAnnotation(Path.class).value()))
         .filter(s -> s.contains("pathA"))
         .anyMatch(s -> s.contains("paramA")));
 
-    Assert.assertTrue(activeUrlsHolder.getServletCounter() > 0);
+    assertTrue(activeUrlsHolder.getServletCounter() > 0);
 
-    Assert.assertTrue(activeUrlsHolder.getServletUrls().stream()
+    assertTrue(activeUrlsHolder.getServletUrls().stream()
         .filter(s -> s.contains(TestServlet.class.getAnnotation(WebServlet.class).urlPatterns()[0]))
         .anyMatch(s -> s.contains("testServlet")));
 

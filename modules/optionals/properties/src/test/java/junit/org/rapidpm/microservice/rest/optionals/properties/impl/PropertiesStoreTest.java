@@ -1,7 +1,13 @@
 package junit.org.rapidpm.microservice.rest.optionals.properties.impl;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.microservice.rest.optionals.properties.api.PropertiesStore;
 
 import javax.inject.Inject;
@@ -9,7 +15,6 @@ import java.io.File;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
 
 /**
  * Copyright (C) 2010 RapidPM
@@ -32,7 +37,7 @@ public class PropertiesStoreTest extends BaseDITest {
   @Inject
   PropertiesStore propertieStore;
 
-  @BeforeClass
+  @BeforeAll
   public static void before() throws Exception {
     System.setProperty(PropertiesStore.PROPERTYFILE, file.getAbsolutePath());
   }

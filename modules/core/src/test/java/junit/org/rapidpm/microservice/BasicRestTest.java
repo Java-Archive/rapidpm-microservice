@@ -21,9 +21,10 @@ package junit.org.rapidpm.microservice;
 
 import java.util.function.Supplier;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.dependencies.core.net.PortUtils;
 import org.rapidpm.microservice.Main;
@@ -36,20 +37,20 @@ public class BasicRestTest {
 
   static Supplier<Boolean> useDocker = () -> false;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpClass() {
     final PortUtils portUtils = new PortUtils();
 
-    System.setProperty(MainUndertow.REST_HOST_PROPERTY, "127.0.0.1");
-    System.setProperty(MainUndertow.SERVLET_HOST_PROPERTY, "127.0.0.1");
+    System.setProperty(MainUndertow.REST_HOST_PROPERTY , "127.0.0.1");
+    System.setProperty(MainUndertow.SERVLET_HOST_PROPERTY , "127.0.0.1");
 
-    if ( ! useDocker.get()){
-      System.setProperty(MainUndertow.REST_PORT_PROPERTY, portUtils.nextFreePortForTest() + "");
-      System.setProperty(MainUndertow.SERVLET_PORT_PROPERTY, portUtils.nextFreePortForTest() + "");
+    if (! useDocker.get()) {
+      System.setProperty(MainUndertow.REST_PORT_PROPERTY , portUtils.nextFreePortForTest() + "");
+      System.setProperty(MainUndertow.SERVLET_PORT_PROPERTY , portUtils.nextFreePortForTest() + "");
     }
   }
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     DI.clearReflectionModel();
     DI.activatePackages("org.rapidpm");
@@ -58,7 +59,7 @@ public class BasicRestTest {
     Main.deploy();
   }
 
-  @After
+  @AfterEach
   public void tearDown() throws Exception {
     Main.stop();
     DI.clearReflectionModel();
@@ -66,7 +67,7 @@ public class BasicRestTest {
 
   public String generateBasicReqURL(Class restClass) {
     final String restAppPath = MainUndertow.CONTEXT_PATH_REST;
-    return restUtils.generateBasicReqURL(restClass, restAppPath);
+    return restUtils.generateBasicReqURL(restClass , restAppPath);
   }
 
 }

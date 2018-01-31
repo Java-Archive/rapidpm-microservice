@@ -21,8 +21,8 @@ package junit.org.rapidpm.microservice.optionals.cli;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.optionals.cli.CmdLineStartupAction;
 
@@ -37,7 +37,7 @@ public class MainTest002 extends BaseCmdlineTest {
   public void test001() throws Exception {
     final Optional<String[]> args = Optional.of(new String[]{"-i /opt/hoppel/poppel/xx.properties"});
     Main.deploy(args);
-    Assert.assertTrue(DefaultCmdLineOptions.wasproperlyExecuted);
+    Assertions.assertTrue(DefaultCmdLineOptions.wasproperlyExecuted);
     Main.stop();
   }
 

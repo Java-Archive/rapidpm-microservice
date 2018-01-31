@@ -19,9 +19,9 @@
 
 package junit.org.rapidpm.microservice.optionals.cli;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.dependencies.core.net.PortUtils;
 import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.MainUndertow;
@@ -54,13 +54,13 @@ public class MainTest004 extends BaseCmdlineTest{
         .target(generateBasicReqURL)
         .request()
         .get(String.class);
-    Assert.assertEquals(GOT_IT, result);
-    Assert.assertTrue(generateBasicReqURL.contains(PORT + ""));
+    Assertions.assertEquals(GOT_IT, result);
+    Assertions.assertTrue(generateBasicReqURL.contains(PORT + ""));
     client.close();
   }
 
 
-  @After
+  @AfterEach
   public void tearDown() throws Exception {
     Main.stop();
   }

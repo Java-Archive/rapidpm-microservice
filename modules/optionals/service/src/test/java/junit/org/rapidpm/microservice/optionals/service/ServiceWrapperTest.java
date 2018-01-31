@@ -19,8 +19,8 @@ package junit.org.rapidpm.microservice.optionals.service;
  * under the License.
  */
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.dependencies.core.net.PortUtils;
 import org.rapidpm.microservice.MainUndertow;
@@ -47,10 +47,10 @@ public class ServiceWrapperTest {
       ServiceWrapper.exitHandler = new JunitExitHandler();
       ServiceWrapper.main(Arrays.asList(ServiceWrapper.SHUTDOWN).toArray(new String[1]));
     } catch (JunitExitRuntimeException e) {
-      Assert.assertEquals(1, e.exitCode);
+      Assertions.assertEquals(1, e.exitCode);
       return;
     }
-    Assert.fail("exception should have been thrown");
+    Assertions.fail("exception should have been thrown");
 
   }
 
@@ -64,14 +64,14 @@ public class ServiceWrapperTest {
     ServiceWrapper.main(Arrays.asList("-restPort=" + portForTest).toArray(new String[1]));
 
     // is running
-    Assert.assertFalse(portUtils.isPortAvailable(portForTest));
+    Assertions.assertFalse(portUtils.isPortAvailable(portForTest));
 
     ServiceWrapper.main(Arrays.asList(ServiceWrapper.SHUTDOWN).toArray(new String[1]));
 
     // wait for shutdown
     Thread.sleep(DELAY_WAIT_FOR_SHUTDOWN);
 
-    Assert.assertTrue(portUtils.isPortAvailable(portForTest));
+    Assertions.assertTrue(portUtils.isPortAvailable(portForTest));
 
   }
 
@@ -88,12 +88,12 @@ public class ServiceWrapperTest {
 
 
     // is running
-    Assert.assertFalse(portUtils.isPortAvailable(portForTest));
+    Assertions.assertFalse(portUtils.isPortAvailable(portForTest));
 
     ServiceWrapper.main(Arrays.asList(ServiceWrapper.SHUTDOWN).toArray(new String[1]));
     Thread.sleep(DELAY_WAIT_FOR_SHUTDOWN);
 
-    Assert.assertTrue(portUtils.isPortAvailable(portForTest));
+    Assertions.assertTrue(portUtils.isPortAvailable(portForTest));
 
     System.setProperty(MainUndertow.REST_PORT_PROPERTY, oldProperty);
 
@@ -109,12 +109,12 @@ public class ServiceWrapperTest {
       Files.createFile(ServiceWrapper.MICROSERVICE_REST_FILE);
       ServiceWrapper.main(Arrays.asList(ServiceWrapper.SHUTDOWN).toArray(new String[1]));
     } catch (JunitExitRuntimeException e) {
-      Assert.assertEquals(1, e.exitCode);
+      Assertions.assertEquals(1, e.exitCode);
       return;
     } finally {
       Files.delete(ServiceWrapper.MICROSERVICE_REST_FILE);
     }
-    Assert.fail("exception should have been thrown");
+    Assertions.fail("exception should have been thrown");
 
   }
 
@@ -130,19 +130,19 @@ public class ServiceWrapperTest {
     try {
       ServiceWrapper.main(Arrays.asList("-restPort=" + portForTest).toArray(new String[1]));
     } catch (JunitExitRuntimeException e) {
-      Assert.assertEquals(1, e.exitCode);
+      Assertions.assertEquals(1, e.exitCode);
       serviceExitedWithError = true;
     }
     // is running
-    Assert.assertFalse(portUtils.isPortAvailable(portForTest));
+    Assertions.assertFalse(portUtils.isPortAvailable(portForTest));
 
     ServiceWrapper.main(Arrays.asList(ServiceWrapper.SHUTDOWN).toArray(new String[1]));
 
     // wait for shutdown
     Thread.sleep(DELAY_WAIT_FOR_SHUTDOWN);
 
-    Assert.assertTrue(portUtils.isPortAvailable(portForTest));
-    Assert.assertTrue(serviceExitedWithError);
+    Assertions.assertTrue(portUtils.isPortAvailable(portForTest));
+    Assertions.assertTrue(serviceExitedWithError);
   }
 
   @Test
@@ -156,12 +156,12 @@ public class ServiceWrapperTest {
       Files.write(file, Integer.toString(freePortForTest).getBytes());
       ServiceWrapper.main(Arrays.asList(ServiceWrapper.SHUTDOWN).toArray(new String[1]));
     } catch (JunitExitRuntimeException e) {
-      Assert.assertEquals(1, e.exitCode);
+      Assertions.assertEquals(1, e.exitCode);
       return;
     } finally {
       Files.delete(ServiceWrapper.MICROSERVICE_REST_FILE);
     }
-    Assert.fail("exception should have been thrown");
+    Assertions.fail("exception should have been thrown");
 
   }
 

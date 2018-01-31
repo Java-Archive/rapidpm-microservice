@@ -1,15 +1,16 @@
 package junit.org.rapidpm.microservice.optionals;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.optionals.ActiveUrlsDetector;
 import org.rapidpm.microservice.rest.PingMe;
@@ -18,7 +19,7 @@ import junit.org.rapidpm.microservice.rest.provider.ProviderImpl;
 public class ActiveUrlsDetectorTest {
   private ActiveUrlsDetector activeUrlsDetector = new ActiveUrlsDetector();
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     DI.clearReflectionModel();
     final Class<?> aClass = ProviderImpl.class;

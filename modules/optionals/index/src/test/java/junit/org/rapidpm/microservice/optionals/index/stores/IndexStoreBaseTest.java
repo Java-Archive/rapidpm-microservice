@@ -19,9 +19,9 @@
 
 package junit.org.rapidpm.microservice.optionals.index.stores;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.ddi.scopes.provided.JVMSingletonInjectionScope;
 import org.rapidpm.microservice.optionals.index.stores.IndexStore;
@@ -33,7 +33,7 @@ public abstract class IndexStoreBaseTest {
 
   @Inject public IndexStore indexStore;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     DI.clearReflectionModel();
     DI.activatePackages("org.rapidpm");
@@ -57,7 +57,7 @@ public abstract class IndexStoreBaseTest {
   public void name() throws Exception {
   }
 
-  @After
+  @AfterEach
   public void tearDown() throws Exception {
     indexStore.removeIndex(getTestIndexName());
     DI.clearReflectionModel();

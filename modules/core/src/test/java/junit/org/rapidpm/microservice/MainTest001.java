@@ -19,7 +19,14 @@
 
 package junit.org.rapidpm.microservice;
 
-import org.junit.*;
+
+import java.util.Optional;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.dependencies.core.net.PortUtils;
 import org.rapidpm.microservice.Main;
@@ -27,38 +34,37 @@ import org.rapidpm.microservice.Main.MainShutdownAction;
 import org.rapidpm.microservice.Main.MainStartupAction;
 import org.rapidpm.microservice.MainUndertow;
 
-import java.util.Optional;
-
 
 public class MainTest001 {
 
 
   public static boolean status = true;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpClass() {
-    System.setProperty(MainUndertow.REST_PORT_PROPERTY, new PortUtils().nextFreePortForTest() + "");
-    System.setProperty(MainUndertow.SERVLET_PORT_PROPERTY, new PortUtils().nextFreePortForTest() + "");
+    System.setProperty(MainUndertow.REST_PORT_PROPERTY , new PortUtils().nextFreePortForTest() + "");
+    System.setProperty(MainUndertow.SERVLET_PORT_PROPERTY , new PortUtils().nextFreePortForTest() + "");
   }
-  @Before
+
+  @BeforeEach
   public void setUp() throws Exception {
     DI.clearReflectionModel();
     DI.activatePackages("org.rapidpm");
     DI.activatePackages(this.getClass());
   }
 
-  @After
+  @AfterEach
   public void tearDown() throws Exception {
     DI.clearReflectionModel();
   }
 
   @Test
   public void test001() throws Exception {
-    Assert.assertTrue(status);
+    Assertions.assertTrue(status);
     Main.deploy();
-    Assert.assertFalse(status);
+    Assertions.assertFalse(status);
     Main.stop();
-    Assert.assertTrue(status);
+    Assertions.assertTrue(status);
 
   }
 

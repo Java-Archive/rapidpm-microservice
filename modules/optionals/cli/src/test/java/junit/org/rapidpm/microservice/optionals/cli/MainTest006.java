@@ -19,8 +19,8 @@
 
 package junit.org.rapidpm.microservice.optionals.cli;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class MainTest006 extends BaseCmdlineTest {
 
@@ -29,7 +29,7 @@ public class MainTest006 extends BaseCmdlineTest {
         String[] args = {"-h"};
         int status = startAndGetExit(args);
         int expectedStatus = 0;
-        Assert.assertEquals("System.exit must be called with the value of " + expectedStatus, expectedStatus, status);
+        Assertions.assertEquals( expectedStatus, status);
     }
 
     @Test
@@ -37,6 +37,6 @@ public class MainTest006 extends BaseCmdlineTest {
         final String[] args = {"-trololo", "-jolo"};
         final int expectedStatus = 1;
         final int status = startAndGetExit(args);
-        Assert.assertEquals("System.exit must be called with the value of " + expectedStatus, expectedStatus, status);
+        Assertions.assertEquals( expectedStatus, status);
     }
 }

@@ -44,11 +44,11 @@ public class FullPerfTest {
   @Benchmark
   public void testApplicationPath(Blackhole blackhole, BenchmarkState benchmarkState, BenchmarkStateThread benchmarkStateThread) {
 
-//    Assert.assertNotNull(benchmarkState);
+//    Assertions.assertNotNull(benchmarkState);
     String val = benchmarkStateThread.webTarget
         .request()
         .get(String.class);
-//    Assert.assertEquals("Hello Rest World CDI Service", val);
+//    Assertions.assertEquals("Hello Rest World CDI Service", val);
     blackhole.consume(val);
   }
 

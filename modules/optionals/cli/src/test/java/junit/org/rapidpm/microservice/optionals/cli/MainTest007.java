@@ -19,18 +19,9 @@
 
 package junit.org.rapidpm.microservice.optionals.cli;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.Option;
-import org.junit.Assert;
-import org.junit.Test;
-import org.rapidpm.microservice.Main;
-import org.rapidpm.microservice.optionals.cli.CmdLineStartupAction;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
 
 public class MainTest007 {
 

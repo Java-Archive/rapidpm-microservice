@@ -1,22 +1,23 @@
 package junit.org.rapidpm.microservice.propertyservice.persistence.file.v003;
 
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.microservice.propertyservice.persistence.ConfigurationLoader;
 import org.rapidpm.microservice.propertyservice.persistence.file.ConfigurationFileLoader;
 
 import java.io.File;
 import java.io.FileInputStream;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 public class ConfigurationFileLoaderTest001 {
 
   private ConfigurationLoader configurationLoader;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     final File file = new File(this.getClass().getResource("test.xml").getFile());
     System.setProperty("propertyservice.configfolder", file.getParentFile().getAbsolutePath());

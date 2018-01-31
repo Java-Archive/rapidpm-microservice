@@ -19,7 +19,7 @@
 
 package junit.org.rapidpm.microservice.optionals.header;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ScreenBannerTest {
 

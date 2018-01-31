@@ -21,8 +21,8 @@ package junit.org.rapidpm.microservice.demo;
 
 import junit.org.rapidpm.microservice.BasicRestTest;
 import junit.org.rapidpm.microservice.demo.rest.Resource;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.microservice.rest.PingMe;
 
 import javax.ws.rs.client.Client;
@@ -40,7 +40,7 @@ public class RestTest extends BasicRestTest {
         .request()
         .get(String.class);
     System.out.println("val = " + val);
-    Assert.assertEquals("Hello Rest World CDI Service", val);
+    Assertions.assertEquals("Hello Rest World CDI Service", val);
     client.close();
   }
 
@@ -54,7 +54,7 @@ public class RestTest extends BasicRestTest {
         .request()
         .get(String.class);
     System.out.println("val = " + val);
-    Assert.assertTrue(val.startsWith("Hello"));
+    Assertions.assertTrue(val.startsWith("Hello"));
     client.close();
   }
 

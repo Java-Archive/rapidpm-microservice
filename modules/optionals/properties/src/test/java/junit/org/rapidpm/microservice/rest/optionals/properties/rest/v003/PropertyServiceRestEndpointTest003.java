@@ -1,9 +1,9 @@
 package junit.org.rapidpm.microservice.rest.optionals.properties.rest.v003;
 
 import junit.org.rapidpm.microservice.BasicRestTest;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.Main;
 import org.rapidpm.microservice.rest.optionals.properties.rest.PropertyServiceRestEndpoint;
@@ -37,7 +37,7 @@ public class PropertyServiceRestEndpointTest003 extends BasicRestTest {
   final File clientFile = new File(this.getClass().getResource("clients.txt").getFile());
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     DI.clearReflectionModel();
     DI.activatePackages("org.rapidpm");
@@ -61,8 +61,8 @@ public class PropertyServiceRestEndpointTest003 extends BasicRestTest {
         .queryParam("name", "test.001")
         .request();
     final Response response = request.get();
-    Assert.assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), response.getStatus());
-    Assert.assertEquals("client <127.0.0.1> not allowed", response.readEntity(String.class));
+    Assertions.assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), response.getStatus());
+    Assertions.assertEquals("client <127.0.0.1> not allowed", response.readEntity(String.class));
   }
 
 }

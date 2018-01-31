@@ -23,9 +23,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import junit.org.rapidpm.microservice.BasicRestTest;
 import junit.org.rapidpm.microservice.optionals.index.v005.rest.LibraryREST;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.microservice.optionals.index.stores.IndexStore;
 import org.rapidpm.microservice.optionals.index.stores.indices.IndexOfTypeString;
@@ -47,7 +47,7 @@ public class LibraryIndexTest extends BasicRestTest {
   private Client client;
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     super.setUp();
     DI.activateDI(this);
@@ -76,9 +76,9 @@ public class LibraryIndexTest extends BasicRestTest {
 
     Gson gson = new GsonBuilder().disableHtmlEscaping().create();
     final List<String> q02List = gson.fromJson(query01, LibraryREST.LIST_TYPE);
-    Assert.assertNotNull(q02List);
-    Assert.assertFalse(q02List.isEmpty());
-    Assert.assertEquals(3, q02List.size());
+    Assertions.assertNotNull(q02List);
+    Assertions.assertFalse(q02List.isEmpty());
+    Assertions.assertEquals(3, q02List.size());
 
     client.close();
   }
@@ -90,7 +90,7 @@ public class LibraryIndexTest extends BasicRestTest {
         .queryParam(LibraryREST.QP_TEXT, new String(encodedText))
         .request()
         .get(String.class);
-    Assert.assertEquals("OK", insert01);
+    Assertions.assertEquals("OK", insert01);
   }
 
 
