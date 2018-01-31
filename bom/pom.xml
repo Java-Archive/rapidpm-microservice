@@ -270,11 +270,11 @@
         <artifactId>stagemonitor-jvm</artifactId>
         <version>${stagemonitor.version}</version>
       </dependency>
-      <!--<dependency>-->
-        <!--<groupId>org.stagemonitor</groupId>-->
-        <!--<artifactId>stagemonitor-os</artifactId>-->
-        <!--<version>${stagemonitor.version}</version>-->
-      <!--</dependency>-->
+      <dependency>
+        <groupId>org.stagemonitor</groupId>
+        <artifactId>stagemonitor-os</artifactId>
+        <version>${stagemonitor.version}</version>
+      </dependency>
       <dependency>
         <groupId>org.stagemonitor</groupId>
         <artifactId>stagemonitor-tracing-elasticsearch</artifactId>
