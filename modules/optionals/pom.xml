@@ -34,11 +34,8 @@
     <module>cli</module>
     <module>metrics</module>
     <module>admin</module>
-    <module>index</module>
     <module>service</module>
     <module>properties</module>
-    <!--<module>vaadin</module>-->  <!-- moved to prj vaadin jumpstart-->
-    <!--<module>message-queues</module>-->
   </modules>
 
 
