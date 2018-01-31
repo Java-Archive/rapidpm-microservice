@@ -13,22 +13,12 @@
     <dependencies>
         <dependency>
             <groupId>org.rapidpm.microservice</groupId>
-            <artifactId>rapidpm-microservice-modules-core</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.rapidpm.microservice</groupId>
             <artifactId>rapidpm-microservice-modules-optionals-admin</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.rapidpm.microservice</groupId>
             <artifactId>rapidpm-microservice-modules-optionals-cli</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.rapidpm.microservice</groupId>
-            <artifactId>rapidpm-microservice-modules-core-testutils</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
