@@ -32,7 +32,7 @@
   <groupId>org.rapidpm.microservice</groupId>
   <artifactId>rapidpm-microservice</artifactId>
   <packaging>pom</packaging>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.0.2</version>
 
   <modules>
     <module>bom</module>
@@ -86,8 +86,8 @@
 
   <!--change BOM too-->
   <properties>
-    <rapidpm-microservice.version>1.0.2-SNAPSHOT</rapidpm-microservice.version>
-    <rapidpm-dynamic-cdi.version>1.0.2-SNAPSHOT</rapidpm-dynamic-cdi.version>
+    <rapidpm-microservice.version>1.0.2</rapidpm-microservice.version>
+    <rapidpm-dynamic-cdi.version>1.0.2</rapidpm-dynamic-cdi.version>
   </properties>
 
 
