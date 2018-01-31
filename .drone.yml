@@ -4,8 +4,7 @@ workspace:
 
 pipeline:
   build:
-    image: maven:${JDK_VERSION}
-#    image: maven:3.5-jdk-8
+    image: ${JDK_VERSION}
     pull: true
     commands:
       - mkdir /root/.m2
@@ -13,14 +12,33 @@ pipeline:
 #      - cat ${GPG_KEY_PRIVATE} > /root/.gnupg/secring.gpg
 #      - cat ${GPG_KEY_PUBLIC} > /root/.gnupg/pubring.gpg
       - mvn clean
-      - mvn install
+      - mvn test
+
+  deploy:
+    image: ${JDK_VERSION}
+    pull: true
+    commands:
+      - mkdir /root/.m2
+      - cp /drone/src/rapidpm-microservice/_data/nexus/settings.xml /root/.m2/settings.xml
+      - mvn clean
       - mvn deploy
+    when:
+        matrix:
+          JDK_VERSION: maven:3.5-jdk-8-alpine
+        branches:
+          include: develop, release/*
+          exclude: feature/*
+
 
 matrix:
   JDK_VERSION:
-#  - latest
-#  - 3.5-jdk-8
-  - 3.5-jdk-8-alpine
-#  - 3.5-jdk-8-slim
-#  - 3.5-ibmjava-8
-#  - 3.5-jdk-9
+  - maven:latest
+  - maven:3.5-jdk-8-alpine
+  - maven:3.5-jdk-9
+  - svenruppert/maven-3.5-jdk-10
+#  - maven:3.5-ibmjava-8
+#  - maven:3.5-ibmjava-9
+#  - maven:3.5-jdk-8
+#  - maven:3.5-jdk-8-slim
+#  - maven:3.5-ibmjava-8-alpine
+#  - maven:3.5-ibmjava-9-alpine
