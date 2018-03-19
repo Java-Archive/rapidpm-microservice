@@ -87,7 +87,7 @@
   <!--change BOM too-->
   <properties>
     <rapidpm-microservice.version>1.0.4</rapidpm-microservice.version>
-    <rapidpm-dynamic-cdi.version>1.0.3</rapidpm-dynamic-cdi.version>
+    <rapidpm-dynamic-cdi.version>1.0.4</rapidpm-dynamic-cdi.version>
   </properties>
 
 
