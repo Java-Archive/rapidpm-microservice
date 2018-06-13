@@ -25,14 +25,14 @@
   <parent>
     <groupId>org.rapidpm</groupId>
     <artifactId>rapidpm-dependencies</artifactId>
-    <version>3.5.8</version>
+    <version>3.5.10</version>
   </parent>
 
 
   <groupId>org.rapidpm.microservice</groupId>
   <artifactId>rapidpm-microservice</artifactId>
   <packaging>pom</packaging>
-  <version>1.0.4</version>
+  <version>1.0.5</version>
 
   <modules>
     <module>bom</module>
@@ -86,8 +86,8 @@
 
   <!--change BOM too-->
   <properties>
-    <rapidpm-microservice.version>1.0.4</rapidpm-microservice.version>
-    <rapidpm-dynamic-cdi.version>1.0.4</rapidpm-dynamic-cdi.version>
+    <rapidpm-microservice.version>1.0.5</rapidpm-microservice.version>
+    <rapidpm-dynamic-cdi.version>1.0.5</rapidpm-dynamic-cdi.version>
   </properties>
 
 

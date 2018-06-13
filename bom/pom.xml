@@ -5,7 +5,7 @@
   <parent>
     <artifactId>rapidpm-microservice</artifactId>
     <groupId>org.rapidpm.microservice</groupId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -15,17 +15,17 @@
 
   <!--change parent pom too-->
   <properties>
-    <rapidpm-microservice.version>1.0.4</rapidpm-microservice.version>
-    <rapidpm-dynamic-cdi.version>1.0.4</rapidpm-dynamic-cdi.version>
-    <rapidpm-functional-reactive.version>0.5.1</rapidpm-functional-reactive.version>
+    <rapidpm-microservice.version>1.0.5</rapidpm-microservice.version>
+    <rapidpm-dynamic-cdi.version>1.0.5</rapidpm-dynamic-cdi.version>
+    <rapidpm-functional-reactive.version>0.5.3</rapidpm-functional-reactive.version>
 
     <shiro.version>1.3.2</shiro.version>
-    <undertow.version>1.4.22.Final</undertow.version>
+    <undertow.version>2.0.9.Final</undertow.version>
     <resteasy-undertow.version>3.1.4.Final</resteasy-undertow.version>
 
-    <hazelcast.version>3.9.1</hazelcast.version>
+    <hazelcast.version>3.10.2</hazelcast.version>
     <lucene.version>7.2.0</lucene.version>
-    <stagemonitor.version>0.87.2</stagemonitor.version>
+    <stagemonitor.version>0.88.4</stagemonitor.version>
   </properties>
 
   <dependencyManagement>
