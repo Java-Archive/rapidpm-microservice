@@ -22,7 +22,7 @@
   <parent>
     <artifactId>rapidpm-microservice</artifactId>
     <groupId>org.rapidpm.microservice</groupId>
-    <version>1.0.6</version>
+    <version>1.0.7-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -32,7 +32,7 @@
 
   <!--change parent pom too-->
   <properties>
-    <rapidpm-microservice.version>1.0.6</rapidpm-microservice.version>
+    <rapidpm-microservice.version>1.0.7-SNAPSHOT</rapidpm-microservice.version>
     <rapidpm-dynamic-cdi.version>1.0.6</rapidpm-dynamic-cdi.version>
     <rapidpm-functional-reactive.version>0.6.0</rapidpm-functional-reactive.version>
 
