@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.rapidpm.microservice</groupId>
     <artifactId>rapidpm-microservice-modules</artifactId>
-    <version>1.0.8-SNAPSHOT</version>
+    <version>1.1.0</version>
     <!--<relativePath>./../pom.xml</relativePath>-->
   </parent>
   <modelVersion>4.0.0</modelVersion>
@@ -113,4 +113,22 @@
 
     <!--TDD-->
   </dependencies>
+
+
+  <!--<build>-->
+    <!--<plugins>-->
+      <!--<plugin>-->
+        <!--<groupId>org.apache.maven.plugins</groupId>-->
+        <!--<artifactId>maven-jar-plugin</artifactId>-->
+        <!--<executions>-->
+          <!--<execution>-->
+            <!--<goals>-->
+              <!--<goal>jar</goal>-->
+              <!--<goal>test-jar</goal>-->
+            <!--</goals>-->
+          <!--</execution>-->
+        <!--</executions>-->
+      <!--</plugin>-->
+    <!--</plugins>-->
+  <!--</build>-->
 </project>
