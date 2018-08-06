@@ -52,24 +52,35 @@ public class DdiInjectorFactory implements InjectorFactory {
   public PropertyInjector createPropertyInjector(Class resourceClass, ResteasyProviderFactory factory) {
     return new DdiPropertyInjector(
         delegate.createPropertyInjector(resourceClass, factory),
-        resourceClass);
+        resourceClass
+    );
   }
 
   @Override
-  public ValueInjector createParameterExtractor(Class injectTargetClass, AccessibleObject injectTarget, Class type, Type genericType, Annotation[] annotations, ResteasyProviderFactory factory) {
-    return delegate.createParameterExtractor(
-        injectTargetClass,
-        injectTarget, type, genericType, annotations, factory);
-  }
-
-  public ValueInjector createParameterExtractor(Class injectTargetClass, AccessibleObject injectTarget, Class type,
-                                                Type genericType, Annotation[] annotations, boolean useDefault, ResteasyProviderFactory factory) {
-    return delegate.createParameterExtractor(injectTargetClass, injectTarget, type, genericType, annotations, useDefault, factory);
+  @Deprecated
+  public ValueInjector createParameterExtractor(Class aClass, AccessibleObject accessibleObject, Class aClass1, Type type, Annotation[] annotations, ResteasyProviderFactory resteasyProviderFactory) {
+    return delegate.createParameterExtractor(aClass, accessibleObject, aClass1, type, annotations, resteasyProviderFactory);
   }
 
   @Override
-  public ValueInjector createParameterExtractor(Parameter parameter, ResteasyProviderFactory providerFactory) {
-    return delegate.createParameterExtractor(parameter, providerFactory);
+  public ValueInjector createParameterExtractor(Class aClass, AccessibleObject accessibleObject, String s, Class aClass1, Type type, Annotation[] annotations, ResteasyProviderFactory resteasyProviderFactory) {
+    return delegate.createParameterExtractor(aClass, accessibleObject, s, aClass1, type, annotations, resteasyProviderFactory);
+  }
+
+  @Override
+  @Deprecated
+  public ValueInjector createParameterExtractor(Class aClass, AccessibleObject accessibleObject, Class aClass1, Type type, Annotation[] annotations, boolean b, ResteasyProviderFactory resteasyProviderFactory) {
+    return delegate.createParameterExtractor(aClass, accessibleObject, aClass1, type, annotations, b, resteasyProviderFactory);
+  }
+
+  @Override
+  public ValueInjector createParameterExtractor(Class aClass, AccessibleObject accessibleObject, String s, Class aClass1, Type type, Annotation[] annotations, boolean b, ResteasyProviderFactory resteasyProviderFactory) {
+    return delegate.createParameterExtractor(aClass, accessibleObject, s, aClass1, type, annotations, b, resteasyProviderFactory);
+  }
+
+  @Override
+  public ValueInjector createParameterExtractor(Parameter parameter, ResteasyProviderFactory resteasyProviderFactory) {
+    return delegate.createParameterExtractor(parameter, resteasyProviderFactory);
   }
 
   @Override

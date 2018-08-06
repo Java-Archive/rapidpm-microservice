@@ -23,7 +23,7 @@
   <parent>
     <groupId>org.rapidpm.microservice</groupId>
     <artifactId>rapidpm-microservice-modules</artifactId>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>1.1.1</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -39,7 +39,6 @@
       <groupId>com.hazelcast</groupId>
       <artifactId>hazelcast-all</artifactId>
       <!--switch to rapidpm-dependencies-->
-      <version>3.8</version>
 
     </dependency>
     <dependency>
